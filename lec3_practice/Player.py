@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
+        self.direction = True
 
     def update(self, keys, scene):
         if self.talking:
@@ -32,8 +33,10 @@ class Player(pygame.sprite.Sprite):
                 dy += self.speed
             if keys[pygame.K_a] and self.rect.left > 0:
                 dx -= self.speed
+                self.direction = False
             if keys[pygame.K_d] and self.rect.right < WindowSettings.width:
                 dx += self.speed
+                self.direction = True
                 
             self.rect = self.rect.move(dx, dy)
             if pygame.sprite.spritecollide(self, scene.obstacles, False):
@@ -42,7 +45,8 @@ class Player(pygame.sprite.Sprite):
             if any(keys):
                 self.index = (self.index + 1) % len(self.images)
                 self.image = self.images[self.index]
-
+                if not self.direction:
+                    self.image = pygame.transform.flip(self.image, True, False)
 
 
     def render(self, window):
