@@ -3,6 +3,8 @@
 from Settings import *
 import pygame
 import Map
+import DialogBox
+import NPC
 
 class SceneManager:
     def __init__(self, window):
@@ -15,14 +17,15 @@ class SceneManager:
         self.cameraY = 0
         self.obstacle = Map.build_obstacle()
 
-    def tick(self, fps):
-        pass
     
     def get_width(self):
         return WindowSettings.width * WindowSettings.outdoorScale
 
     def get_height(self):
         return WindowSettings.height * WindowSettings.outdoorScale
+    
+    def check_event_talking(self, player, keys):
+        pass
 
     def update_camera(self, player):
         if player.rect.x > WindowSettings.width / 4 * 3:
@@ -50,6 +53,7 @@ class SceneManager:
                 player.fix_to_middle(0, -player.speed)
             else:
                 self.cameraY = 0
+                
     def render(self):
         for i in range(len(self.map)):
             for j in range(len(self.map[i])):
