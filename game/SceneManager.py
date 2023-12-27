@@ -3,6 +3,8 @@
 from Settings import *
 import pygame
 import Map
+import DialogBox
+import NPC
 
 class SceneManager:
     def __init__(self, window):

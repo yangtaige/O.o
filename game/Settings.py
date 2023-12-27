@@ -14,13 +14,45 @@ class PlayerSettings:
     playerWidth = 60
     playerHeight = 55
 
+class NPCSettings:
+    npcSpeed = 1
+    npcWidth = 60
+    npcHeight = 60
+    talkCD = 30           # 1s
+
 class SceneSettings:
     tileXnum = 48
     tileYnum = 27
     tileWidth = tileHeight = 40
+    obstacleDensity = 0.1
+
+class DialogSettings:
+    boxWidth = 800
+    boxHeight = 180
+    boxStartX = WindowSettings.width // 4           # Coordinate X of the box
+    boxStartY = WindowSettings.height // 3 * 2 + 20 # Coordinate Y of the box
+
+    textSize = 48 # Default font size
+    textStartX = WindowSettings.width // 4 + 10         # Coordinate X of the first line of dialog
+    textStartY = WindowSettings.height // 3 * 2 + 30    # Coordinate Y of the first line of dialog
+    textVerticalDist = textSize // 4 * 3                # Vertical distance of two lines
+
+    alpha = 150
+
+    npcWidth = WindowSettings.width // 5
+    npcHeight = WindowSettings.height // 3
+    npcCoordX = 0
+    npcCoordY = WindowSettings.height * 2 // 3 - 20
 
 class GamePath:
-    player = r".\assets\player\1.png"
+    # player/npc related path
+    npc = r".\assets\npc\npc.png"
+    player = [
+        r".\assets\player\1.png", 
+        r".\assets\player\2.png", 
+        r".\assets\player\3.png", 
+        r".\assets\player\4.png", 
+    ]
 
     groundTiles = [
         r".\assets\tiles\ground1.png", 
