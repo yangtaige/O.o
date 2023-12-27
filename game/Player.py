@@ -42,6 +42,9 @@ class Player(pygame.sprite.Sprite):
 
             self.rect = self.rect.move(dx, dy)
 
+    def render(self, window):
+        window.blit(self.image, self.rect)
+
     def fix_to_middle(self, dx, dy):
         self.rect.x -= dx
         self.rect.y -= dy

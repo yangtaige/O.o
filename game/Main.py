@@ -16,14 +16,13 @@ def run_game():
 
     scene = SceneManager(window)
 
-    # 创建角色，sprites暂时写在这里
-    sprites = pygame.sprite.Group()
+    # 创建角色 和 NPC 精灵
     player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
-    sprites.add(player)
+    clock = pygame.time.Clock()
 
     # 游戏主循环
     while True:
-        scene.tick(30)  # 控制帧率
+        clock.tick(30)  # 控制帧率
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -33,15 +32,18 @@ def run_game():
         # 获取按键状态
         keys = pygame.key.get_pressed()
 
-        # 更新Player
-        player.update(keys, scene)
-        scene.update_camera(player)
+
+        # 更新 NPC / Player
+        player.update(keys, scene)    # 主要是角色移动
+        scene.update_camera(player)   # 主要是场景中对象的动画更新，暂时不涉及player的部分
     
         # 渲染场景
         scene.render()
 
         # 渲染player
-        sprites.draw(window)
+        player.render(window)
+
+        scene.check_event_talking(player, keys)
 
         pygame.display.flip()
 
