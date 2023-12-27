@@ -6,7 +6,8 @@ class WindowSettings:
     name = "Thgink Luos Ton"
     width = 1280
     height = 720
-    outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
+    outdoorScale = 1.5 
+    # A necessary scale to allow camera movement in outdoor scenes
 
 class PlayerSettings:
     playerSpeed = 5

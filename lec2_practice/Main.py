@@ -10,7 +10,8 @@ from Player import Player
 def run_game():
     pygame.init()
 
-    window = pygame.display.set_mode((WindowSettings.width, WindowSettings.height))
+    window = pygame.display.set_mode((WindowSettings.width,
+    WindowSettings.height))
     pygame.display.set_caption(WindowSettings.name)
 
     scene = SceneManager(window)
