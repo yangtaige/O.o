@@ -30,6 +30,7 @@ class MonsterSettings:
     monsterAttack = 3
     monsterHP = 10
     monsterDefence = 1
+    monsterSpeed = 2
 
 
 class SceneSettings:
@@ -92,7 +93,10 @@ class GamePath:
         r".\assets\player\4.png", 
     ]
     npc = r".\assets\npc\npc.png"
-    monster = r".\assets\npc\monster\1.png"
+    monster = [r".\assets\npc\monster\1.png",
+               r".\assets\npc\monster\2.png",
+               r".\assets\npc\monster\3.png",
+               r".\assets\npc\monster\4.png"]
 
     groundTiles = [
         r".\assets\tiles\ground1.png", 

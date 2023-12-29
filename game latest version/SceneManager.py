@@ -48,11 +48,16 @@ class SceneManager:
         if self.battleBox is None:
             for monster in self.monsters:
                 if pygame.sprite.collide_rect(player, monster):
+                    self.monster = monster
                     self.battleBox = BattleBox.BattleBox(self.window,
                                                          player, monster)
                     self.battleBox.render()
-        else:
+        elif not self.battleBox.isFinished:
             self.battleBox.render()
+        else:
+            self.battleBox = None
+            self.monsters.remove(self.monster)
+
 
     def update_camera(self, player):
         self.x_direction, self.y_direction = 0, 0
@@ -97,6 +102,8 @@ class SceneManager:
     def update(self):
         for npc in self.npcs:
             npc.update()
+        for monster in self.monsters:
+            monster.update()
 
     def render(self):
         for i in range(SceneSettings.tileXnum):
@@ -115,6 +122,6 @@ class SceneManager:
         for monster in self.monsters:
             monster.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
         self.npcs.draw(self.window)
-        self.monsters.draw((self.window))
+        self.monsters.draw(self.window)
 
     
