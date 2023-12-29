@@ -40,6 +40,7 @@ def run_game():
         player.render(window)
 
         scene.check_event_talking(player, keys)
+        scene.check_event_battle(player, keys)
         
         pygame.display.flip()
 

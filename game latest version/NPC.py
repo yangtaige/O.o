@@ -16,7 +16,6 @@ class NPC(pygame.sprite.Sprite):
         self.speed = NPCSettings.npcSpeed
         self.initialPosition = x
         self.direction = 1
-        self.patrollingRange = NPCSettings.npcPatrollingRange
 
         self.talking = False
         self.talkCD = 0

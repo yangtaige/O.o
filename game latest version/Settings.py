@@ -13,13 +13,24 @@ class PlayerSettings:
     playerSpeed = 5
     playerWidth = 60
     playerHeight = 55
+    playerHP = 20
+    playerAttack = 5
+    playerDefence = 1
+    playerMoney = 0
 
 class NPCSettings:
     npcSpeed = 1
     npcWidth = 60
     npcHeight = 60
-    talkCD = 30
-    npcPatrollingRange = 70# 1s
+    talkCD = 30           # 1s
+
+class MonsterSettings:
+    monsterWidth = 60
+    monsterHeight = 60
+    monsterAttack = 3
+    monsterHP = 10
+    monsterDefence = 1
+
 
 class SceneSettings:
     tileXnum = 48
@@ -30,6 +41,7 @@ class SceneSettings:
 class DialogSettings:
     boxWidth = 800
     boxHeight = 180
+    boxAlpha = 150
     boxStartX = WindowSettings.width // 4           # Coordinate X of the box
     boxStartY = WindowSettings.height // 3 * 2 + 20 # Coordinate Y of the box
 
@@ -38,22 +50,49 @@ class DialogSettings:
     textStartY = WindowSettings.height // 3 * 2 + 30    # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3                # Vertical distance of two lines
 
-    alpha = 150
-
     npcWidth = WindowSettings.width // 5
     npcHeight = WindowSettings.height // 3
     npcCoordX = 0
     npcCoordY = WindowSettings.height * 2 // 3 - 20
 
+class BattleSettings:
+    boxWidth = WindowSettings.width * 3 // 4 
+    boxHeight = WindowSettings.height * 3 // 4 
+    boxAlpha = 200
+    boxStartX = WindowSettings.width // 8           # Coordinate X of the box
+    boxStartY = WindowSettings.height // 8
+    textSize = 48 # Default font size
+    textStartX = WindowSettings.width // 4 
+    textPlayerStartX = WindowSettings.width // 4          # Coordinate X of the first line of dialog
+    textMonsterStartX = WindowSettings.width // 2 +100   
+    textStartY = WindowSettings.height // 3         # Coordinate Y of the first line of dialog
+    textVerticalDist = textSize // 4 * 3            # Vertical distance of two lines
+
+    playerWidth = WindowSettings.width // 6
+    playerHeight = WindowSettings.height // 3
+    playerCoordX = WindowSettings.width // 8
+    playerCoordY = WindowSettings.height // 2 
+    animationFrameCount = 15
+
+    monsterWidth = WindowSettings.width // 6
+    monsterHeight = WindowSettings.height // 3
+    monsterCoordX = WindowSettings.width * 5 // 8
+    monsterCoordY = WindowSettings.height // 2 
+
+    stepSize = 20
+
+    stepspeed = 20
+
 class GamePath:
     # player/npc related path
-    npc = r".\assets\npc\npc.png"
     player = [
         r".\assets\player\1.png", 
         r".\assets\player\2.png", 
         r".\assets\player\3.png", 
         r".\assets\player\4.png", 
     ]
+    npc = r".\assets\npc\npc.png"
+    monster = r".\assets\npc\monster\1.png"
 
     groundTiles = [
         r".\assets\tiles\ground1.png", 

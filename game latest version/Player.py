@@ -18,6 +18,11 @@ class Player(pygame.sprite.Sprite):
         self.talking = False
         self.direction = True
 
+        self.HP = PlayerSettings.playerHP
+        self.Attack = PlayerSettings.playerAttack
+        self.Defence = PlayerSettings.playerDefence
+        self.Money = PlayerSettings.playerMoney
+
     def update(self, keys, scene):
         if self.talking:
             # 如果不移动，显示静态图像

@@ -5,7 +5,8 @@ import pygame
 import Map
 import DialogBox
 import NPC
-
+import Monster
+import BattleBox
 class SceneManager:
     def __init__(self, window):
         self.state = GameState.GAME_PLAY_WILD
@@ -19,6 +20,10 @@ class SceneManager:
         self.obstacles = Map.build_obstacles()
         self.window = window
         self.x_direction, self.y_direction = 0, 0
+
+        self.monsters = pygame.sprite.Group()
+        self.monsters.add(Monster.Monster(WindowSettings.width // 4, WindowSettings.height // 4 + 180))
+        self.battleBox = None
 
     def get_width(self):
         return WindowSettings.width * WindowSettings.outdoorScale
@@ -35,6 +40,19 @@ class SceneManager:
             elif npc.can_talk() and pygame.sprite.collide_rect(npc, player):
                 npc.talking = True
                 player.talking = True
+                dialogTemp = DialogBox.DialogBox(self.window, GamePath.npc,
+                                                 ["Happy", "2023!"])
+                dialogTemp.render()
+
+    def check_event_battle(self, player, keys):
+        if self.battleBox is None:
+            for monster in self.monsters:
+                if pygame.sprite.collide_rect(player, monster):
+                    self.battleBox = BattleBox.BattleBox(self.window,
+                                                         player, monster)
+                    self.battleBox.render()
+        else:
+            self.battleBox.render()
 
     def update_camera(self, player):
         self.x_direction, self.y_direction = 0, 0
@@ -87,12 +105,16 @@ class SceneManager:
                                  (i * SceneSettings.tileWidth - self.cameraX,
                                   j * SceneSettings.tileHeight - self.cameraY))
 
-        for i in self.obstacles:   # 障碍物镜头移动
-            i.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
+        for obstacle in self.obstacles:   # 障碍物镜头移动
+            obstacle.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
         self.obstacles.draw(self.window)
 
-        for i in self.npcs:   # NPC镜头移动
-            i.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
+        for npc in self.npcs:   # NPC镜头移动
+            npc.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
+
+        for monster in self.monsters:
+            monster.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
         self.npcs.draw(self.window)
+        self.monsters.draw((self.window))
 
     
