@@ -44,3 +44,29 @@ Organizing these resources in an assets folder helps streamline development and 
 These files contain pre-compiled versions of Python source code, making the code execution faster upon subsequent runs. The "pycache" directory is created within the same directory as the Python script or module and helps reduce the need for recompilation, enhancing the efficiency of Python programs.
 
 **You should add it to .gitignore**, because there is no meaning update it during your development. While others runs your code, it will be generated again and cover the version you uploaded.  
+
+
+
+小组成员：朱震阳、王歆玥、杨泰格
+
+### GameType:Roguelike & cardmaster
+元气骑士与卡牌游戏的结合版游戏
+
+# 地图设计：
+    地图总共有三个版本，每个版本对应不同主题和boss
+    初始选地图环节会先随机分配一个卡牌类型的小游戏，根据玩家游戏情况分配地图，若赢得卡牌类游戏则有机会进入隐藏地图
+    每个版本地图均有一定数量的房间，包括普通房间、补给房间和boss房间
+    所有房间都是事先设计好的
+    游戏开始前就生成整张地图
+    隐藏地图会有额外bonus且会掉落永久稀有武器和法术
+
+# 移动和障碍物：
+    所有实体仅能被障碍物阻挡
+    四周墙被定义为无法被破坏的障碍物
+
+# 实体设定：
+    所有怪物和障碍物都有唯一的正整数编号
+    编号在地图生成时就已经安排
+
+# 卡牌类游戏：
+    21点、24点、乌诺、猜点数
