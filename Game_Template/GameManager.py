@@ -3,16 +3,31 @@
 import sys
 import pygame
 
+import NPCs
 from Player import Player
 from Scene import *
 from Settings import *
 from PopUpBox import *
 
+
 class GameManager:
     def __init__(self):
-        
+
         ##### Your Code Here ↓ #####
-        pass
+        self.window = pygame.display.set_mode((WindowSettings.width,
+                                               WindowSettings.height))
+        pygame.display.set_caption(WindowSettings.name)
+        self.fps = WindowSettings.fps
+        self.clock = pygame.time.Clock()
+        self.state = GameState.MAIN_MENU
+        self.sceneType = None
+        self.npcs = pygame.sprite.Group()
+        self.scene = None
+        self.obstacles = None
+        self.battleBox = None
+        self.keys = None
+        self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
+
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -24,7 +39,7 @@ class GameManager:
     # Necessary game components here ↓
     def tick(self, fps):
         ##### Your Code Here ↓ #####
-        pass
+        self.clock.tick(fps)
         ##### Your Code Here ↑ #####
 
     def get_time(self):
@@ -33,19 +48,41 @@ class GameManager:
         ##### Your Code Here ↑ #####
 
     # Scene-related update functions here ↓
-    def flush_scene(self, GOTO:SceneType):
+    def flush_scene(self, GOTO: SceneType):
         ##### Your Code Here ↓ #####
-        pass
+        if GOTO == SceneType.CITY:
+            self.scene = CityScene(self.window)
+            self.state = GameState.GAME_PLAY_CITY
         ##### Your Code Here ↑ #####
 
     def update(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.tick(self.fps)
+        self.keys = pygame.key.get_pressed()
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == GameEvent.EVENT_SWITCH:
+                self.flush_scene(self.sceneType)
+        if self.state == GameState.MAIN_MENU:
+            self.update_main_menu(events)
+        elif self.state == GameState.GAME_PLAY_WILD:
+            self.update_wild(events)
+        elif self.state == GameState.GAME_PLAY_CITY:
+            self.update_city(events)
+        elif self.state == GameState.GAME_PLAY_BOSS:
+            self.update_boss(events)
+
+
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
         ##### Your Code Here ↓ #####
-        pass
+        if self.keys[pygame.K_RETURN]:
+            self.sceneType = SceneType.CITY
+            pygame.event.post(pygame.event.Event(GameEvent.EVENT_SWITCH))
         ##### Your Code Here ↑ #####
 
     def update_city(self, events):
@@ -56,7 +93,7 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        pass
+        self.player.update(self.player.try_move(self.keys)[0], self.player.try_move(self.keys)[1])
         ##### Your Code Here ↑ #####
 
     def update_wild(self, events):
@@ -64,7 +101,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-        
+
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         pass
@@ -75,7 +112,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-        
+
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         pass
@@ -97,12 +134,12 @@ class GameManager:
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-        
+
         # Player -> Portals
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
-        
+
         # Player -> Boss
         ##### Your Code Here ↓ #####
         pass
@@ -117,17 +154,26 @@ class GameManager:
     # Render-relate update functions here ↓
     def render(self):
         ##### Your Code Here ↓ #####
-        pass
+        if self.state == GameState.MAIN_MENU:
+            self.render_main_menu()
+        elif self.state == GameState.GAME_PLAY_WILD:
+            self.render_wild()
+        elif self.state == GameState.GAME_PLAY_CITY:
+            self.render_city()
+        elif self.state == GameState.GAME_PLAY_BOSS:
+            self.render_boss()
         ##### Your Code Here ↑ #####
-    
+
     def render_main_menu(self):
         ##### Your Code Here ↓ #####
-        pass
+        main_manu = StartMenu(self.window)
+        main_manu.render(30)
         ##### Your Code Here ↑ #####
-    
+
     def render_city(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.scene.gen_CITY()
+        self.player.draw(self.window)
         ##### Your Code Here ↑ #####
 
     def render_wild(self):

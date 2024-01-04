@@ -40,7 +40,7 @@ class NPC(pygame.sprite.Sprite):
     def can_talk(self):
         return self.talkCD == 0
 
-    def move(self,x,y):
+    def move(self, x, y):
         self.rect.x += x
         self.rect.y += y
 

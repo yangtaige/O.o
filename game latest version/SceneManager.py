@@ -14,7 +14,8 @@ class SceneManager:
         self.cameraX = 0
         self.cameraY = 0
         self.npcs = pygame.sprite.Group()
-        self.npcs.add(NPC.NPC(WindowSettings.width // 4, WindowSettings.height // 4 + 80))
+        self.npcs.add(NPC.NPC(WindowSettings.width // 4,
+                              WindowSettings.height // 4 + 80))
         self.player_speed = PlayerSettings.playerSpeed
 
         self.obstacles = Map.build_obstacles()
@@ -22,7 +23,8 @@ class SceneManager:
         self.x_direction, self.y_direction = 0, 0
 
         self.monsters = pygame.sprite.Group()
-        self.monsters.add(Monster.Monster(WindowSettings.width // 4, WindowSettings.height // 4 + 180))
+        self.monsters.add(Monster.Monster(WindowSettings.width // 4,
+                                          WindowSettings.height // 4 + 180))
         self.battleBox = None
 
     def get_width(self):
@@ -41,7 +43,7 @@ class SceneManager:
                 npc.talking = True
                 player.talking = True
                 dialogTemp = DialogBox.DialogBox(self.window, GamePath.npc,
-                                                 ["Happy", "2023!"])
+                                                 ['Happy New Year!'])
                 dialogTemp.render()
 
     def check_event_battle(self, player, keys):
@@ -52,11 +54,10 @@ class SceneManager:
                     self.battleBox = BattleBox.BattleBox(self.window,
                                                          player, monster)
                     self.battleBox.render()
-        elif not self.battleBox.isFinished:
-            self.battleBox.render()
         else:
-            self.battleBox = None
-            self.monsters.remove(self.monster)
+            self.battleBox.render()
+            if self.battleBox.isFinished and keys[pygame.K_RETURN]:
+                self.battleBox = None
 
 
     def update_camera(self, player):
@@ -121,6 +122,7 @@ class SceneManager:
 
         for monster in self.monsters:
             monster.move(self.x_direction * self.player_speed, self.y_direction * self.player_speed)
+
         self.npcs.draw(self.window)
         self.monsters.draw(self.window)
 

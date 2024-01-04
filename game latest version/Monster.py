@@ -35,6 +35,6 @@ class Monster(pygame.sprite.Sprite):
             self.clock = 0
         else:
             self.clock += 1
-        if  self.direction == -1:
+        if self.direction == -1:
             self.image = pygame.transform.flip(self.image, True, False)
 

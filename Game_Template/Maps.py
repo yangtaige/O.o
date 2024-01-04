@@ -41,7 +41,17 @@ def gen_wild_map():
 
 def gen_city_map():
     ##### Your Code Here ↓ #####
-    pass
+    images = [pygame.image.load(tile) for tile in GamePath.cityTiles]
+    images = [pygame.transform.scale(image, (SceneSettings.tileWidth,
+                                             SceneSettings.tileHeight)) for image in images]
+    mapObj = []
+    for i in range(SceneSettings.tileXnum):
+        tmp = []
+        for j in range(SceneSettings.tileYnum):
+            tmp.append(images[randint(0, len(images) - 1)])
+        mapObj.append(tmp)
+
+    return mapObj
     ##### Your Code Here ↑ #####
 
 def gen_boss_map():

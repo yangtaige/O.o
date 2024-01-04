@@ -21,6 +21,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
         self.direction = True
+        self.facing = False
 
         self.HP = PlayerSettings.playerHP
         self.Attack = PlayerSettings.playerAttack
@@ -45,6 +46,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         if self.talking:
             self.index = 0
             self.image = self.images[self.index]
+            return 0, 0
         else:
             dx = 0
             dy = 0
@@ -59,10 +61,11 @@ class Player(pygame.sprite.Sprite, Collidable):
 
             if keys[pygame.K_d] and self.rect.right < WindowSettings.width:
                 dx += self.speed
+            return dx, dy
 
         ##### Your Code Here ↑ #####
 
-    def update(self, width,height):
+    def update(self, width, height):
         ##### Your Code Here ↓ #####
         '''移动角色，更变角色图片'''
         if width < 0:

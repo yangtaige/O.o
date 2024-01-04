@@ -59,12 +59,26 @@ class Monster(pygame.sprite.Sprite):
         super().__init__()
         
         ##### Your Code Here ↓ #####
-        pass
+        self.images = [pygame.transform.scale(pygame.image.load(img),
+                            (BattleSettings.monsterWidth, BattleSettings.monsterHeight)) for img in GamePath.monster]
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.speed = NPCSettings.npcSpeed
+        self.direction = 1
+
+        self.HP = HP
+        self.attack = Attack
+        self.defence = Defence
+        self.clock = 0
+        self.money = Money
+
         ##### Your Code Here ↑ #####
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####
-        pass
+        window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
 
 class Boss(pygame.sprite.Sprite):
