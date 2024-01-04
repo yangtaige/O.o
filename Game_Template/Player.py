@@ -82,6 +82,9 @@ class Player(pygame.sprite.Sprite, Collidable):
         if width or height:
             self.index = (self.index + 1) % len(self.images)
             self.image = self.images[self.index]
+        else:
+            self.index = 0
+            self.image = self.images[self.index]
 
         self.rect = self.rect.move(width, height)
         ##### Your Code Here ↑ #####
