@@ -79,8 +79,9 @@ class Player(pygame.sprite.Sprite, Collidable):
                 for i in range(len(self.images)):
                     self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
                 self.facing = False
-        self.index = (self.index + 1) % len(self.images)
-        self.image = self.images[self.index]
+        if width or height:
+            self.index = (self.index + 1) % len(self.images)
+            self.image = self.images[self.index]
 
         self.rect = self.rect.move(width, height)
         ##### Your Code Here ↑ #####
