@@ -27,6 +27,7 @@ class GameManager:
         self.battleBox = None
         self.keys = None
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
+        self.portal = Portal(PortalSettings.coordX, PortalSettings.coordY, self.sceneType)
 
         ##### Your Code Here ↑ #####
 
@@ -93,7 +94,9 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.update(self.player.try_move(self.keys)[0], self.player.try_move(self.keys)[1])
+        self.player.update(self.player.try_move(self.keys)[0],
+                           self.player.try_move(self.keys)[1])
+        self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
     def update_wild(self, events):
@@ -172,8 +175,7 @@ class GameManager:
 
     def render_city(self):
         ##### Your Code Here ↓ #####
-        self.scene.gen_CITY()
-        self.player.draw(self.window)
+        self.scene.render(self.player)
         ##### Your Code Here ↑ #####
 
     def render_wild(self):

@@ -17,6 +17,15 @@ class Scene():
         ##### Your Code Here ↓ #####
         self.window = window
         self.map = None
+        self.sceneType = None
+        self.obstacles = pygame.sprite.Group()
+        self.npcs = pygame.sprite.Group()
+        self.portals = pygame.sprite.Group()
+        self.width, self.height = (WindowSettings.width * WindowSettings.outdoorScale,
+                                   WindowSettings.height * WindowSettings.outdoorScale)
+        self.x_direction, self.y_direction = 0, 0
+        self.cameraX, self.cameraY = 0, 0
+
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc):
@@ -51,12 +60,57 @@ class Scene():
 
     def update_camera(self, player):
         ##### Your Code Here ↓ #####
-        pass
+        self.x_direction, self.y_direction = 0, 0
+        if player.rect.x > WindowSettings.width / 4 * 3:
+            self.cameraX += player.speed
+            if self.cameraX < self.width - WindowSettings.width:
+                player.fix_to_middle(player.speed, 0)
+                self.x_direction = -1
+            elif self.cameraX == self.width - WindowSettings.width:
+                self.x_direction = -1
+            else:
+                self.cameraX = self.width - WindowSettings.width
+        elif player.rect.x < WindowSettings.width / 4:
+            self.cameraX -= player.speed
+            if self.cameraX > 0:
+                player.fix_to_middle(-player.speed, 0)
+                self.x_direction = 1
+            elif self.cameraX == 0:
+                self.x_direction = 1
+            else:
+                self.cameraX = 0
+
+        if player.rect.y > WindowSettings.height / 4 * 3:
+            self.cameraY += player.speed
+            if self.cameraY < self.height - WindowSettings.height:
+                player.fix_to_middle(0, player.speed)
+                self.y_direction = -1
+            elif self.cameraY == self.height - WindowSettings.height:
+                self.y_direction = -1
+            else:
+                self.cameraY = self.height - WindowSettings.height
+        elif player.rect.y < WindowSettings.height / 4:
+            self.cameraY -= player.speed
+            if self.cameraY > 0:
+                player.fix_to_middle(0, -player.speed)
+                self.y_direction = 1
+            elif self.cameraY == 0:
+                self.y_direction = 1
+            else:
+                self.cameraY = 0
         ##### Your Code Here ↑ #####
 
     def render(self, player):
         ##### Your Code Here ↓ #####
-        pass
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                self.window.blit(self.map[i][j],
+                                 (i * SceneSettings.tileWidth - self.cameraX,
+                                  j * SceneSettings.tileHeight - self.cameraY))
+        self.obstacles.draw(self.window)
+        self.npcs.draw(self.window)
+        self.portals.draw(self.window)
+        player.draw(self.window)
         ##### Your Code Here ↑ #####
 
 
@@ -81,16 +135,14 @@ class CityScene(Scene):
         super().__init__(window=window)
         ##### Your Code Here ↓ #####
         self.map = Maps.gen_city_map()
+        self.sceneType = SceneType.CITY
         self.window = window
+        self.obstacles = Maps.gen_city_obstacle()
         ##### Your Code Here ↑ #####
 
     def gen_CITY(self):
         ##### Your Code Here ↓ #####
-        for i in range(SceneSettings.tileXnum):
-            for j in range(SceneSettings.tileYnum):
-                self.window.blit(self.map[i][j], (i * SceneSettings.tileWidth,
-                                                  j * SceneSettings.tileHeight))
-
+        pass
         ##### Your Code Here ↑ #####
 
 

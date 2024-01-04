@@ -61,7 +61,20 @@ def gen_boss_map():
 
 def gen_city_obstacle():
     ##### Your Code Here ↓ #####
-    pass
+    image = pygame.image.load(GamePath.cityWall)
+    obstacles = pygame.sprite.Group()
+    midX = SceneSettings.tileXnum // 2
+    midY = SceneSettings.tileYnum // 2
+
+    for i in range(SceneSettings.tileXnum):
+        for j in range(SceneSettings.tileYnum):
+            if random() < SceneSettings.obstacleDensity \
+                    and ((i not in range(midX - 3, midX + 3))
+                         or (j not in range(midY - 3, midY + 3))) \
+                    and (i > midX or j > midY):
+                obstacles.add(Block(image, i * SceneSettings.tileWidth,
+                                    j * SceneSettings.tileHeight))
+    return obstacles
     ##### Your Code Here ↑ #####
 
 def gen_wild_obstacle():
