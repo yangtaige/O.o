@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import pygame
-import Maps
-from random import randint
+from random import randint, random
 
 from enum import Enum
 from Settings import *
@@ -10,18 +9,19 @@ from NPCs import *
 from PopUpBox import *
 from Portal import *
 from BgmPlayer import *
+from Tile import *
 
 
 class Scene():
     def __init__(self, window):
         ##### Your Code Here ↓ #####
         self.window = window
-        self.map = None
+        self.map = pygame.sprite.Group()
         self.sceneType = None
 
         self.width, self.height = (WindowSettings.width * WindowSettings.outdoorScale,
                                    WindowSettings.height * WindowSettings.outdoorScale)
-        self.x_direction, self.y_direction = 0, 0
+        self.dx, self.dy = 0, 0
         self.cameraX, self.cameraY = 0, 0
 
         self.obstacles = pygame.sprite.Group()
@@ -62,67 +62,53 @@ class Scene():
 
     def update_camera(self, player):
         ##### Your Code Here ↓ #####
-        self.x_direction, self.y_direction = 0, 0
+        self.dx, self.dy = 0, 0
         if player.rect.x > WindowSettings.width / 4 * 3:
             self.cameraX += player.speed
             if self.cameraX < self.width - WindowSettings.width:
-                player.fix_to_middle(player.speed, 0)
-                self.x_direction = -1
-            elif self.cameraX == self.width - WindowSettings.width:
-                self.x_direction = -1
+                self.dx = - player.speed
             else:
                 self.cameraX = self.width - WindowSettings.width
+                self.dx = 0
         elif player.rect.x < WindowSettings.width / 4:
             self.cameraX -= player.speed
             if self.cameraX > 0:
-                player.fix_to_middle(-player.speed, 0)
-                self.x_direction = 1
-            elif self.cameraX == 0:
-                self.x_direction = 1
+                self.dx = player.speed
             else:
                 self.cameraX = 0
-
+                self.dx = 0
         if player.rect.y > WindowSettings.height / 4 * 3:
             self.cameraY += player.speed
             if self.cameraY < self.height - WindowSettings.height:
-                player.fix_to_middle(0, player.speed)
-                self.y_direction = -1
-            elif self.cameraY == self.height - WindowSettings.height:
-                self.y_direction = -1
+                self.dy = - player.speed
             else:
                 self.cameraY = self.height - WindowSettings.height
+                self.dy = 0
         elif player.rect.y < WindowSettings.height / 4:
             self.cameraY -= player.speed
             if self.cameraY > 0:
-                player.fix_to_middle(0, -player.speed)
-                self.y_direction = 1
-            elif self.cameraY == 0:
-                self.y_direction = 1
+                self.dy = player.speed
             else:
                 self.cameraY = 0
+                self.dy = 0
         ##### Your Code Here ↑ #####
 
     def render(self, player):
         ##### Your Code Here ↓ #####
-        for i in range(SceneSettings.tileXnum):
-            for j in range(SceneSettings.tileYnum):
-                self.window.blit(self.map[i][j],
-                                 (i * SceneSettings.tileWidth - self.cameraX,
-                                  j * SceneSettings.tileHeight - self.cameraY))
+        for pixel in self.map:
+            pixel.draw(self.window, self.dx,
+                       self.dy)
         for obstacle in self.obstacles:
-            obstacle.move(self.x_direction * player.speed,
-                          self.y_direction * player.speed)
+            obstacle.draw(self.window, self.dx,
+                          self.dy)
         for portal in self.portals:
-            portal.move(self.x_direction * player.speed,
-                        self.y_direction * player.speed)
+            portal.draw(self.window, self.dx,
+                        self.dy)
         for monster in self.monsters:
-            monster.move(self.x_direction * player.speed,
-                        self.y_direction * player.speed)
-        self.obstacles.draw(self.window)
-        self.npcs.draw(self.window)
-        self.portals.draw(self.window)
-        self.monsters.draw(self.window)
-        player.draw(self.window)
+            monster.draw(self.window, self.dx,
+                         self.dy)
+        player.draw(self.window, self.dx,
+                    self.dy)
         ##### Your Code Here ↑ #####
 
 
@@ -133,7 +119,6 @@ class StartMenu():
         self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
                                                    WindowSettings.height))
         self.window = window
-
         ##### Your Code Here ↑ #####
 
     def render(self, time):
@@ -145,36 +130,103 @@ class StartMenu():
 class CityScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
-        ##### Your Code Here ↓ #####
-        self.map = Maps.gen_city_map()
+        self.gen_CITY()
+        self.type = SceneType.CITY
         self.sceneType = SceneType.CITY
         self.window = window
-        self.obstacles = Maps.gen_city_obstacle()
+
+    def gen_city_map(self):
+
+        ##### Your Code Here ↓ #####
+        images = [pygame.image.load(tile) for tile in GamePath.cityTiles]
+
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
+                                  j * SceneSettings.tileHeight))
+
+        ##### Your Code Here ↑ #####
+
+    def gen_city_obstacle(self):
+        ##### Your Code Here ↓ #####
+        image = pygame.image.load(GamePath.cityWall)
+        midX = SceneSettings.tileXnum // 2
+        midY = SceneSettings.tileYnum // 2
+
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                if random() < SceneSettings.obstacleDensity \
+                        and ((i not in range(midX - 3, midX + 3))
+                             or (j not in range(midY - 3, midY + 3))) \
+                        and (i > midX or j > midY):
+                    self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
+                                            j * SceneSettings.tileHeight))
+        ##### Your Code Here ↑ #####
+
+    def gen_CITY(self):
+
+        ##### Your Code Here ↓ #####
+        self.gen_city_map()
+        self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
         self.monsters.add(Monster(BattleSettings.monsterCoordX,
                                   BattleSettings.monsterCoordY))
         ##### Your Code Here ↑ #####
 
-    def gen_CITY(self):
-        ##### Your Code Here ↓ #####
-        pass
-        ##### Your Code Here ↑ #####
-
 
 class WildScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
+
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
 
+    def gen_wild_map(self):
+
+        ##### Your Code Here ↓ #####
+        images = [pygame.image.load(tile) for tile in GamePath.groundTiles]
+        images = [pygame.transform.scale(image, (SceneSettings.tileWidth, SceneSettings.tileHeight)) for image in
+                  images]
+
+        mapObj = []
+        for i in range(SceneSettings.tileXnum):
+            tmp = []
+            for j in range(SceneSettings.tileYnum):
+                tmp.append(images[randint(0, len(images) - 1)])
+            mapObj.append(tmp)
+
+        return mapObj
+        ##### Your Code Here ↑ #####
+
+    def gen_wild_obstacle(self):
+
+        ##### Your Code Here ↓ #####
+        image = pygame.image.load(GamePath.tree)
+        obstacles = pygame.sprite.Group()
+        midX = SceneSettings.tileXnum // 2
+        midY = SceneSettings.tileYnum // 2
+
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                if random() < SceneSettings.obstacleDensity \
+                        and ((i not in range(midX - 3, midX + 3))
+                             or (j not in range(midY - 3, midY + 3))) \
+                        and (i > midX or j > midY):
+                    obstacles.add(Tile(image, i * SceneSettings.tileWidth,
+                                       j * SceneSettings.tileHeight))
+        return obstacles
+        ##### Your Code Here ↑ #####
+
     def gen_WILD(self):
+
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
 
     def gen_monsters(self, num=10):
+
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
@@ -183,12 +235,21 @@ class WildScene(Scene):
 class BossScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
+        self.gen_BOSS()
+        self.type = SceneType.BOSS
+
+    # Overwrite Scene's function
+    def trigger_battle(self, player):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
 
-    # Overwrite Scene's function
-    def trigger_battle(self, player):
+    def gen_boss_obstacle(self):
+        ##### Your Code Here ↓ #####
+        pass
+        ##### Your Code Here ↑ #####
+
+    def gen_boss_map(self):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####

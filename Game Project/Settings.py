@@ -11,8 +11,8 @@ class WindowSettings:
     fps = 30
 
 class SceneSettings:
-    tileXnum = 48 # 64
-    tileYnum = 27 # 36
+    tileXnum = 64 # 64
+    tileYnum = 36 # 36
     tileWidth = tileHeight = 40
     obstacleDensity = 0.1
 

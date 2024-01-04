@@ -92,10 +92,10 @@ class Player(pygame.sprite.Sprite, Collidable):
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####
+        self.rect.x += dx
+        self.rect.y += dy
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
 
 
-    def fix_to_middle(self, x, y):
-        self.rect.x -= x
-        self.rect.y -= y
+

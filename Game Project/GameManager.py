@@ -21,9 +21,7 @@ class GameManager:
         self.clock = pygame.time.Clock()
         self.state = GameState.MAIN_MENU
         self.sceneType = None
-        self.scene = None
-        self.obstacles = None
-        self.battleBox = None
+        self.scene = StartMenu(self.window)
         self.keys = None
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         ##### Your Code Here ↑ #####
@@ -57,36 +55,42 @@ class GameManager:
         ##### Your Code Here ↓ #####
         self.tick(self.fps)
         self.keys = pygame.key.get_pressed()
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == GameEvent.EVENT_SWITCH:
-                self.flush_scene(self.sceneType)
+        # for event in events:
+        #     if event.type == pygame.QUIT:
+        #         pygame.quit()
+        #         sys.exit()
+        #     if event.type == GameEvent.EVENT_SWITCH:
+        #         self.flush_scene(self.sceneType)
         if self.state == GameState.MAIN_MENU:
-            self.update_main_menu(events)
+            self.update_main_menu(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_WILD:
-            self.update_wild(events)
+            self.update_wild(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_CITY:
-            self.update_city(events)
+            self.update_city(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_BOSS:
-            self.update_boss(events)
+            self.update_boss(pygame.event.get())
 
 
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
         ##### Your Code Here ↓ #####
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         if self.keys[pygame.K_RETURN]:
             self.sceneType = SceneType.CITY
-            pygame.event.post(pygame.event.Event(GameEvent.EVENT_SWITCH))
+            self.flush_scene(SceneType.CITY)
         ##### Your Code Here ↑ #####
 
     def update_city(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
-        pass
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -99,7 +103,10 @@ class GameManager:
     def update_wild(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
-        pass
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -110,7 +117,10 @@ class GameManager:
     def update_boss(self, events):
         # Deal with EventQueue First
         ##### Your Code Here ↓ #####
-        pass
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -166,8 +176,7 @@ class GameManager:
 
     def render_main_menu(self):
         ##### Your Code Here ↓ #####
-        main_manu = StartMenu(self.window)
-        main_manu.render(30)
+        self.scene.render(30)
         ##### Your Code Here ↑ #####
 
     def render_city(self):
