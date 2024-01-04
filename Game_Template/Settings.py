@@ -8,6 +8,7 @@ class WindowSettings:
     width = 1280
     height = 720
     outdoorScale = 1.5 # A necessary scale to allow camera movement in outdoor scenes
+    fps = 30
 
 class SceneSettings:
     tileXnum = 48 # 64

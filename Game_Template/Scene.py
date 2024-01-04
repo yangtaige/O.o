@@ -11,13 +11,13 @@ from PopUpBox import *
 from Portal import *
 from BgmPlayer import *
 
+
 class Scene():
     def __init__(self, window):
         ##### Your Code Here ↓ #####
-        pass
+        self.window = window
+        self.map = None
         ##### Your Code Here ↑ #####
-
-        
 
     def trigger_dialog(self, npc):
         ##### Your Code Here ↓ #####
@@ -63,25 +63,36 @@ class Scene():
 class StartMenu():
     def __init__(self, window):
         ##### Your Code Here ↓ #####
-        pass
+        self.bg = pygame.image.load(GamePath.menu)
+        self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
+                                                   WindowSettings.height))
+        self.window = window
+
         ##### Your Code Here ↑ #####
 
     def render(self, time):
         ##### Your Code Here ↓ #####
-        pass
+        self.window.blit(self.bg, (0, 0))
         ##### Your Code Here ↑ #####
+
 
 class CityScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         ##### Your Code Here ↓ #####
-        pass
+        self.map = Maps.gen_city_map()
+        self.window = window
         ##### Your Code Here ↑ #####
 
     def gen_CITY(self):
         ##### Your Code Here ↓ #####
-        pass
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                self.window.blit(self.map[i][j], (i * SceneSettings.tileWidth,
+                                                  j * SceneSettings.tileHeight))
+
         ##### Your Code Here ↑ #####
+
 
 class WildScene(Scene):
     def __init__(self, window):
@@ -95,10 +106,11 @@ class WildScene(Scene):
         pass
         ##### Your Code Here ↑ #####
 
-    def gen_monsters(self, num = 10):
+    def gen_monsters(self, num=10):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
+
 
 class BossScene(Scene):
     def __init__(self, window):

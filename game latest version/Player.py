@@ -48,8 +48,8 @@ class Player(pygame.sprite.Sprite):
                 self.rect = self.rect.move(-dx, -dy)
 
             if any(keys):
-                self.index = (self.index + 1) % len(self.images)
-                self.image = self.images[self.index]
+                self.index = (self.index + 1 / 5) % len(self.images)
+                self.image = self.images[int(self.index)]
                 if not self.direction:
                     self.image = pygame.transform.flip(self.image, True, False)
 
