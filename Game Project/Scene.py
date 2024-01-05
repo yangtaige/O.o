@@ -131,7 +131,6 @@ class CityScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         self.gen_CITY()
-        self.type = SceneType.CITY
         self.sceneType = SceneType.CITY
         self.window = window
 
@@ -150,15 +149,11 @@ class CityScene(Scene):
     def gen_city_obstacle(self):
         ##### Your Code Here ↓ #####
         image = pygame.image.load(GamePath.cityWall)
-        midX = SceneSettings.tileXnum // 2
-        midY = SceneSettings.tileYnum // 2
 
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                if random() < SceneSettings.obstacleDensity \
-                        and ((i not in range(midX - 3, midX + 3))
-                             or (j not in range(midY - 3, midY + 3))) \
-                        and (i > midX or j > midY):
+                if i == 0 or i == SceneSettings.tileXnum - 1\
+                        or j == 0 or j == SceneSettings.tileYnum - 1:
                     self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
                                             j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
@@ -170,8 +165,6 @@ class CityScene(Scene):
         self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
-        self.monsters.add(Monster(BattleSettings.monsterCoordX,
-                                  BattleSettings.monsterCoordY))
         ##### Your Code Here ↑ #####
 
 
@@ -180,25 +173,23 @@ class WildScene(Scene):
         super().__init__(window=window)
 
         ##### Your Code Here ↓ #####
-        pass
+        self.gen_WILD()
+        self.sceneType = SceneType.WILD
+        self.window = window
+
         ##### Your Code Here ↑ #####
 
     def gen_wild_map(self):
 
         ##### Your Code Here ↓ #####
         images = [pygame.image.load(tile) for tile in GamePath.groundTiles]
-        images = [pygame.transform.scale(image, (SceneSettings.tileWidth, SceneSettings.tileHeight)) for image in
-                  images]
 
-        mapObj = []
         for i in range(SceneSettings.tileXnum):
-            tmp = []
             for j in range(SceneSettings.tileYnum):
-                tmp.append(images[randint(0, len(images) - 1)])
-            mapObj.append(tmp)
+                self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
+                                  j * SceneSettings.tileHeight))
 
-        return mapObj
-        ##### Your Code Here ↑ #####
+    ##### Your Code Here ↑ #####
 
     def gen_wild_obstacle(self):
 
@@ -222,7 +213,8 @@ class WildScene(Scene):
     def gen_WILD(self):
 
         ##### Your Code Here ↓ #####
-        pass
+        self.gen_wild_map()
+        self.gen_wild_obstacle()
         ##### Your Code Here ↑ #####
 
     def gen_monsters(self, num=10):
