@@ -118,8 +118,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         self.player.try_move()
         self.update_collide()
-        self.player.update(-self.player.dx,
-                           -self.player.dy)
+        self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
@@ -196,29 +195,52 @@ class GameManager:
         # Player -> Obstacles
         ##### Your Code Here ↓ #####
         for obstacle in self.scene.obstacles:
-            if self.player.rect.colliderect(obstacle.rect):
+            if pygame.sprite.collide_mask(self.player, obstacle):
                 self.player.collidingWith['obstacle'] = True
                 self.player.collidingObject['obstacle'].append(obstacle)
         ##### Your Code Here ↑ #####
 
         # Player -> NPCs; if multiple NPCs collided, only first is accepted and dealt with.
         ##### Your Code Here ↓ #####
-        pass
+        for npc in self.scene.npcs:
+            if pygame.sprite.collide_mask(self.player, npc):
+                self.player.collidingWith['npc'] = True
+                self.player.collidingObject['npc'] = npc
+                if isinstance(npc, ShopNPC):
+                    pygame.event.post(pygame.event.Event(GameEvent.EVENT_SHOP))
+                elif isinstance(npc, DialogNPC):
+                    pygame.event.post(pygame.event.Event(GameEvent.EVENT_DIALOG))
         ##### Your Code Here ↑ #####
 
         # Player -> Monsters
         ##### Your Code Here ↓ #####
-        pass
+        for monster in self.scene.monsters:
+            if pygame.sprite.collide_mask(self.player, monster):
+                self.player.collidingWith['monster'] = True
+                self.player.collidingObject['monster'] = monster
+                pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
+                # 向事件队列发送战斗事件
+
         ##### Your Code Here ↑ #####
 
         # Player -> Portals
         ##### Your Code Here ↓ #####
-        pass
+        for portal in self.scene.portals:
+            if pygame.sprite.collide_mask(self.player, portal):
+                self.player.collidingWith['portal'] = True
+                self.player.collidingObject['portal'] = portal
+                pygame.event.post(pygame.event.Event(GameEvent.EVENT_SWITCH))
+                # 向事件队列发送传送事件
+
         ##### Your Code Here ↑ #####
 
         # Player -> Boss
         ##### Your Code Here ↓ #####
-        pass
+        for boss in self.scene.bosses:
+            if pygame.sprite.collide_mask(self.player, boss):
+                self.player.collidingWith['boss'] = True
+                self.player.collidingObject['boss'] = boss
+                pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
         ##### Your Code Here ↑ #####
 
     def update_NPCs(self):

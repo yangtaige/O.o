@@ -28,6 +28,7 @@ class Scene():
         self.npcs = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
+        self.bosses = pygame.sprite.Group()
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc):
