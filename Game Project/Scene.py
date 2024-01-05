@@ -119,11 +119,23 @@ class StartMenu():
         self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
                                                    WindowSettings.height))
         self.window = window
+        self.font = pygame.font.Font(None, ManuSettings.textSize)
+        self.text = self.font.render('Press ENTER to start', True, (255, 255, 255))
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
+                                                   WindowSettings.height - 50))
+        self.blinkTimer = 0
         ##### Your Code Here ↑ #####
 
     def render(self, time):
         ##### Your Code Here ↓ #####
         self.window.blit(self.bg, (0, 0))
+
+        self.blinkTimer += 1
+        if self.blinkTimer < time:
+            self.window.blit(self.text, self.textRect)
+        elif self.blinkTimer == time * 2:
+            self.blinkTimer = 0
+
         ##### Your Code Here ↑ #####
 
 

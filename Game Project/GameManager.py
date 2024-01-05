@@ -47,6 +47,7 @@ class GameManager:
     def flush_scene(self, GOTO: SceneType):
         ##### Your Code Here ↓ #####
         if GOTO == SceneType.CITY:
+            self.sceneType = SceneType.CITY
             self.scene = CityScene(self.window)
             self.state = GameState.GAME_PLAY_CITY
         ##### Your Code Here ↑ #####
@@ -79,9 +80,9 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        if self.keys[pygame.K_RETURN]:
-            self.sceneType = SceneType.CITY
-            self.flush_scene(SceneType.CITY)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.flush_scene(SceneType.CITY)
         ##### Your Code Here ↑ #####
 
     def update_city(self, events):
@@ -176,7 +177,7 @@ class GameManager:
 
     def render_main_menu(self):
         ##### Your Code Here ↓ #####
-        self.scene.render(30)
+        self.scene.render(ManuSettings.blinkInterval)
         ##### Your Code Here ↑ #####
 
     def render_city(self):

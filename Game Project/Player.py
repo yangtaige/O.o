@@ -92,8 +92,7 @@ class Player(pygame.sprite.Sprite, Collidable):
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####
-        self.rect.x += dx
-        self.rect.y += dy
+        self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
 

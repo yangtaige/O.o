@@ -16,6 +16,10 @@ class SceneSettings:
     tileWidth = tileHeight = 40
     obstacleDensity = 0.1
 
+class ManuSettings:
+    textSize = 30
+    blinkInterval = 30
+
 class PlayerSettings:
     # Initial Player Settings
     playerSpeed = 7
