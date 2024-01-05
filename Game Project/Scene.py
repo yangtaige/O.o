@@ -219,7 +219,6 @@ class WildScene(Scene):
                         and (i > midX or j > midY):
                     obstacles.add(Tile(image, i * SceneSettings.tileWidth,
                                        j * SceneSettings.tileHeight))
-        return obstacles
         ##### Your Code Here ↑ #####
 
     def gen_WILD(self):

@@ -92,12 +92,34 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.KEYDOWN: # 开始角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = True
+                if event.key == pygame.K_a:
+                    self.player.movingWest = True
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = True
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = True
+
+            if event.type == pygame.KEYUP: # 停止角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = False
+                if event.key == pygame.K_a:
+                    self.player.movingWest = False
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = False
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = False
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.update(self.player.try_move(self.keys)[0],
-                           self.player.try_move(self.keys)[1])
+        self.player.try_move()
+        self.update_collide()
+        self.player.update(-self.player.dx,
+                           -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
@@ -108,6 +130,26 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.KEYDOWN: # 开始角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = True
+                if event.key == pygame.K_a:
+                    self.player.movingWest = True
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = True
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = True
+
+            if event.type == pygame.KEYUP: # 停止角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = False
+                if event.key == pygame.K_a:
+                    self.player.movingWest = False
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = False
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = False
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -122,6 +164,26 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            
+            if event.type == pygame.KEYDOWN: # 开始角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = True
+                if event.key == pygame.K_a:
+                    self.player.movingWest = True
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = True
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = True
+
+            if event.type == pygame.KEYUP: # 停止角色移动
+                if event.key == pygame.K_d:
+                    self.player.movingEast = False
+                if event.key == pygame.K_a:
+                    self.player.movingWest = False
+                if event.key == pygame.K_w:
+                    self.player.movingNorth = False
+                if event.key == pygame.K_s:
+                    self.player.movingSouth = False
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -133,7 +195,10 @@ class GameManager:
     def update_collide(self):
         # Player -> Obstacles
         ##### Your Code Here ↓ #####
-        pass
+        for obstacle in self.scene.obstacles:
+            if self.player.rect.colliderect(obstacle.rect):
+                self.player.collidingWith['obstacle'] = True
+                self.player.collidingObject['obstacle'].append(obstacle)
         ##### Your Code Here ↑ #####
 
         # Player -> NPCs; if multiple NPCs collided, only first is accepted and dealt with.
