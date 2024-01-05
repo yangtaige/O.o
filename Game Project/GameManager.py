@@ -20,9 +20,7 @@ class GameManager:
         self.fps = WindowSettings.fps
         self.clock = pygame.time.Clock()
         self.state = GameState.MAIN_MENU
-        self.sceneType = None
         self.scene = StartMenu(self.window)
-        self.keys = None
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         ##### Your Code Here ↑ #####
 
@@ -47,21 +45,27 @@ class GameManager:
     def flush_scene(self, GOTO: SceneType):
         ##### Your Code Here ↓ #####
         if GOTO == SceneType.CITY:
-            self.sceneType = SceneType.CITY
             self.scene = CityScene(self.window)
             self.state = GameState.GAME_PLAY_CITY
+            self.player.reset_pos()
+        if GOTO == SceneType.WILD:
+            self.scene = WildScene(self.window)
+            self.state = GameState.GAME_PLAY_WILD
+            self.player.reset_pos()
+            self.update_collide()
+            self.player.reset_scene()
+        if GOTO == SceneType.BOSS:
+            self.scene = BossScene(self.window)
+            self.state = GameState.GAME_PLAY_BOSS
+            self.player.reset_pos()
+
+
         ##### Your Code Here ↑ #####
 
     def update(self):
         ##### Your Code Here ↓ #####
         self.tick(self.fps)
-        self.keys = pygame.key.get_pressed()
-        # for event in events:
-        #     if event.type == pygame.QUIT:
-        #         pygame.quit()
-        #         sys.exit()
-        #     if event.type == GameEvent.EVENT_SWITCH:
-        #         self.flush_scene(self.sceneType)
+
         if self.state == GameState.MAIN_MENU:
             self.update_main_menu(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_WILD:
@@ -80,6 +84,7 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.flush_scene(SceneType.CITY)
@@ -112,6 +117,10 @@ class GameManager:
                     self.player.movingNorth = False
                 if event.key == pygame.K_s:
                     self.player.movingSouth = False
+
+            if event.type == GameEvent.EVENT_SWITCH:
+                self.flush_scene(SceneType.WILD)
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -149,11 +158,17 @@ class GameManager:
                     self.player.movingNorth = False
                 if event.key == pygame.K_s:
                     self.player.movingSouth = False
+
+            if event.type == GameEvent.EVENT_SWITCH:
+                self.flush_scene(self.player.collidingObject['portal'].sceneType)
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        pass
+        self.player.try_move()
+        self.update_collide()
+        self.player.update(-self.player.dx, -self.player.dy)
+        self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
     def update_boss(self, events):
@@ -187,7 +202,10 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        pass
+        self.player.try_move()
+        self.update_collide()
+        self.player.update(-self.player.dx, -self.player.dy)
+        self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
     # Collision-relate update funtions here ↓
@@ -195,7 +213,7 @@ class GameManager:
         # Player -> Obstacles
         ##### Your Code Here ↓ #####
         for obstacle in self.scene.obstacles:
-            if pygame.sprite.collide_mask(self.player, obstacle):
+            if pygame.sprite.collide_rect(self.player, obstacle):
                 self.player.collidingWith['obstacle'] = True
                 self.player.collidingObject['obstacle'].append(obstacle)
         ##### Your Code Here ↑ #####
@@ -274,11 +292,11 @@ class GameManager:
 
     def render_wild(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.scene.render(self.player)
         ##### Your Code Here ↑ #####
 
     def render_boss(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.scene.render(self.player)
         ##### Your Code Here ↑ #####
 

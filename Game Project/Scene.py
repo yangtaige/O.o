@@ -12,7 +12,7 @@ from BgmPlayer import *
 from Tile import *
 
 
-class Scene():
+class Scene:
     def __init__(self, window):
         ##### Your Code Here ↓ #####
         self.window = window
@@ -165,7 +165,7 @@ class CityScene(Scene):
 
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                if i == 0 or i == SceneSettings.tileXnum - 1\
+                if i == 0 or i == SceneSettings.tileXnum - 1 \
                         or j == 0 or j == SceneSettings.tileYnum - 1:
                     self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
                                             j * SceneSettings.tileHeight))
@@ -208,18 +208,12 @@ class WildScene(Scene):
 
         ##### Your Code Here ↓ #####
         image = pygame.image.load(GamePath.tree)
-        obstacles = pygame.sprite.Group()
-        midX = SceneSettings.tileXnum // 2
-        midY = SceneSettings.tileYnum // 2
 
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                if random() < SceneSettings.obstacleDensity \
-                        and ((i not in range(midX - 3, midX + 3))
-                             or (j not in range(midY - 3, midY + 3))) \
-                        and (i > midX or j > midY):
-                    obstacles.add(Tile(image, i * SceneSettings.tileWidth,
-                                       j * SceneSettings.tileHeight))
+                if random() < SceneSettings.obstacleDensity:
+                    self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
+                                            j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
     def gen_WILD(self):
@@ -227,20 +221,44 @@ class WildScene(Scene):
         ##### Your Code Here ↓ #####
         self.gen_wild_map()
         self.gen_wild_obstacle()
+        self.gen_portals()
+        self.gen_monsters()
         ##### Your Code Here ↑ #####
 
     def gen_monsters(self, num=10):
 
         ##### Your Code Here ↓ #####
-        pass
+        idx = 0
+        while idx < num:
+            monster = Monster(randint(0, self.width), randint(0, self.height))
+            if not pygame.sprite.spritecollide(monster, self.obstacles, False) \
+                    and not pygame.sprite.spritecollide(monster, self.monsters, False)\
+                    and not pygame.sprite.spritecollide(monster, self.portals, False):
+                self.monsters.add(monster)
+                idx += 1
         ##### Your Code Here ↑ #####
+
+    def gen_portals(self):
+        portalToCity = Portal(PortalSettings.coordX - PortalSettings.width * 4,
+                          PortalSettings.coordY - PortalSettings.height,
+                          SceneType.CITY)
+        portalToBoss = Portal(PortalSettings.coordX,
+                          PortalSettings.coordY,
+                          SceneType.BOSS)
+        self.portals.add(portalToCity, portalToBoss)
+        for portal in self.portals:
+            while pygame.sprite.spritecollideany(portal, self.obstacles):
+                pygame.sprite.spritecollideany(portal, self.obstacles).kill()
+
+
 
 
 class BossScene(Scene):
     def __init__(self, window):
         super().__init__(window=window)
         self.gen_BOSS()
-        self.type = SceneType.BOSS
+        self.sceneType = SceneType.BOSS
+        self.window = window
 
     # Overwrite Scene's function
     def trigger_battle(self, player):
@@ -250,15 +268,28 @@ class BossScene(Scene):
 
     def gen_boss_obstacle(self):
         ##### Your Code Here ↓ #####
-        pass
+        image = pygame.image.load(GamePath.bossWall)
+
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                if i == 0 or i == SceneSettings.tileXnum - 1 \
+                        or j == 0 or j == SceneSettings.tileYnum - 1:
+                    self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
+                                            j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
     def gen_boss_map(self):
         ##### Your Code Here ↓ #####
-        pass
+        images = [pygame.image.load(tile) for tile in GamePath.bossTiles]
+
+        for i in range(SceneSettings.tileXnum):
+            for j in range(SceneSettings.tileYnum):
+                self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
+                                  j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
     def gen_BOSS(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.gen_boss_map()
+        self.gen_boss_obstacle()
         ##### Your Code Here ↑ #####

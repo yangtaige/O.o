@@ -46,6 +46,18 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.rect.y = y
         ##### Your Code Here ↑ #####
 
+    def reset_scene(self):
+        if self.collidingWith['obstacle']:
+            for obstacle in self.collidingObject['obstacle']:
+                obstacle.kill()
+            self.collidingWith['obstacle'] = False
+            self.collidingObject['obstacle'] = []
+
+        if self.collidingWith['monster']:
+            self.collidingObject['monster'].kill()
+            self.collidingWith['monster'] = False
+            self.collidingObject['monster'] = None
+
     def try_move(self):
         ##### Your Code Here ↓ #####
         '''尝试移动'''
