@@ -21,7 +21,13 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
         self.direction = True
-        self.facing = False
+        self.movingWest = False
+        self.movingEast = False
+        self.movingNorth = False
+        self.movingSouth = False
+        self.dx = 0
+        self.dy = 0
+        self.facingEast = True
 
         self.HP = PlayerSettings.playerHP
         self.Attack = PlayerSettings.playerAttack
@@ -40,60 +46,65 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.rect.y = y
         ##### Your Code Here ↑ #####
 
-    def try_move(self, keys):
+    def try_move(self):
         ##### Your Code Here ↓ #####
-        '''接受按键参数，判断移动距离'''
-        if self.talking:
-            self.index = 0
-            self.image = self.images[self.index]
-            return 0, 0
-        else:
-            dx = 0
-            dy = 0
-            if keys[pygame.K_w] and self.rect.top > 0:
-                dy -= self.speed
+        '''尝试移动'''
+        
+        self.dx = 0
+        self.dy = 0
+        if self.movingNorth and self.rect.top > 0:
+            self.dy -= self.speed
 
-            if keys[pygame.K_s] and self.rect.bottom < WindowSettings.height:
-                dy += self.speed
+        if self.movingSouth and self.rect.bottom < WindowSettings.height:
+            self.dy += self.speed
 
-            if keys[pygame.K_a] and self.rect.left > 0:
-                dx -= self.speed
+        if self.movingWest and self.rect.left > 0:
+            self.dx -= self.speed
 
-            if keys[pygame.K_d] and self.rect.right < WindowSettings.width:
-                dx += self.speed
-            return dx, dy
+        if self.movingEast and self.rect.right < WindowSettings.width:
+            self.dx += self.speed
+
+        self.rect = self.rect.move(self.dx, self.dy)
 
         ##### Your Code Here ↑ #####
 
     def update(self, width, height):
         ##### Your Code Here ↓ #####
-        '''移动角色，更变角色图片'''
-        if width < 0:
-            if not self.facing:
-                for i in range(len(self.images)):
-                    self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
-                self.facing = True
+        '''调整坐标，播放角色动画'''
+        redx = 0    # 重置移动的距离
+        redy = 0
+        if self.collidingWith['obstacle']:
+            redx = width
+            redy = height
 
-        if width > 0:
-            if self.facing:
+        if self.movingEast:
+            if not self.facingEast:
                 for i in range(len(self.images)):
                     self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
-                self.facing = False
-        if width or height:
+                self.facingEast = True
+
+        if self.movingWest:
+            if self.facingEast:
+                for i in range(len(self.images)):
+                    self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
+                self.facingEast = False
+    
+        if self.dx or self.dy:
             self.index = (self.index + 1) % len(self.images)
             self.image = self.images[self.index]
         else:
             self.index = 0
             self.image = self.images[self.index]
 
-        self.rect = self.rect.move(width, height)
+        self.rect = self.rect.move(redx, redy)
+        self.collidingWith['obstacle'] = False
+        self.collidingObject['obstacle'] = []
         ##### Your Code Here ↑ #####
 
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####
-        self.rect.x += dx
-        self.rect.y += dy
+        self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
 
