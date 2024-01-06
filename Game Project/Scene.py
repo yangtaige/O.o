@@ -231,6 +231,7 @@ class WildScene(Scene):
         idx = 0
         while idx < num:
             monster = Monster(randint(0, self.width), randint(0, self.height))
+            # 判断monster不与已经生成的物品重合
             if not pygame.sprite.spritecollide(monster, self.obstacles, False) \
                     and not pygame.sprite.spritecollide(monster, self.monsters, False)\
                     and not pygame.sprite.spritecollide(monster, self.portals, False):
@@ -246,6 +247,7 @@ class WildScene(Scene):
                           PortalSettings.coordY,
                           SceneType.BOSS)
         self.portals.add(portalToCity, portalToBoss)
+        # 将与传送门重合的障碍物移除
         for portal in self.portals:
             while pygame.sprite.spritecollideany(portal, self.obstacles):
                 pygame.sprite.spritecollideany(portal, self.obstacles).kill()

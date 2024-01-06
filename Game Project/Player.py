@@ -47,6 +47,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↑ #####
 
     def reset_scene(self):
+        # 人物重置时将重叠的关务和障碍物移除
         if self.collidingWith['obstacle']:
             for obstacle in self.collidingObject['obstacle']:
                 obstacle.kill()

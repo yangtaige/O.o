@@ -27,7 +27,11 @@ class GameManager:
     def game_reset(self):
 
         ##### Your Code Here ↓ #####
-        pass
+        self.fps = WindowSettings.fps
+        self.clock = pygame.time.Clock()
+        self.state = GameState.MAIN_MENU
+        self.scene = StartMenu(self.window)
+        self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         ##### Your Code Here ↑ #####
 
     # Necessary game components here ↓
@@ -52,6 +56,7 @@ class GameManager:
             self.scene = WildScene(self.window)
             self.state = GameState.GAME_PLAY_WILD
             self.player.reset_pos()
+            # 判断人物重置后是否与生成的障碍物和怪物重叠， 如果重叠侧将他们移除
             self.update_collide()
             self.player.reset_scene()
         if GOTO == SceneType.BOSS:
