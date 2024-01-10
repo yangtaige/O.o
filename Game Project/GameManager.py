@@ -125,12 +125,23 @@ class GameManager:
             if event.type == GameEvent.EVENT_SWITCH:
                 self.flush_scene(SceneType.WILD)
 
+            if event.type == GameEvent.EVENT_DIALOG:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_dialog(self.player.collidingObject['npc'])
+                self.player.talking = True
+
+            if event.type == GameEvent.EVENT_SHOP:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_shop(self.player.collidingObject['npc'])
+                self.player.talking = True
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         self.player.try_move()
         self.update_collide()
+        self.update_NPCs()
         self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
@@ -165,12 +176,24 @@ class GameManager:
 
             if event.type == GameEvent.EVENT_SWITCH:
                 self.flush_scene(self.player.collidingObject['portal'].sceneType)
+
+            if event.type == GameEvent.EVENT_DIALOG:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_dialog(self.player.collidingObject['npc'])
+                self.player.talking = True
+
+            if event.type == GameEvent.EVENT_SHOP:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_shop(self.player.collidingObject['npc'])
+                self.player.talking = True
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         self.player.try_move()
         self.update_collide()
+        self.update_NPCs()
         self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
@@ -202,12 +225,23 @@ class GameManager:
                     self.player.movingNorth = False
                 if event.key == pygame.K_s:
                     self.player.movingSouth = False
+
+            if event.type == GameEvent.EVENT_DIALOG:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_dialog(self.player.collidingObject['npc'])
+                self.player.talking = True
+
+            if event.type == GameEvent.EVENT_SHOP:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_shop(self.player.collidingObject['npc'])
+                self.player.talking = True
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
         self.player.try_move()
         self.update_collide()
+        self.update_NPCs()
         self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
@@ -225,19 +259,20 @@ class GameManager:
         # Player -> NPCs; if multiple NPCs collided, only first is accepted and dealt with.
         ##### Your Code Here ↓ #####
         for npc in self.scene.npcs:
-            if pygame.sprite.collide_mask(self.player, npc):
-                self.player.collidingWith['npc'] = True
-                self.player.collidingObject['npc'] = npc
-                if isinstance(npc, ShopNPC):
-                    pygame.event.post(pygame.event.Event(GameEvent.EVENT_SHOP))
-                elif isinstance(npc, DialogNPC):
-                    pygame.event.post(pygame.event.Event(GameEvent.EVENT_DIALOG))
+            if npc.talkCD == 0:
+                if pygame.sprite.collide_rect(self.player, npc):
+                    self.player.collidingWith['npc'] = True
+                    self.player.collidingObject['npc'] = npc
+                    if isinstance(npc, ShopNPC):
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_SHOP))
+                    elif isinstance(npc, DialogNPC):
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_DIALOG))
         ##### Your Code Here ↑ #####
 
         # Player -> Monsters
         ##### Your Code Here ↓ #####
         for monster in self.scene.monsters:
-            if pygame.sprite.collide_mask(self.player, monster):
+            if pygame.sprite.collide_rect(self.player, monster):
                 self.player.collidingWith['monster'] = True
                 self.player.collidingObject['monster'] = monster
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
@@ -259,7 +294,7 @@ class GameManager:
         # Player -> Boss
         ##### Your Code Here ↓ #####
         for boss in self.scene.bosses:
-            if pygame.sprite.collide_mask(self.player, boss):
+            if pygame.sprite.collide_rect(self.player, boss):
                 self.player.collidingWith['boss'] = True
                 self.player.collidingObject['boss'] = boss
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
@@ -268,7 +303,8 @@ class GameManager:
     def update_NPCs(self):
         # This is not necessary. If you want to re-use your code you can realize this.
         ##### Your Code Here ↓ #####
-        pass
+        for npc in self.scene.npcs:
+            npc.update()
         ##### Your Code Here ↑ #####
 
     # Render-relate update functions here ↓

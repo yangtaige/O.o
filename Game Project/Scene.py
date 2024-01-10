@@ -31,8 +31,9 @@ class Scene:
         self.bosses = pygame.sprite.Group()
         ##### Your Code Here ↑ #####
 
-    def trigger_dialog(self, npc):
+    def trigger_dialog(self, npc:NPC):
         ##### Your Code Here ↓ #####
+        npc.talking = True
         pass
         ##### Your Code Here ↑ #####
 
