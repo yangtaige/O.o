@@ -109,6 +109,9 @@ class Scene:
         for monster in self.monsters:
             monster.draw(self.window, self.dx,
                          self.dy)
+        for npc in self.npcs:
+            npc.draw(self.window, self.dx,
+                     self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
         ##### Your Code Here ↑ #####
@@ -179,6 +182,8 @@ class CityScene(Scene):
         self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
+        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', {}))
+        self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {}, {}))
         ##### Your Code Here ↑ #####
 
 

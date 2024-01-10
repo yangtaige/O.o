@@ -76,11 +76,10 @@ class ShopNPC(NPC):
         self.dialog = dialog
         ##### Your Code Here ↑ #####
     
-    def update(self, ticks):
+    def update(self):
         ##### Your Code Here ↓ #####
         if not self.talking and self.talkCD > 0:
             self.talkCD -= 1
-        ticks
         ##### Your Code Here ↑ #####
     
 

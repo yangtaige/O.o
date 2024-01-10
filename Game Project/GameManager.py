@@ -132,7 +132,7 @@ class GameManager:
 
             if event.type == GameEvent.EVENT_SHOP:
                 self.player.collidingObject['npc'].reset_talkCD()
-                self.scene.trigger_shop(self.player.collidingObject['npc'])
+                self.scene.trigger_shop(self.player.collidingObject['npc'], self.player)
                 self.player.talking = True
 
         ##### Your Code Here ↑ #####
