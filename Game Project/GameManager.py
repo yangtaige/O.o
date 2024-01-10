@@ -80,7 +80,6 @@ class GameManager:
         elif self.state == GameState.GAME_PLAY_BOSS:
             self.update_boss(pygame.event.get())
 
-
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
@@ -103,7 +102,7 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
 
-            if event.type == pygame.KEYDOWN: # 开始角色移动
+            if event.type == pygame.KEYDOWN:  # 开始角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = True
                 if event.key == pygame.K_a:
@@ -113,7 +112,7 @@ class GameManager:
                 if event.key == pygame.K_s:
                     self.player.movingSouth = True
 
-            if event.type == pygame.KEYUP: # 停止角色移动
+            if event.type == pygame.KEYUP:  # 停止角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = False
                 if event.key == pygame.K_a:
@@ -144,7 +143,7 @@ class GameManager:
                 pygame.quit()
                 sys.exit()
 
-            if event.type == pygame.KEYDOWN: # 开始角色移动
+            if event.type == pygame.KEYDOWN:  # 开始角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = True
                 if event.key == pygame.K_a:
@@ -154,7 +153,7 @@ class GameManager:
                 if event.key == pygame.K_s:
                     self.player.movingSouth = True
 
-            if event.type == pygame.KEYUP: # 停止角色移动
+            if event.type == pygame.KEYUP:  # 停止角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = False
                 if event.key == pygame.K_a:
@@ -183,8 +182,8 @@ class GameManager:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            
-            if event.type == pygame.KEYDOWN: # 开始角色移动
+
+            if event.type == pygame.KEYDOWN:  # 开始角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = True
                 if event.key == pygame.K_a:
@@ -194,7 +193,7 @@ class GameManager:
                 if event.key == pygame.K_s:
                     self.player.movingSouth = True
 
-            if event.type == pygame.KEYUP: # 停止角色移动
+            if event.type == pygame.KEYUP:  # 停止角色移动
                 if event.key == pygame.K_d:
                     self.player.movingEast = False
                 if event.key == pygame.K_a:
@@ -304,4 +303,3 @@ class GameManager:
         ##### Your Code Here ↓ #####
         self.scene.render(self.player)
         ##### Your Code Here ↑ #####
-
