@@ -12,15 +12,18 @@ class Player(pygame.sprite.Sprite, Collidable):
         Collidable.__init__(self)
 
         ##### Your Code Here ↓ #####
-        self.images = [pygame.transform.scale(pygame.image.load(img), 
-                            (PlayerSettings.playerWidth, PlayerSettings.playerHeight)) for img in GamePath.player]
+        self.images = []
+        for ind in range(4):
+            self.images.append([pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth,
+                                                       PlayerSettings.playerHeight)) for img in GamePath.player[ind]])
+        self.direction = PlayerDirection.Right.value
         self.index = 0
-        self.image = self.images[self.index]
+        self.image = self.images[self.direction][self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
-        self.direction = True
+
         self.movingWest = False
         self.movingEast = False
         self.movingNorth = False
@@ -62,56 +65,56 @@ class Player(pygame.sprite.Sprite, Collidable):
     def try_move(self):
         ##### Your Code Here ↓ #####
         '''尝试移动'''
-        
-        self.dx = 0
-        self.dy = 0
-        if self.movingNorth and self.rect.top > 0:
-            self.dy -= self.speed
+        if not self.talking:
+            self.dx = 0
+            self.dy = 0
+            if self.movingNorth and self.rect.top > 0:
+                self.dy -= self.speed
 
-        if self.movingSouth and self.rect.bottom < WindowSettings.height:
-            self.dy += self.speed
+            if self.movingSouth and self.rect.bottom < WindowSettings.height:
+                self.dy += self.speed
 
-        if self.movingWest and self.rect.left > 0:
-            self.dx -= self.speed
+            if self.movingWest and self.rect.left > 0:
+                self.dx -= self.speed
 
-        if self.movingEast and self.rect.right < WindowSettings.width:
-            self.dx += self.speed
+            if self.movingEast and self.rect.right < WindowSettings.width:
+                self.dx += self.speed
 
-        self.rect = self.rect.move(self.dx, self.dy)
+            self.rect = self.rect.move(self.dx, self.dy)
 
         ##### Your Code Here ↑ #####
 
     def update(self, width, height):
         ##### Your Code Here ↓ #####
         '''调整坐标，播放角色动画'''
-        redx = 0    # 重置移动的距离
-        redy = 0
-        if self.collidingWith['obstacle']:
-            redx = width
-            redy = height
+        if not self.talking:
+            redx = 0    # 重置移动的距离
+            redy = 0
+            if self.collidingWith['obstacle']:
+                redx = width
+                redy = height
 
-        if self.movingEast:
-            if not self.facingEast:
-                for i in range(len(self.images)):
-                    self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
-                self.facingEast = True
+            if self.dx or self.dy:
+                if self.dx > 0:
+                    self.direction = PlayerDirection.Right.value
+                if self.dx < 0:
+                    self.direction = PlayerDirection.Left.value
+                if self.dy > 0:
+                    self.direction = PlayerDirection.Down.value
+                if self.dy < 0:
+                    self.direction = PlayerDirection.Up.value
+                self.index = (self.index + 1) % len(self.images[self.direction])
+                self.image = self.images[self.direction][self.index]
+            else:
+                self.index = 0
+                self.image = self.images[self.direction][self.index]
 
-        if self.movingWest:
-            if self.facingEast:
-                for i in range(len(self.images)):
-                    self.images[i] = pygame.transform.flip(self.images[i], 1, 0)
-                self.facingEast = False
-    
-        if self.dx or self.dy:
-            self.index = (self.index + 1) % len(self.images)
-            self.image = self.images[self.index]
+            self.rect = self.rect.move(redx, redy)
+            self.collidingWith['obstacle'] = False
+            self.collidingObject['obstacle'] = []
         else:
             self.index = 0
-            self.image = self.images[self.index]
-
-        self.rect = self.rect.move(redx, redy)
-        self.collidingWith['obstacle'] = False
-        self.collidingObject['obstacle'] = []
+            self.image = self.images[self.direction][self.index]
         ##### Your Code Here ↑ #####
 
 

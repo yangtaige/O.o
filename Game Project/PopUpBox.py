@@ -11,12 +11,22 @@ class DialogBox:
                  fontColor: Tuple[int, int, int] = (255, 255, 255), 
                  bgColor: Tuple[int, int, int, int] = (0, 0, 0, 150)):
         ##### Your Code Here ↓ #####
-        pass
+        self.window = window
+
+        self.fontSize = fontSize
+        self.fontColor = fontColor
+        self.font = pygame.font.Font(None, self.fontSize)
+
+        self.bg = pygame.Surface((DialogSettings.boxWidth, DialogSettings.boxHeight),
+                                 pygame.SRCALPHA)
+        self.bg.fill(bgColor)
+
+        self.npc = npc
         ##### Your Code Here ↑ #####
         
     def draw(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.window.blit(self.bg, (DialogSettings.boxStartX, DialogSettings.boxStartY))
         ##### Your Code Here ↑ #####
         
 

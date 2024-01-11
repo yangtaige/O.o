@@ -29,12 +29,13 @@ class Scene:
         self.portals = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
         self.bosses = pygame.sprite.Group()
+        self.dialog = None
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc:NPC):
         ##### Your Code Here ↓ #####
         npc.talking = True
-        pass
+        self.dialog = DialogBox(self.window, npc)
         ##### Your Code Here ↑ #####
 
     def end_dialog(self):
@@ -114,6 +115,8 @@ class Scene:
                      self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
+        if self.dialog:
+            self.dialog.draw()
         ##### Your Code Here ↑ #####
 
 
@@ -182,7 +185,7 @@ class CityScene(Scene):
         self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
-        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', {}))
+        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['I\'m PaperTiger']))
         self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {}, {}))
         ##### Your Code Here ↑ #####
 
