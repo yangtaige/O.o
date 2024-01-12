@@ -5,6 +5,7 @@ import pygame
 from Settings import *
 from Attributes import *
 
+
 class Player(pygame.sprite.Sprite, Collidable):
     def __init__(self, x, y):
         # Must initialize everything one by one here
@@ -12,10 +13,9 @@ class Player(pygame.sprite.Sprite, Collidable):
         Collidable.__init__(self)
 
         ##### Your Code Here ↓ #####
-        self.images = []
-        for ind in range(4):
-            self.images.append([pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth,
-                                                       PlayerSettings.playerHeight)) for img in GamePath.player[ind]])
+        self.images = [[pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth,
+                                                                        PlayerSettings.playerHeight))
+                        for img in image_list] for image_list in GamePath.player]
         self.direction = PlayerDirection.Right.value
         self.index = 0
         self.image = self.images[self.direction][self.index]
@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.Money = PlayerSettings.playerMoney
         ##### Your Code Here ↑ #####
 
-    def attr_update(self, addCoins = 0, addHP = 0, addAttack = 0, addDefence = 0):
+    def attr_update(self, addCoins=0, addHP=0, addAttack=0, addDefence=0):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.collidingObject['obstacle'] = []
 
         if self.collidingWith['monster']:
-            self.collidingObject['monster'].kill()
+            self.collidingObject['monster'].die()
             self.collidingWith['monster'] = False
             self.collidingObject['monster'] = None
 
@@ -88,7 +88,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         '''调整坐标，播放角色动画'''
         if not self.talking:
-            redx = 0    # 重置移动的距离
+            redx = 0  # 重置移动的距离
             redy = 0
             if self.collidingWith['obstacle']:
                 redx = width
@@ -103,11 +103,10 @@ class Player(pygame.sprite.Sprite, Collidable):
                     self.direction = PlayerDirection.Down.value
                 if self.dy < 0:
                     self.direction = PlayerDirection.Up.value
-                self.index = (self.index + 1) % len(self.images[self.direction])
-                self.image = self.images[self.direction][self.index]
+                self.index = (self.index + 1 / 6) % len(self.images[self.direction])
+                self.image = self.images[self.direction][int(self.index)]
             else:
-                self.index = 0
-                self.image = self.images[self.direction][self.index]
+                self.image = self.images[self.direction][int(self.index)]
 
             self.rect = self.rect.move(redx, redy)
             self.collidingWith['obstacle'] = False
@@ -117,12 +116,8 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.image = self.images[self.direction][self.index]
         ##### Your Code Here ↑ #####
 
-
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
-
-
-

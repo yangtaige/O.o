@@ -126,7 +126,6 @@ class GameManager:
                 self.flush_scene(SceneType.WILD)
 
             if event.type == GameEvent.EVENT_DIALOG:
-                self.player.collidingObject['npc'].reset_talkCD()
                 self.scene.trigger_dialog(self.player.collidingObject['npc'])
                 self.player.talking = True
 
@@ -134,6 +133,14 @@ class GameManager:
                 self.player.collidingObject['npc'].reset_talkCD()
                 self.scene.trigger_shop(self.player.collidingObject['npc'], self.player)
                 self.player.talking = True
+
+            if self.player.talking and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.scene.end_dialog()
+                    self.player.talking = False
+                    self.player.collidingObject['npc'].reset_talkCD()
+                    self.player.collidingWith['npc'] = False
+                    self.player.collidingObject['npc'] = []
 
         ##### Your Code Here ↑ #####
 
@@ -187,6 +194,10 @@ class GameManager:
                 self.scene.trigger_shop(self.player.collidingObject['npc'])
                 self.player.talking = True
 
+            if event.type == GameEvent.EVENT_BATTLE:
+                self.scene.trigger_battle(self.player, self.player.collidingObject['monster'])
+
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -235,6 +246,8 @@ class GameManager:
                 self.player.collidingObject['npc'].reset_talkCD()
                 self.scene.trigger_shop(self.player.collidingObject['npc'])
                 self.player.talking = True
+
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -272,7 +285,7 @@ class GameManager:
         # Player -> Monsters
         ##### Your Code Here ↓ #####
         for monster in self.scene.monsters:
-            if pygame.sprite.collide_rect(self.player, monster):
+            if pygame.sprite.collide_rect(self.player, monster) and monster.action == Action.SITTING:
                 self.player.collidingWith['monster'] = True
                 self.player.collidingObject['monster'] = monster
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))

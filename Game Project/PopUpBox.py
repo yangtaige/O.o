@@ -6,7 +6,7 @@ from typing import *
 from Settings import *
 
 class DialogBox:
-    def __init__(self, window, npc,
+    def __init__(self, window, npc, dialog,
                  fontSize: int = DialogSettings.textSize, 
                  fontColor: Tuple[int, int, int] = (255, 255, 255), 
                  bgColor: Tuple[int, int, int, int] = (0, 0, 0, 150)):
@@ -20,13 +20,22 @@ class DialogBox:
         self.bg = pygame.Surface((DialogSettings.boxWidth, DialogSettings.boxHeight),
                                  pygame.SRCALPHA)
         self.bg.fill(bgColor)
+        self.dialog = dialog
 
-        self.npc = npc
+        self.npc = pygame.transform.scale(npc.image, (DialogSettings.npcWidth,
+                                                      DialogSettings.npcHeight))
         ##### Your Code Here ↑ #####
         
     def draw(self):
         ##### Your Code Here ↓ #####
         self.window.blit(self.bg, (DialogSettings.boxStartX, DialogSettings.boxStartY))
+        self.window.blit(self.npc, (DialogSettings.npcCoordX, DialogSettings.npcCoordY))
+
+        offset = 0
+        for text in self.dialog:
+            self.window.blit(self.font.render(text, True, self.fontColor),
+                             (DialogSettings.textStartX, DialogSettings.textStartY + offset))
+            offset += DialogSettings.textVerticalDist
         ##### Your Code Here ↑ #####
         
 

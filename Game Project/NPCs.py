@@ -30,6 +30,7 @@ class NPC(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         '''将talkCD重置'''
         self.talkCD = NPCSettings.talkCD
+        self.talking = False
         ##### Your Code Here ↑ #####
 
     def draw(self, window, dx=0, dy=0):
@@ -88,13 +89,16 @@ class Monster(pygame.sprite.Sprite):
         super().__init__()
         
         ##### Your Code Here ↓ #####
-        self.image = pygame.transform.scale(pygame.image.load(GamePath.monster),
+        self.images = [pygame.transform.scale(pygame.image.load(img),
                             (NPCSettings.npcWidth,
-                             NPCSettings.npcHeight))
+                             NPCSettings.npcHeight)) for img in GamePath.monster]
+        self.index = 4
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.speed = NPCSettings.npcSpeed
         self.direction = 1
+        self.action = Action.SITTING
 
         self.HP = HP
         self.attack = Attack
@@ -102,6 +106,24 @@ class Monster(pygame.sprite.Sprite):
         self.money = Money
 
         ##### Your Code Here ↑ #####
+
+    def die(self):
+        if self.action == Action.STANDING:
+            if self.index < len(self.images) - 1:
+                self.index += 1 / 3
+            else:
+                self.kill()
+
+    def stand(self):
+        if self.action == Action.SITTING:
+            if self.index > 0:
+                self.index -= 1 / 3
+            else:
+                self.action = Action.STANDING
+
+
+    def update(self):
+        self.image = self.images[int(self.index)]
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####

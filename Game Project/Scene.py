@@ -32,23 +32,25 @@ class Scene:
         self.dialog = None
         ##### Your Code Here ↑ #####
 
-    def trigger_dialog(self, npc:NPC):
+    def trigger_dialog(self, npc:DialogNPC):
         ##### Your Code Here ↓ #####
         npc.talking = True
-        self.dialog = DialogBox(self.window, npc)
+        self.dialog = DialogBox(self.window, npc, npc.dialog)
         ##### Your Code Here ↑ #####
 
     def end_dialog(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.dialog = None
+
         ##### Your Code Here ↑ #####
 
-    def trigger_battle(self, player):
+    def trigger_battle(self, player, monster):
         ##### Your Code Here ↓ #####
-        pass
+        monster.stand()
+        player.talking = True
         ##### Your Code Here ↑ #####
 
-    def end_battle(self):
+    def end_battle(self, player, monster):
         ##### Your Code Here ↓ #####
         pass
         ##### Your Code Here ↑ #####
@@ -108,9 +110,11 @@ class Scene:
             portal.draw(self.window, self.dx,
                         self.dy)
         for monster in self.monsters:
+            monster.update()
             monster.draw(self.window, self.dx,
                          self.dy)
         for npc in self.npcs:
+            npc.update()
             npc.draw(self.window, self.dx,
                      self.dy)
         player.draw(self.window, self.dx,
@@ -185,7 +189,9 @@ class CityScene(Scene):
         self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
-        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['I\'m PaperTiger']))
+        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero',
+                                                                           'I\'m used to be an adventurer like you',
+                                                                           'Then I took an arrow in the knee']))
         self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {}, {}))
         ##### Your Code Here ↑ #####
 
