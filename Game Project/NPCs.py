@@ -4,6 +4,7 @@ import pygame
 
 from Settings import *
 from Attributes import *
+from random import randint, random
 
 class NPC(pygame.sprite.Sprite, Collidable):
     def __init__(self, x, y, name):
@@ -89,11 +90,12 @@ class Monster(pygame.sprite.Sprite):
         super().__init__()
         
         ##### Your Code Here ↓ #####
-        self.images = [pygame.transform.scale(pygame.image.load(img),
+        self.images = [[pygame.transform.scale(pygame.image.load(img),
                             (NPCSettings.npcWidth,
-                             NPCSettings.npcHeight)) for img in GamePath.monster]
-        self.index = 4
-        self.image = self.images[self.index]
+                             NPCSettings.npcHeight)) for img in img_list] for img_list in GamePath.monster]
+        self.type = randint(0, len(self.images) - 1)
+        self.index = 3
+        self.image = self.images[self.type][self.index]
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.speed = NPCSettings.npcSpeed
@@ -123,7 +125,7 @@ class Monster(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.image = self.images[int(self.index)]
+        self.image = self.images[self.type][int(self.index)]
 
     def draw(self, window, dx=0, dy=0):
         ##### Your Code Here ↓ #####

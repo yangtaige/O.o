@@ -53,10 +53,13 @@ class NPCType(Enum):
     DIALOG = 1
     MONSTER = 2
     SHOP = 3
+
+
 class Action(Enum):
     SITTING = 1
     STANDING = 2
     DIE = 3
+
 
 class BossSettings:
     width = 300
@@ -149,12 +152,25 @@ class GamePath:
          r".\assets\player\14.png",
          r".\assets\player\15.png",
          r".\assets\player\16.png"]]
-    monster = [r".\assets\npc\monster\1.png",
-               r".\assets\npc\monster\2.png",
-               r".\assets\npc\monster\3.png",
-               r".\assets\npc\monster\4.png",
-               r".\assets\npc\monster\5.png",
-               r".\assets\npc\monster\6.png"]
+    monster = [[r".\assets\npc\monster\1\1.png",
+                r".\assets\npc\monster\1\2.png",
+                r".\assets\npc\monster\1\3.png",
+                r".\assets\npc\monster\1\4.png",
+                r".\assets\npc\monster\1\5.png",
+                r".\assets\npc\monster\1\6.png"],
+               [r".\assets\npc\monster\2\1.png",
+                r".\assets\npc\monster\2\2.png",
+                r".\assets\npc\monster\2\3.png",
+                r".\assets\npc\monster\2\4.png",
+                r".\assets\npc\monster\2\5.png",
+                r".\assets\npc\monster\2\6.png"],
+               [r".\assets\npc\monster\3\1.png",
+                r".\assets\npc\monster\3\2.png",
+                r".\assets\npc\monster\3\3.png",
+                r".\assets\npc\monster\3\4.png",
+                r".\assets\npc\monster\3\5.png",
+                r".\assets\npc\monster\3\6.png"]
+               ]
     boss = r".\assets\npc\boss.png"
 
     groundTiles = [
