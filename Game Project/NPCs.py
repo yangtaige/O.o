@@ -109,22 +109,17 @@ class Monster(pygame.sprite.Sprite):
 
         ##### Your Code Here ↑ #####
 
-    def die(self):
+
+    def update(self):
         if self.action == Action.STANDING:
+            if self.index > 0:
+                self.index -= 1 / 3
+        if self.action == Action.DIE:
             if self.index < len(self.images) - 1:
-                self.index += 1 / 3
+                self.index += 1 / 5
             else:
                 self.kill()
 
-    def stand(self):
-        if self.action == Action.SITTING:
-            if self.index > 0:
-                self.index -= 1 / 3
-            else:
-                self.action = Action.STANDING
-
-
-    def update(self):
         self.image = self.images[self.type][int(self.index)]
 
     def draw(self, window, dx=0, dy=0):

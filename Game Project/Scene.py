@@ -46,13 +46,14 @@ class Scene:
 
     def trigger_battle(self, player, monster):
         ##### Your Code Here ↓ #####
-        monster.stand()
+        monster.action = Action.STANDING
         player.talking = True
         ##### Your Code Here ↑ #####
 
     def end_battle(self, player, monster):
         ##### Your Code Here ↓ #####
-        pass
+        monster.action = Action.DIE
+        player.talking = False
         ##### Your Code Here ↑ #####
 
     def trigger_shop(self, npc, player):
