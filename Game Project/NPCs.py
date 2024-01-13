@@ -101,6 +101,7 @@ class Monster(pygame.sprite.Sprite):
         self.speed = NPCSettings.npcSpeed
         self.direction = 1
         self.action = Action.SITTING
+        self.delay = 20
 
         self.HP = HP
         self.attack = Attack
@@ -115,8 +116,10 @@ class Monster(pygame.sprite.Sprite):
             if self.index > 0:
                 self.index -= 1 / 3
         if self.action == Action.DIE:
-            if self.index < len(self.images) - 1:
-                self.index += 1 / 5
+            if self.index < len(self.images[self.type]) - 1:
+                self.index += 1 / 3
+            elif self.delay > 0:
+                self.delay -= 1
             else:
                 self.kill()
 
