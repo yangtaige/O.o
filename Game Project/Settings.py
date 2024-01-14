@@ -114,6 +114,7 @@ class BattleSettings:
     monsterCoordY = WindowSettings.height // 2
 
     stepSize = 20
+    animationFrameCount = 15
 
 
 class ShopSettings:

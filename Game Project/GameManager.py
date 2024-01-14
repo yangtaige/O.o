@@ -187,8 +187,6 @@ class GameManager:
                     self.player.movingNorth = True
                 if event.key == pygame.K_s:
                     self.player.movingSouth = True
-                if event.key == pygame.K_ESCAPE and self.player.talking:
-                    self.scene.end_battle(self.player, self.player.collidingObject['monster'])
 
             if event.type == pygame.KEYUP:  # 停止角色移动
                 if event.key == pygame.K_d:
@@ -215,6 +213,16 @@ class GameManager:
 
             if event.type == GameEvent.EVENT_BATTLE:
                 self.scene.trigger_battle(self.player, self.player.collidingObject['monster'])
+                self.player.talking = True
+
+            if self.player.talking and event.type == pygame.KEYDOWN:
+                if self.scene.battleBox.isFinished and event.key == pygame.K_RETURN:
+                    if self.player.HP > 0:
+                        self.scene.end_battle(self.player.collidingObject['monster'])
+                        self.player.talking = False
+                    else:
+                        self.game_reset()
+                        return
 
 
 

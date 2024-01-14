@@ -58,8 +58,7 @@ class BattleBox:
 
         # 初始化相关角色的参数，没有实际操作的权力
         self.player = player
-        self.playerHP = player.HP
-        self.playerImg = pygame.image.load(GamePath.player[0])
+        self.playerImg = self.player.images[PlayerDirection.Right.value][0]
         self.playerImg = pygame.transform.scale(self.playerImg,
                                                 (BattleSettings.playerWidth, BattleSettings.playerHeight))
 
@@ -67,8 +66,7 @@ class BattleBox:
         self.playerY = BattleSettings.playerCoordY
 
         self.monster = monster
-        self.monsterHP = monster.HP
-        self.monsterImg = pygame.image.load((GamePath.monster[0]))
+        self.monsterImg = monster.images[monster.type][0]
         self.monsterImg = pygame.transform.scale(self.monsterImg,
                                                  (BattleSettings.monsterWidth, BattleSettings.monsterHeight))
         self.monsterImg = pygame.transform.flip(self.monsterImg, True, False)
@@ -87,13 +85,32 @@ class BattleBox:
 
         ##### Your Code Here ↑ #####
 
+    def get_result(self):
+        if self.attacker == 0:
+            self.monster.HP = max(0, self.monster.HP -
+                                 (self.player.Attack - self.monster.defence))
+            self.attacker = 1
+            self.dir = -1
+        else:
+            self.player.HP = max(0, self.player.HP -
+                                (self.monster.attack - self.player.Defence))
+            self.attacker = 0
+            self.dir = 1
+
+        self.isPlayingAnimation = True
     def draw(self):
         ##### Your Code Here ↓ #####
-
         # 绘制背景和文字
         self.window.blit(self.bg, (BattleSettings.boxStartX, BattleSettings.boxStartY))
         self.window.blit(self.playerImg, (self.playerX, self.playerY))
         self.window.blit(self.monsterImg, (self.monsterX, self.monsterY))
+        text = 'player HP:' + str(self.player.HP)
+        self.window.blit(self.font.render(text, True, self.fontColor),
+                         (BattleSettings.textPlayerStartX, BattleSettings.textStartY))
+
+        text = 'monster HP:' + str(self.monster.HP)
+        self.window.blit(self.font.render(text, True, self.fontColor),
+                         (BattleSettings.textMonsterStartX, BattleSettings.textStartY))
         # 绘制战斗过程
         if self.isPlayingAnimation:
             if self.currentPlayingCount < BattleSettings.animationFrameCount:
@@ -102,44 +119,32 @@ class BattleBox:
                 currentDir = self.dir * -1
 
             if self.attacker == 0:
-                self.playerX += currentDir * BattleSettings.stepspeed
+                self.playerX += currentDir * BattleSettings.stepSize
             else:
-                self.monsterX += currentDir * BattleSettings.stepspeed
+                self.monsterX += currentDir * BattleSettings.stepSize
 
             self.currentPlayingCount += 1
 
-            if self.currentPlayingCount == 30:
+            if self.currentPlayingCount == BattleSettings.animationFrameCount * 2:
                 self.isPlayingAnimation = False
                 self.currentPlayingCount = 0
 
         # 战斗判定以及结算
-        else:
-            if self.attacker == 0:
-                self.monsterHP -= (self.player.Attack - self.monster.defence)
-                self.attacker = 1
-                self.dir = -1
-                if self.monsterHP <= 0:
-                    self.monsterHP = 0
+        elif not self.isFinished:
+            self.get_result()
 
-            else:
-                self.playerHP -= (self.monster.attack - self.player.Defence)
-                self.attacker = 0
-                self.dir = 1
-                if self.playerHP <= 0:
-                    self.playerHP = 0
+        if self.player.HP == 0 or self.monster.HP == 0:
+            if self.monster.HP == 0:
+                text = 'Uwinwin'
+            elif self.player.HP == 0:
+                text = 'Uloselose'
+            self.window.blit(self.font.render(text, True, self.fontColor),
+                                 (BattleSettings.textStartX,
+                                  BattleSettings.textStartY + BattleSettings.textVerticalDist))
 
-        self.isPlayingAnimation = True
-
-        text = 'player HP:' + str(self.playerHP)
-        self.window.blit(self.font.render(text, True, self.fontColor),
-                         (BattleSettings.textPlayerStartX, BattleSettings.textStartY))
-
-        text = 'monster HP:' + str(self.monsterHP)
-        self.window.blit(self.font.render(text, True, self.fontColor),
-                         (BattleSettings.textMonsterStartX, BattleSettings.textStartY))
-        # 战斗结束
-        if self.playerHP == 0 or self.monsterHP == 0:
             self.isFinished = True
+            self.isPlayingAnimation = False
+        # 战斗结束
 
         ##### Your Code Here ↑ #####
 

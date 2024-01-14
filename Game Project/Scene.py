@@ -31,6 +31,7 @@ class Scene:
         self.bosses = pygame.sprite.Group()
         self.dialogBox = None
         self.shoppingBox = None
+        self.battleBox = None
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc:DialogNPC):
@@ -47,13 +48,13 @@ class Scene:
     def trigger_battle(self, player, monster):
         ##### Your Code Here ↓ #####
         monster.action = Action.STANDING
-        player.talking = True
+        self.battleBox = BattleBox(self.window, player, monster)
         ##### Your Code Here ↑ #####
 
-    def end_battle(self, player, monster):
+    def end_battle(self, monster):
         ##### Your Code Here ↓ #####
+        self.battleBox = None
         monster.action = Action.DIE
-        player.talking = False
         ##### Your Code Here ↑ #####
 
     def trigger_shop(self, npc, player):
@@ -125,7 +126,8 @@ class Scene:
             self.dialogBox.draw()
         if self.shoppingBox:
             self.shoppingBox.draw()
-
+        if self.battleBox:
+            self.battleBox.draw()
         ##### Your Code Here ↑ #####
 
 
