@@ -5,10 +5,11 @@ import pygame
 from typing import *
 from Settings import *
 
+
 class DialogBox:
     def __init__(self, window, npc, dialog,
-                 fontSize: int = DialogSettings.textSize, 
-                 fontColor: Tuple[int, int, int] = (255, 255, 255), 
+                 fontSize: int = DialogSettings.textSize,
+                 fontColor: Tuple[int, int, int] = (255, 255, 255),
                  bgColor: Tuple[int, int, int, int] = (0, 0, 0, 150)):
         ##### Your Code Here ↓ #####
         self.window = window
@@ -25,7 +26,7 @@ class DialogBox:
         self.npc = pygame.transform.scale(npc.image, (DialogSettings.npcWidth,
                                                       DialogSettings.npcHeight))
         ##### Your Code Here ↑ #####
-        
+
     def draw(self):
         ##### Your Code Here ↓ #####
         self.window.blit(self.bg, (DialogSettings.boxStartX, DialogSettings.boxStartY))
@@ -37,11 +38,12 @@ class DialogBox:
                              (DialogSettings.textStartX, DialogSettings.textStartY + offset))
             offset += DialogSettings.textVerticalDist
         ##### Your Code Here ↑ #####
-        
+
 
 class BattleBox:
-    def __init__(self, window, player, monster, fontSize: int = BattleSettings.textSize, 
-                 fontColor: Tuple[int, int, int] = (255, 255, 255), bgColor: Tuple[int, int, int, int] = (0, 0, 0, 200)) :
+    def __init__(self, window, player, monster, fontSize: int = BattleSettings.textSize,
+                 fontColor: Tuple[int, int, int] = (255, 255, 255),
+                 bgColor: Tuple[int, int, int, int] = (0, 0, 0, 200)):
         ##### Your Code Here ↓ #####
 
         self.window = window
@@ -59,7 +61,7 @@ class BattleBox:
         self.playerHP = player.HP
         self.playerImg = pygame.image.load(GamePath.player[0])
         self.playerImg = pygame.transform.scale(self.playerImg,
-                                                (BattleSettings.playerWidth,BattleSettings.playerHeight))
+                                                (BattleSettings.playerWidth, BattleSettings.playerHeight))
 
         self.playerX = BattleSettings.playerCoordX
         self.playerY = BattleSettings.playerCoordY
@@ -76,7 +78,7 @@ class BattleBox:
         # 默认玩家先手
         self.attacker = 0
         # 区分放动画状态和攻击结算状态
-        self.isPlayingAnimation= True
+        self.isPlayingAnimation = True
         self.currentPlayingCount = 0
         # 移动方向
         self.dir = 1
@@ -84,7 +86,6 @@ class BattleBox:
         self.isFinished = False
 
         ##### Your Code Here ↑ #####
-
 
     def draw(self):
         ##### Your Code Here ↓ #####
@@ -142,21 +143,66 @@ class BattleBox:
 
         ##### Your Code Here ↑ #####
 
+
 class ShoppingBox:
     def __init__(self, window, npc, player,
-                 fontSize: int = DialogSettings.textSize, 
-                 fontColor: Tuple[int, int, int] = (255, 255, 255), 
+                 fontSize: int = DialogSettings.textSize,
+                 fontColor: Tuple[int, int, int] = (255, 255, 255),
                  bgColor: Tuple[int, int, int, int] = (0, 0, 0, 150)):
         ##### Your Code Here ↓ #####
-        pass
+        self.window = window
+        self.fontSize = fontSize
+        self.fontColor = fontColor
+        self.font = pygame.font.Font(None, self.fontSize)
+        self.bg = pygame.Surface((ShopSettings.boxWidth,
+                                  ShopSettings.boxHeight), pygame.SRCALPHA)
+        self.bg.fill(bgColor)
+        self.items = npc.items
+        self.npc = npc
+        self.npc_image = pygame.transform.scale(self.npc.image, (DialogSettings.npcWidth,
+                                                                 DialogSettings.npcHeight))
+
+        self.player = player
+
+        self.selectedID = 0
         ##### Your Code Here ↑ #####
 
     def buy(self):
         ##### Your Code Here ↓ #####
-        pass
+        if self.selectedID == 0:
+            self.player.attr_update(addCoins=-15, addAttack=1)
+        elif self.selectedID == 1:
+            self.player.attr_update(addCoins=-15, addDefence=1)
+        elif self.selectedID == 2:
+            self.player.attr_update(addCoins=-15, addHP=1)
+        elif self.selectedID == 3:
+            self.player.attr_update(addHP=-5)
         ##### Your Code Here ↑ #####
 
     def draw(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.window.blit(self.bg, (ShopSettings.boxStartX, ShopSettings.boxStartY))
+        self.window.blit(self.npc_image, (DialogSettings.npcCoordX, DialogSettings.npcCoordY))
+
+        offset = 0
+        texts = ["Coins: " + str(self.player.Money),
+                 "HP: " + str(self.player.HP),
+                 "Attack: " + str(self.player.Attack),
+                 "Defence: " + str(self.player.Defence)]
+
+        for id, item in enumerate(list(self.items.keys())):
+            if id == self.selectedID:
+                text = '-->' + item + ' ' + self.items[item]
+            else:
+                text = '    ' + item + ' ' + self.items[item]
+            self.window.blit(self.font.render(text, True, self.fontColor),
+                             (ShopSettings.textStartX, ShopSettings.textStartY + offset))
+            offset += DialogSettings.textVerticalDist
+
+        offset = 0
+        for text in texts:
+            self.window.blit(self.font.render(text, True, self.fontColor),
+                             (ShopSettings.textStartX + ShopSettings.boxWidth // 4 * 3,
+                              ShopSettings.textStartY + offset))
+            offset += DialogSettings.textVerticalDist
         ##### Your Code Here ↑ #####

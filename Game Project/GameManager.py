@@ -129,11 +129,6 @@ class GameManager:
                 self.scene.trigger_dialog(self.player.collidingObject['npc'])
                 self.player.talking = True
 
-            if event.type == GameEvent.EVENT_SHOP:
-                self.player.collidingObject['npc'].reset_talkCD()
-                self.scene.trigger_shop(self.player.collidingObject['npc'], self.player)
-                self.player.talking = True
-
             if self.player.talking and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.scene.end_dialog()
@@ -141,6 +136,28 @@ class GameManager:
                     self.player.collidingObject['npc'].reset_talkCD()
                     self.player.collidingWith['npc'] = False
                     self.player.collidingObject['npc'] = []
+
+            if event.type == GameEvent.EVENT_SHOP:
+                self.player.collidingObject['npc'].reset_talkCD()
+                self.scene.trigger_shop(self.player.collidingObject['npc'], self.player)
+                self.player.buying = True
+
+            if self.player.buying and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    self.scene.shoppingBox.selectedID = max(0,
+                                                            self.scene.shoppingBox.selectedID - 1)
+                if event.key == pygame.K_s:
+                    self.scene.shoppingBox.selectedID = min(4,
+                                                            self.scene.shoppingBox.selectedID + 1)
+                if event.key == pygame.K_RETURN:
+                    if self.scene.shoppingBox.selectedID == 4:
+                        self.scene.end_shop()
+                        self.player.buying = False
+                        self.player.collidingObject['npc'].reset_talkCD()
+                        self.player.collidingWith['npc'] = False
+                        self.player.collidingObject['npc'] = []
+                    else:
+                        self.scene.shoppingBox.buy()
 
         ##### Your Code Here ↑ #####
 

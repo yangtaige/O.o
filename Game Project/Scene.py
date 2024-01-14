@@ -29,19 +29,19 @@ class Scene:
         self.portals = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
         self.bosses = pygame.sprite.Group()
-        self.dialog = None
+        self.dialogBox = None
+        self.shoppingBox = None
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc:DialogNPC):
         ##### Your Code Here ↓ #####
         npc.talking = True
-        self.dialog = DialogBox(self.window, npc, npc.dialog)
+        self.dialogBox = DialogBox(self.window, npc, npc.dialog)
         ##### Your Code Here ↑ #####
 
     def end_dialog(self):
         ##### Your Code Here ↓ #####
-        self.dialog = None
-
+        self.dialogBox = None
         ##### Your Code Here ↑ #####
 
     def trigger_battle(self, player, monster):
@@ -58,12 +58,13 @@ class Scene:
 
     def trigger_shop(self, npc, player):
         ##### Your Code Here ↓ #####
-        pass
+        self.shoppingBox = ShoppingBox(self.window, npc, player)
+        npc.talking = True
         ##### Your Code Here ↑ #####
 
     def end_shop(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.shoppingBox = None
         ##### Your Code Here ↑ #####
 
     def update_camera(self, player):
@@ -120,8 +121,11 @@ class Scene:
                      self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
-        if self.dialog:
-            self.dialog.draw()
+        if self.dialogBox:
+            self.dialogBox.draw()
+        if self.shoppingBox:
+            self.shoppingBox.draw()
+
         ##### Your Code Here ↑ #####
 
 
@@ -193,7 +197,8 @@ class CityScene(Scene):
         self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero',
                                                                            'I\'m used to be an adventurer like you',
                                                                            'Then I took an arrow in the knee']))
-        self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {}, {}))
+        self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {'Attack +1': 'Coin -15','Defence +1': 'Coin -15',
+                                           'HP +1': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))
         ##### Your Code Here ↑ #####
 
 

@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.rect.topleft = (x, y)
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
+        self.buying = False
 
         self.movingWest = False
         self.movingEast = False
@@ -40,7 +41,14 @@ class Player(pygame.sprite.Sprite, Collidable):
 
     def attr_update(self, addCoins=0, addHP=0, addAttack=0, addDefence=0):
         ##### Your Code Here ↓ #####
-        pass
+        if self.Money + addCoins < 0:
+            return
+        if self.HP + addHP < 0:
+            return
+        self.Money += addCoins
+        self.HP += addHP
+        self.Attack += addAttack
+        self.Defence += addDefence
         ##### Your Code Here ↑ #####
 
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
@@ -65,7 +73,7 @@ class Player(pygame.sprite.Sprite, Collidable):
     def try_move(self):
         ##### Your Code Here ↓ #####
         '''尝试移动'''
-        if not self.talking:
+        if not self.talking and not self.buying:
             self.dx = 0
             self.dy = 0
             if self.movingNorth and self.rect.top > 0:
@@ -87,7 +95,7 @@ class Player(pygame.sprite.Sprite, Collidable):
     def update(self, width, height):
         ##### Your Code Here ↓ #####
         '''调整坐标，播放角色动画'''
-        if not self.talking:
+        if not self.talking and not self.buying:
             redx = 0  # 重置移动的距离
             redy = 0
             if self.collidingWith['obstacle']:
