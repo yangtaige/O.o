@@ -211,7 +211,8 @@ class GamePath:
 
     bgm = [r".\assets\bgm\city.mp3",
            r".\assets\bgm\wild.mp3",
-           r".\assets\bgm\boss.mp3"]
+           r".\assets\bgm\boss.mp3",
+           r".\assets\bgm\main menu.mp3"]
 
 
 class PortalSettings:

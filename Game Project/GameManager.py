@@ -22,6 +22,9 @@ class GameManager:
         self.state = GameState.MAIN_MENU
         self.scene = StartMenu(self.window)
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
+        self.bgm = BgmPlayer()
+        self.bgm.update()
+        # pygame.mixer.music.load(GamePath.bgm[0])
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -32,6 +35,8 @@ class GameManager:
         self.state = GameState.MAIN_MENU
         self.scene = StartMenu(self.window)
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
+        self.bgm = BgmPlayer()
+        self.bgm.update()
         ##### Your Code Here ↑ #####
 
     # Necessary game components here ↓
@@ -52,6 +57,7 @@ class GameManager:
             self.scene = CityScene(self.window)
             self.state = GameState.GAME_PLAY_CITY
             self.player.reset_pos()
+            self.bgm.update(GOTO)
         if GOTO == SceneType.WILD:
             self.scene = WildScene(self.window)
             self.state = GameState.GAME_PLAY_WILD
@@ -59,10 +65,12 @@ class GameManager:
             # 判断人物重置后是否与生成的障碍物和怪物重叠， 如果重叠侧将他们移除
             self.update_collide()
             self.player.reset_scene()
+            self.bgm.update(GOTO)
         if GOTO == SceneType.BOSS:
             self.scene = BossScene(self.window)
             self.state = GameState.GAME_PLAY_BOSS
             self.player.reset_pos()
+            self.bgm.update(GOTO)
 
 
         ##### Your Code Here ↑ #####

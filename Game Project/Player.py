@@ -66,7 +66,7 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.collidingObject['obstacle'] = []
 
         if self.collidingWith['monster']:
-            self.collidingObject['monster'].die()
+            self.collidingObject['monster'].action = Action.DIE
             self.collidingWith['monster'] = False
             self.collidingObject['monster'] = None
 

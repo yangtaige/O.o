@@ -4,23 +4,33 @@ from Settings import *
 class BgmPlayer():
     def __init__(self):
         ##### Your Code Here ↓ #####
-        pass
+        pygame.mixer.init()
         ##### Your Code Here ↑ #####
 
 
-    def play(self, name, loop=-1):
+    def play(self, loop=-1):
         ##### Your Code Here ↓ #####
-        pass
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(loop)
         ##### Your Code Here ↑ #####
 
     def stop(self):
         ##### Your Code Here ↓ #####
-        pass
+        pygame.mixer.music.stop()
         ##### Your Code Here ↑ #####
 
-    def update(self, GOTO):
+    def update(self, GOTO = GameState.MAIN_MENU):
         ##### Your Code Here ↓ #####
-        pass
+        self.stop()
+        if GOTO == SceneType.CITY:
+            pygame.mixer.music.load(GamePath.bgm[0])
+        elif GOTO == SceneType.WILD:
+            pygame.mixer.music.load(GamePath.bgm[1])
+        elif GOTO == SceneType.BOSS:
+            pygame.mixer.music.load(GamePath.bgm[2])
+        else:
+            pygame.mixer.music.load(GamePath.bgm[3])
+        self.play()
         ##### Your Code Here ↑ #####
 
 
