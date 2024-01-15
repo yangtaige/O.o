@@ -187,6 +187,11 @@ class CityScene(Scene):
                         or j == 0 or j == SceneSettings.tileYnum - 1:
                     self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
                                             j * SceneSettings.tileHeight))
+        tree = [[pygame.image.load(img) for img in images] for images in GamePath.animated_tree]
+        self.obstacles.add(Tree(tree[0], 11 * SceneSettings.tileWidth, 6 * SceneSettings.tileHeight))
+        self.obstacles.add(Tree(tree[1], 11 * SceneSettings.tileWidth, 5 * SceneSettings.tileHeight))
+        self.obstacles.add(Tree(tree[2], 12 * SceneSettings.tileWidth, 6 * SceneSettings.tileHeight))
+        self.obstacles.add(Tree(tree[3], 12 * SceneSettings.tileWidth, 5 * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
     def gen_CITY(self):

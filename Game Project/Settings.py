@@ -214,6 +214,39 @@ class GamePath:
            r".\assets\bgm\boss.mp3",
            r".\assets\bgm\main menu.mp3"]
 
+    animated_tree = [[r".\assets\tiles\animated_tree\leftbottom1.png",
+                      r".\assets\tiles\animated_tree\leftbottom2.png",
+                      r".\assets\tiles\animated_tree\leftbottom3.png",
+                      r".\assets\tiles\animated_tree\leftbottom4.png",
+                      r".\assets\tiles\animated_tree\leftbottom5.png",
+                      r".\assets\tiles\animated_tree\leftbottom6.png",
+                      r".\assets\tiles\animated_tree\leftbottom7.png",
+                      r".\assets\tiles\animated_tree\leftbottom8.png"],
+                     [r".\assets\tiles\animated_tree\lefttop1.png",
+                      r".\assets\tiles\animated_tree\lefttop2.png",
+                      r".\assets\tiles\animated_tree\lefttop3.png",
+                      r".\assets\tiles\animated_tree\lefttop4.png",
+                      r".\assets\tiles\animated_tree\lefttop5.png",
+                      r".\assets\tiles\animated_tree\lefttop6.png",
+                      r".\assets\tiles\animated_tree\lefttop7.png",
+                      r".\assets\tiles\animated_tree\lefttop8.png"],
+                     [r".\assets\tiles\animated_tree\rightbottom1.png",
+                      r".\assets\tiles\animated_tree\rightbottom2.png",
+                      r".\assets\tiles\animated_tree\rightbottom3.png",
+                      r".\assets\tiles\animated_tree\rightbottom4.png",
+                      r".\assets\tiles\animated_tree\rightbottom5.png",
+                      r".\assets\tiles\animated_tree\rightbottom6.png",
+                      r".\assets\tiles\animated_tree\rightbottom7.png",
+                      r".\assets\tiles\animated_tree\rightbottom8.png"],
+                     [r".\assets\tiles\animated_tree\righttop1.png",
+                      r".\assets\tiles\animated_tree\righttop2.png",
+                      r".\assets\tiles\animated_tree\righttop3.png",
+                      r".\assets\tiles\animated_tree\righttop4.png",
+                      r".\assets\tiles\animated_tree\righttop5.png",
+                      r".\assets\tiles\animated_tree\righttop6.png",
+                      r".\assets\tiles\animated_tree\righttop7.png",
+                      r".\assets\tiles\animated_tree\righttop8.png"]]
+
 
 class PortalSettings:
     width = 320

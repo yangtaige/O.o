@@ -48,21 +48,12 @@ class DialogNPC(NPC):
         self.speed = NPCSettings.npcSpeed
         self.facing_East = 1
         self.dialog = dialog
-        self.walking_time = 3 * WindowSettings.fps  #每移动三秒换向
-        self.clock = 0  # 当前移动时间
         ##### Your Code Here ↑ #####
     
     def update(self):
         ##### Your Code Here ↓ #####
         '''传入self.tick(self, fps)方法'''
         if not self.talking:
-            self.rect = self.rect.move(self.speed * self.facing_East, 0)
-            if self.clock == self.walking_time:  # 换向
-                self.facing_East *= -1
-                self.image = pygame.transform.flip(self.image, True, False)
-                self.clock = 0
-            else:
-                self.clock += 1
             if self.talkCD > 0:
                 self.talkCD -= 1
         ##### Your Code Here ↑ #####
