@@ -101,6 +101,7 @@ class BattleBox:
             self.dir = 1
 
         self.isPlayingAnimation = True
+        
     def draw(self):
         ##### Your Code Here ↓ #####
         # 绘制背景和文字

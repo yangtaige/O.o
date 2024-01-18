@@ -114,7 +114,7 @@ class Player(pygame.sprite.Sprite, Collidable):
                 self.index = (self.index + 1 / 6) % len(self.images[self.direction])
                 self.image = self.images[self.direction][int(self.index)]
             else:
-                self.image = self.images[self.direction][int(self.index)]
+                self.image = self.images[self.direction][0]
 
             self.rect = self.rect.move(redx, redy)
             self.collidingWith['obstacle'] = False

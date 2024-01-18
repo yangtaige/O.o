@@ -105,7 +105,7 @@ class BattleSettings:
 
     playerWidth = WindowSettings.width // 6
     playerHeight = WindowSettings.height // 3
-    playerCoordX = WindowSettings.width // 8
+    playerCoordX = WindowSettings.width // 8 + 150
     playerCoordY = WindowSettings.height // 2
 
     monsterWidth = WindowSettings.width // 6
