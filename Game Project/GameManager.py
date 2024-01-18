@@ -137,7 +137,7 @@ class GameManager:
                 self.scene.trigger_dialog(self.player.collidingObject['npc'])
                 self.player.talking = True
 
-            if self.player.talking and event.type == pygame.KEYDOWN:
+            if self.player.talking and event.type == pygame.KEYDOWN:  # 使用ESC退出对话
                 if event.key == pygame.K_ESCAPE:
                     self.scene.end_dialog()
                     self.player.talking = False
@@ -157,7 +157,7 @@ class GameManager:
                 if event.key == pygame.K_s:
                     self.scene.shoppingBox.selectedID = min(4,
                                                             self.scene.shoppingBox.selectedID + 1)
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN:  # 使用RETURN退出购物
                     if self.scene.shoppingBox.selectedID == 4:
                         self.scene.end_shop()
                         self.player.buying = False
@@ -223,7 +223,7 @@ class GameManager:
                 self.scene.trigger_battle(self.player, self.player.collidingObject['monster'])
                 self.player.talking = True
 
-            if self.player.talking and event.type == pygame.KEYDOWN:
+            if self.player.talking and event.type == pygame.KEYDOWN:  # 结束战斗，如果player死亡则重新开始游戏
                 if self.scene.battleBox.isFinished and event.key == pygame.K_RETURN:
                     if self.player.HP > 0:
                         self.scene.end_battle(self.player.collidingObject['monster'])

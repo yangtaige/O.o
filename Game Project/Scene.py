@@ -47,10 +47,7 @@ class Scene:
 
     def trigger_battle(self, player, monster):
         ##### Your Code Here ↓ #####
-        try:
-            monster.action = Action.STANDING
-        except:
-            pass
+        monster.action = Action.STANDING
         self.battleBox = BattleBox(self.window, player, monster)
         ##### Your Code Here ↑ #####
 
@@ -298,11 +295,12 @@ class BossScene(Scene):
         self.gen_BOSS()
         self.sceneType = SceneType.BOSS
         self.window = window
+        self.boss = Boss
 
     # Overwrite Scene's function
-    def trigger_battle(self, player):
+    def trigger_battle(self, player, boss):
         ##### Your Code Here ↓ #####
-        pass
+        self.battleBox = BattleBox(self.window, player, boss)
         ##### Your Code Here ↑ #####
 
     def gen_boss_obstacle(self):

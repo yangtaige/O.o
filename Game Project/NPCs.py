@@ -103,10 +103,10 @@ class Monster(pygame.sprite.Sprite):
 
 
     def update(self):
-        if self.action == Action.STANDING:
+        if self.action == Action.STANDING:  # monster处于起立状态时，播放起立动画
             if self.index > 0:
                 self.index -= 1 / 3
-        if self.action == Action.DIE:
+        if self.action == Action.DIE:  # monster死亡后触发死亡动画并移除
             if self.index < len(self.images[self.type]) - 1:
                 self.index += 1 / 3
             elif self.delay > 0:
