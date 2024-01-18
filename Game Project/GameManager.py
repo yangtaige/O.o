@@ -283,6 +283,19 @@ class GameManager:
                 self.scene.trigger_shop(self.player.collidingObject['npc'])
                 self.player.talking = True
 
+            if event.type == GameEvent.EVENT_BATTLE:
+                self.scene.trigger_battle(self.player, self.player.collidingObject['boss'])
+                self.player.talking = True
+
+            if self.player.talking and event.type == pygame.KEYDOWN:
+                if self.scene.battleBox.isFinished and event.key == pygame.K_RETURN:
+                    if self.player.HP > 0:
+                        self.scene.end_battle(self.player.collidingObject['boss'])
+                        self.player.talking = False
+                    else:
+                        self.game_reset()
+                        return
+
 
         ##### Your Code Here ↑ #####
 

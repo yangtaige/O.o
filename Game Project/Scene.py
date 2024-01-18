@@ -47,14 +47,20 @@ class Scene:
 
     def trigger_battle(self, player, monster):
         ##### Your Code Here ↓ #####
-        monster.action = Action.STANDING
+        try:
+            monster.action = Action.STANDING
+        except:
+            pass
         self.battleBox = BattleBox(self.window, player, monster)
         ##### Your Code Here ↑ #####
 
     def end_battle(self, monster):
         ##### Your Code Here ↓ #####
         self.battleBox = None
-        monster.action = Action.DIE
+        try:
+            monster.action = Action.DIE
+        except:
+            pass
         ##### Your Code Here ↑ #####
 
     def trigger_shop(self, npc, player):
@@ -120,6 +126,9 @@ class Scene:
             npc.update()
             npc.draw(self.window, self.dx,
                      self.dy)
+        for boss in self.bosses:
+            boss.draw(self.window, self.dx, 
+                      self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
         if self.dialogBox:
@@ -322,4 +331,5 @@ class BossScene(Scene):
         ##### Your Code Here ↓ #####
         self.gen_boss_map()
         self.gen_boss_obstacle()
+        self.bosses.add(Boss())
         ##### Your Code Here ↑ #####

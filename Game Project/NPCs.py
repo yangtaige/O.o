@@ -124,7 +124,7 @@ class Monster(pygame.sprite.Sprite):
 
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x = (WindowSettings.width/2) + 200, y = WindowSettings.height/2):
         super().__init__()
         
         ##### Your Code Here ↓ #####

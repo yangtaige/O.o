@@ -66,7 +66,10 @@ class BattleBox:
         self.playerY = BattleSettings.playerCoordY
 
         self.monster = monster
-        self.monsterImg = monster.images[monster.type][0]
+        try:
+            self.monsterImg = monster.images[monster.type][0]
+        except:
+            self.monsterImg = monster.image
         self.monsterImg = pygame.transform.scale(self.monsterImg,
                                                  (BattleSettings.monsterWidth, BattleSettings.monsterHeight))
         self.monsterImg = pygame.transform.flip(self.monsterImg, True, False)
