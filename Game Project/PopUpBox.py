@@ -138,9 +138,9 @@ class BattleBox:
 
         if self.player.HP == 0 or self.monster.HP == 0:
             if self.monster.HP == 0:
-                text = 'Uwinwin'
+                text = 'YOU GET ' + str(self.monster.money) + ' MONEY'
             elif self.player.HP == 0:
-                text = 'Uloselose'
+                text = 'YOU DIED'
             self.window.blit(self.font.render(text, True, self.fontColor),
                                  (BattleSettings.textStartX,
                                   BattleSettings.textStartY + BattleSettings.textVerticalDist))

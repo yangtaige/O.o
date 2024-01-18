@@ -295,7 +295,6 @@ class BossScene(Scene):
         self.gen_BOSS()
         self.sceneType = SceneType.BOSS
         self.window = window
-        self.boss = Boss
 
     # Overwrite Scene's function
     def trigger_battle(self, player, boss):

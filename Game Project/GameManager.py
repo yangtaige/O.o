@@ -226,6 +226,7 @@ class GameManager:
             if self.player.talking and event.type == pygame.KEYDOWN:  # 结束战斗，如果player死亡则重新开始游戏
                 if self.scene.battleBox.isFinished and event.key == pygame.K_RETURN:
                     if self.player.HP > 0:
+                        self.player.attr_update(addCoins=self.player.collidingObject['monster'].money)
                         self.scene.end_battle(self.player.collidingObject['monster'])
                         self.player.talking = False
                     else:
@@ -290,6 +291,7 @@ class GameManager:
             if self.player.talking and event.type == pygame.KEYDOWN:
                 if self.scene.battleBox.isFinished and event.key == pygame.K_RETURN:
                     if self.player.HP > 0:
+                        self.player.attr_update(addCoins=self.player.collidingObject['boss'].money)
                         self.scene.end_battle(self.player.collidingObject['boss'])
                         self.player.talking = False
                     else:
@@ -356,7 +358,7 @@ class GameManager:
         # Player -> Boss
         ##### Your Code Here ↓ #####
         for boss in self.scene.bosses:
-            if pygame.sprite.collide_rect(self.player, boss):
+            if pygame.sprite.collide_rect(self.player, boss) and not self.player.talking:
                 self.player.collidingWith['boss'] = True
                 self.player.collidingObject['boss'] = boss
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
