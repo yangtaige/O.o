@@ -50,7 +50,7 @@ class GameManager:
         self.clock.tick(fps)
         ##### Your Code Here ↑ #####
 
-    def get_time(self):
+    def get_time(self):  # 获取游戏时长
         ##### Your Code Here ↓ #####
         self.time.tick()
         time = self.time.get_rawtime() // 1000
@@ -323,11 +323,11 @@ class GameManager:
                     if self.player.HP > 0:
                         self.player.attr_update(addCoins=self.player.collidingObject['boss'].money)
                         self.scene.end_battle(self.player.collidingObject['boss'])
-                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))  # 触发游戏结束事件
                     else:
                         pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))
 
-            if event.type == GameEvent.EVENT_END:
+            if event.type == GameEvent.EVENT_END:  # 游戏结束并判断结果
                 if self.player.HP > 0:
                     self.flush_scene(SceneType.VICTORY)
                     return

@@ -271,7 +271,7 @@ class WildScene(Scene):
                     and not pygame.sprite.spritecollide(monster, self.monsters, False) \
                     and not pygame.sprite.spritecollide(monster, self.portals, False) \
                     and abs(monster.rect.x - WindowSettings.width // 2) > 3 \
-                    and abs(monster.rect.y - WindowSettings.height // 2) > 3:
+                    and abs(monster.rect.y - WindowSettings.height // 2) > 3:  # 确保不会在人物周围三格生成
                 self.monsters.add(monster)
                 idx += 1
         ##### Your Code Here ↑ #####
@@ -335,9 +335,7 @@ class BossScene(Scene):
 
 class EndMenu():
     def __init__(self, window, time):
-        self.bg = pygame.image.load(GamePath.menu)
-        self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
-                                                   WindowSettings.height))
+        self.bg = None
         self.window = window
         self.font = pygame.font.Font(None, ManuSettings.textSize)
         self.text = self.font.render('PRESS ENTER TO RESTART', True, (0, 0, 0))
@@ -345,7 +343,7 @@ class EndMenu():
                                                    WindowSettings.height - 50))
         self.blinkTimer = 0
         self.time = time
-        self.data = self.font.render('GAME TIME: ' + self.time, True, (0, 0, 0))
+        self.data = self.font.render('GAME TIME: ' + self.time, True, (0, 0, 0))  # 显示游戏时长
         self.dataRect = self.data.get_rect(center=(WindowSettings.width // 2 + 150,
                                                    WindowSettings.height // 2 + 50))
         self.image = None
