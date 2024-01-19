@@ -211,16 +211,16 @@ class CityScene(Scene):
                                                                            'I\'m used to be an adventurer like you',
                                                                            'Then I took an arrow in the knee']))
         self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {'Attack +1': 'Coin -15','Defence +1': 'Coin -15',
-                                           'HP +1': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))
+                                           'HP +3': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))
         ##### Your Code Here ↑ #####
 
 
 class WildScene(Scene):
-    def __init__(self, window):
+    def __init__(self, window, level:int, weak:int):
         super().__init__(window=window)
 
         ##### Your Code Here ↓ #####
-        self.gen_WILD()
+        self.gen_WILD(level, weak)
         self.sceneType = SceneType.WILD
         self.window = window
 
@@ -235,8 +235,7 @@ class WildScene(Scene):
             for j in range(SceneSettings.tileYnum):
                 self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
                                   j * SceneSettings.tileHeight))
-
-    ##### Your Code Here ↑ #####
+        ##### Your Code Here ↑ #####
 
     def gen_wild_obstacle(self):
 
@@ -250,21 +249,22 @@ class WildScene(Scene):
                                             j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
-    def gen_WILD(self):
+    def gen_WILD(self, level:int, weak:int):
 
         ##### Your Code Here ↓ #####
         self.gen_wild_map()
         self.gen_wild_obstacle()
         self.gen_portals()
-        self.gen_monsters()
+        self.gen_monsters(level, weak)
         ##### Your Code Here ↑ #####
 
-    def gen_monsters(self, num=10):
+    def gen_monsters(self, level:int, weak:int, num=10):
 
         ##### Your Code Here ↓ #####
         idx = 0
         while idx < num:
-            monster = Monster(randint(0, self.width), randint(0, self.height))
+            monster = Monster(randint(0, self.width), randint(0, self.height), 
+                              level, weak)
             # 判断monster不与已经生成的物品重合
             if not pygame.sprite.spritecollide(monster, self.obstacles, False) \
                     and not pygame.sprite.spritecollide(monster, self.monsters, False)\

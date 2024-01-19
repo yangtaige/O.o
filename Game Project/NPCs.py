@@ -77,7 +77,7 @@ class ShopNPC(NPC):
     
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, x, y, HP = 10, Attack = 3, Defence = 1, Money = 15):
+    def __init__(self, x, y, level:int, weak:int, HP = 10, Attack = 3, Defence = 1, Money = 15):
         super().__init__()
         
         ##### Your Code Here ↓ #####
@@ -93,11 +93,28 @@ class Monster(pygame.sprite.Sprite):
         self.direction = 1
         self.action = Action.SITTING
         self.delay = 20
+        self.coefficient = (4/3)**level  # 根据等级决定属性系数
+        self.HP = int(HP * self.coefficient * (3/4)**weak)  # 根据玩家削弱等级削弱怪物
+        self.attack = int(Attack * self.coefficient * (3/4)**weak)
+        self.defence = int(Defence * self.coefficient * (3/4)**weak)
+        self.money = int(Money * self.coefficient) # 获得金币不受削弱等级影响
+        # 根据怪物类型更改属性
+        if self.type == 0:
+            self.HP = int(self.HP * 3/2)
+            self.attack = int(self.attack * 2/3)
+            self.defence = int(self.defence * 3/2)
+        
+        elif self.type == 1:
+            self.HP = int(self.HP * 2/3)
+            self.attack = int(self.attack * 3/2)
+            self.defence = int(self.defence * 1/2)
+        
+        elif self.type == 2:
+            self.HP = int(self.HP * 3/2)
+            self.attack = int(self.attack * 3/2)
+            self.defence = int(self.defence)
+            self.money *= 2
 
-        self.HP = HP
-        self.attack = Attack
-        self.defence = Defence
-        self.money = Money
 
         ##### Your Code Here ↑ #####
 

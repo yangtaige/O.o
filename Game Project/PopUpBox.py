@@ -183,9 +183,9 @@ class ShoppingBox:
         elif self.selectedID == 1:
             self.player.attr_update(addCoins=-15, addDefence=1)
         elif self.selectedID == 2:
-            self.player.attr_update(addCoins=-15, addHP=1)
+            self.player.attr_update(addCoins=-15, addHP=3)
         elif self.selectedID == 3:
-            self.player.attr_update(addHP=-5)
+            self.player.attr_update(addHP=-5, addWeak=1)
         ##### Your Code Here ↑ #####
 
     def draw(self):

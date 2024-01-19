@@ -32,7 +32,7 @@ class PlayerSettings:
     playerHP = 20
     playerAttack = 5
     playerDefence = 1
-    playerMoney = 100
+    playerMoney = 30
 
 
 class PlayerDirection(Enum):

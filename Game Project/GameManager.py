@@ -24,6 +24,7 @@ class GameManager:
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         self.bgm = BgmPlayer()
         self.bgm.update()
+        self.level = 0  # 怪物强度
         # pygame.mixer.music.load(GamePath.bgm[0])
         ##### Your Code Here ↑ #####
 
@@ -37,6 +38,7 @@ class GameManager:
         self.player = Player(WindowSettings.width // 2, WindowSettings.height // 2)
         self.bgm = BgmPlayer()
         self.bgm.update()
+        self.level = 0  # 重置怪物等级
         ##### Your Code Here ↑ #####
 
     # Necessary game components here ↓
@@ -59,7 +61,7 @@ class GameManager:
             self.player.reset_pos()
             self.bgm.update(GOTO)
         if GOTO == SceneType.WILD:
-            self.scene = WildScene(self.window)
+            self.scene = WildScene(self.window, self.level, self.player.Weak)
             self.state = GameState.GAME_PLAY_WILD
             self.player.reset_pos()
             # 判断人物重置后是否与生成的障碍物和怪物重叠， 如果重叠侧将他们移除
@@ -132,6 +134,7 @@ class GameManager:
 
             if event.type == GameEvent.EVENT_SWITCH:
                 self.flush_scene(SceneType.WILD)
+                self.level += 1  # 每次进入野外怪物强度都会提升,第一次进入时为0
 
             if event.type == GameEvent.EVENT_DIALOG:
                 self.scene.trigger_dialog(self.player.collidingObject['npc'])

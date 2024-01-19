@@ -37,9 +37,10 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.Attack = PlayerSettings.playerAttack
         self.Defence = PlayerSettings.playerDefence
         self.Money = PlayerSettings.playerMoney
+        self.Weak = 0  # 削弱怪物，作为商店中的？？？出售
         ##### Your Code Here ↑ #####
 
-    def attr_update(self, addCoins=0, addHP=0, addAttack=0, addDefence=0):
+    def attr_update(self, addCoins=0, addHP=0, addAttack=0, addDefence=0, addWeak=0):
         ##### Your Code Here ↓ #####
         if self.Money + addCoins < 0:
             return
@@ -49,6 +50,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.HP += addHP
         self.Attack += addAttack
         self.Defence += addDefence
+        self.Weak += addWeak
         ##### Your Code Here ↑ #####
 
     def reset_pos(self, x=WindowSettings.width // 2, y=WindowSettings.height // 2):
