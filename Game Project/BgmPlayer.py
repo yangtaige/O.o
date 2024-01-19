@@ -28,6 +28,10 @@ class BgmPlayer():
             pygame.mixer.music.load(GamePath.bgm[1])
         elif GOTO == SceneType.BOSS:
             pygame.mixer.music.load(GamePath.bgm[2])
+        elif GOTO == SceneType.VICTORY:
+            pygame.mixer.music.load(GamePath.bgm[4])
+        elif GOTO == SceneType.DEFEAT:
+            pygame.mixer.music.load(GamePath.bgm[5])
         else:
             pygame.mixer.music.load(GamePath.bgm[3])
         self.play()

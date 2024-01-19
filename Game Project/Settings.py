@@ -27,8 +27,8 @@ class ManuSettings:
 class PlayerSettings:
     # Initial Player Settings
     playerSpeed = 5
-    playerWidth = 60
-    playerHeight = 55
+    playerWidth = 80
+    playerHeight = 70
     playerHP = 20
     playerAttack = 5
     playerDefence = 1
@@ -72,6 +72,8 @@ class SceneType(Enum):
     CITY = 1
     WILD = 2
     BOSS = 3
+    VICTORY = 4
+    DEFEAT = 5
 
 
 class DialogSettings:
@@ -131,28 +133,55 @@ class ShopSettings:
 class GamePath:
     # Window related path
     menu = r".\assets\background\menu.png"
+    victory_menu = r".\assets\background\VICTORY.png"
+    defeat_menu = r".\assets\background\DEFEAT.png"
     wild = r".\assets\background\wild.png"
     mapBlock = r".\assets\background\map.png"
 
     # player/npc related path
     npc = r".\assets\npc\npc.png"
     player = [
-        [r".\assets\player\1.png",
-         r".\assets\player\2.png",
-         r".\assets\player\3.png",
-         r".\assets\player\4.png"],
-        [r".\assets\player\5.png",
-         r".\assets\player\6.png",
-         r".\assets\player\7.png",
-         r".\assets\player\8.png"],
-        [r".\assets\player\9.png",
-         r".\assets\player\10.png",
-         r".\assets\player\11.png",
-         r".\assets\player\12.png"],
-        [r".\assets\player\13.png",
+        [r".\assets\player\11.png",
+         r".\assets\player\12.png",
+         r".\assets\player\13.png",
          r".\assets\player\14.png",
          r".\assets\player\15.png",
-         r".\assets\player\16.png"]]
+         r".\assets\player\16.png",
+         r".\assets\player\17.png",
+         r".\assets\player\18.png",
+         r".\assets\player\19.png",
+         r".\assets\player\110.png"],
+        [r".\assets\player\21.png",
+         r".\assets\player\22.png",
+         r".\assets\player\23.png",
+         r".\assets\player\24.png",
+         r".\assets\player\25.png",
+         r".\assets\player\26.png",
+         r".\assets\player\27.png",
+         r".\assets\player\28.png",
+         r".\assets\player\29.png",
+         r".\assets\player\210.png"],
+        [r".\assets\player\31.png",
+         r".\assets\player\32.png",
+         r".\assets\player\33.png",
+         r".\assets\player\34.png",
+         r".\assets\player\35.png",
+         r".\assets\player\36.png",
+         r".\assets\player\37.png",
+         r".\assets\player\38.png",
+         r".\assets\player\39.png",
+         r".\assets\player\310.png"],
+        [r".\assets\player\41.png",
+         r".\assets\player\42.png",
+         r".\assets\player\43.png",
+         r".\assets\player\44.png",
+         r".\assets\player\45.png",
+         r".\assets\player\46.png",
+         r".\assets\player\47.png",
+         r".\assets\player\48.png",
+         r".\assets\player\49.png",
+         r".\assets\player\410.png"],
+    ]
     monster = [[r".\assets\npc\monster\1\1.png",
                 r".\assets\npc\monster\1\2.png",
                 r".\assets\npc\monster\1\3.png",
@@ -173,6 +202,9 @@ class GamePath:
                 r".\assets\npc\monster\3\6.png"]
                ]
     boss = r".\assets\npc\boss.png"
+
+    player_died = r".\assets\player\DIED.png"
+    player_win = r".\assets\player\WIN.png"
 
     groundTiles = [
         r".\assets\tiles\ground1.png",
@@ -212,7 +244,10 @@ class GamePath:
     bgm = [r".\assets\bgm\city.mp3",
            r".\assets\bgm\wild.mp3",
            r".\assets\bgm\boss.mp3",
-           r".\assets\bgm\main menu.mp3"]
+           r".\assets\bgm\main menu.mp3",
+           r".\assets\bgm\victory.mp3",
+           r".\assets\bgm\defeat.mp3"
+           ]
 
     animated_tree = [[r".\assets\tiles\animated_tree\leftbottom1.png",
                       r".\assets\tiles\animated_tree\leftbottom2.png",
@@ -272,3 +307,4 @@ class GameEvent:
     EVENT_SWITCH = pygame.USEREVENT + 3
     EVENT_RESTART = pygame.USEREVENT + 4
     EVENT_SHOP = pygame.USEREVENT + 5
+    EVENT_END = pygame.USEREVENT + 6

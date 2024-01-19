@@ -151,9 +151,9 @@ class Boss(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
-        self.HP = 500
-        self.attack = 150
-        self.defence = 50
+        self.HP = 50
+        self.attack = 7
+        self.defence = 10
         self.money = 888
         ##### Your Code Here ↑ #####
 

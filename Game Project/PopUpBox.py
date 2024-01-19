@@ -91,17 +91,17 @@ class BattleBox:
     def get_result(self):
         if self.attacker == 0:
             self.monster.HP = max(0, self.monster.HP -
-                                 (self.player.Attack - self.monster.defence))
+                                  max(0, (self.player.Attack - self.monster.defence)))
             self.attacker = 1
             self.dir = -1
         else:
             self.player.HP = max(0, self.player.HP -
-                                (self.monster.attack - self.player.Defence))
+                                 max(0, (self.monster.attack - self.player.Defence)))
             self.attacker = 0
             self.dir = 1
 
         self.isPlayingAnimation = True
-        
+
     def draw(self):
         ##### Your Code Here ↓ #####
         # 绘制背景和文字
@@ -143,8 +143,8 @@ class BattleBox:
             elif self.player.HP == 0:
                 text = 'YOU DIED'
             self.window.blit(self.font.render(text, True, self.fontColor),
-                                 (BattleSettings.textStartX,
-                                  BattleSettings.textStartY + BattleSettings.textVerticalDist))
+                             (BattleSettings.textStartX,
+                              BattleSettings.textStartY + BattleSettings.textVerticalDist))
 
             self.isFinished = True
             self.isPlayingAnimation = False

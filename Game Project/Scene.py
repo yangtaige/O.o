@@ -34,7 +34,7 @@ class Scene:
         self.battleBox = None
         ##### Your Code Here ↑ #####
 
-    def trigger_dialog(self, npc:DialogNPC):
+    def trigger_dialog(self, npc: DialogNPC):
         ##### Your Code Here ↓ #####
         npc.talking = True
         self.dialogBox = DialogBox(self.window, npc, npc.dialog)
@@ -57,7 +57,7 @@ class Scene:
         try:
             monster.action = Action.DIE
         except:
-            pass
+            monster.kill()
         ##### Your Code Here ↑ #####
 
     def trigger_shop(self, npc, player):
@@ -124,7 +124,7 @@ class Scene:
             npc.draw(self.window, self.dx,
                      self.dy)
         for boss in self.bosses:
-            boss.draw(self.window, self.dx, 
+            boss.draw(self.window, self.dx,
                       self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
@@ -210,13 +210,14 @@ class CityScene(Scene):
         self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero',
                                                                            'I\'m used to be an adventurer like you',
                                                                            'Then I took an arrow in the knee']))
-        self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY', {'Attack +1': 'Coin -15','Defence +1': 'Coin -15',
-                                           'HP +3': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))
+        self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY',
+                              {'Attack +1': 'Coin -15', 'Defence +1': 'Coin -15',
+                               'HP +3': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))
         ##### Your Code Here ↑ #####
 
 
 class WildScene(Scene):
-    def __init__(self, window, level:int, weak:int):
+    def __init__(self, window, level: int, weak: int):
         super().__init__(window=window)
 
         ##### Your Code Here ↓ #####
@@ -249,7 +250,7 @@ class WildScene(Scene):
                                             j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
-    def gen_WILD(self, level:int, weak:int):
+    def gen_WILD(self, level: int, weak: int):
 
         ##### Your Code Here ↓ #####
         self.gen_wild_map()
@@ -258,35 +259,35 @@ class WildScene(Scene):
         self.gen_monsters(level, weak)
         ##### Your Code Here ↑ #####
 
-    def gen_monsters(self, level:int, weak:int, num=10):
+    def gen_monsters(self, level: int, weak: int, num=10):
 
         ##### Your Code Here ↓ #####
         idx = 0
         while idx < num:
-            monster = Monster(randint(0, self.width), randint(0, self.height), 
+            monster = Monster(randint(0, self.width), randint(0, self.height),
                               level, weak)
             # 判断monster不与已经生成的物品重合
             if not pygame.sprite.spritecollide(monster, self.obstacles, False) \
-                    and not pygame.sprite.spritecollide(monster, self.monsters, False)\
-                    and not pygame.sprite.spritecollide(monster, self.portals, False):
+                    and not pygame.sprite.spritecollide(monster, self.monsters, False) \
+                    and not pygame.sprite.spritecollide(monster, self.portals, False) \
+                    and abs(monster.rect.x - WindowSettings.width // 2) > 3 \
+                    and abs(monster.rect.y - WindowSettings.height // 2) > 3:
                 self.monsters.add(monster)
                 idx += 1
         ##### Your Code Here ↑ #####
 
     def gen_portals(self):
         portalToCity = Portal(PortalSettings.coordX - PortalSettings.width * 4,
-                          PortalSettings.coordY - PortalSettings.height,
-                          SceneType.CITY)
+                              PortalSettings.coordY - PortalSettings.height,
+                              SceneType.CITY)
         portalToBoss = Portal(PortalSettings.coordX,
-                          PortalSettings.coordY,
-                          SceneType.BOSS)
+                              PortalSettings.coordY,
+                              SceneType.BOSS)
         self.portals.add(portalToCity, portalToBoss)
         # 将与传送门重合的障碍物移除
         for portal in self.portals:
             while pygame.sprite.spritecollideany(portal, self.obstacles):
                 pygame.sprite.spritecollideany(portal, self.obstacles).kill()
-
-
 
 
 class BossScene(Scene):
@@ -330,3 +331,56 @@ class BossScene(Scene):
         self.gen_boss_obstacle()
         self.bosses.add(Boss())
         ##### Your Code Here ↑ #####
+
+
+class EndMenu():
+    def __init__(self, window, time):
+        self.bg = pygame.image.load(GamePath.menu)
+        self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
+                                                   WindowSettings.height))
+        self.window = window
+        self.font = pygame.font.Font(None, ManuSettings.textSize)
+        self.text = self.font.render('PRESS ENTER TO RESTART', True, (0, 0, 0))
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
+                                                   WindowSettings.height - 50))
+        self.blinkTimer = 0
+        self.time = time
+        self.data = self.font.render('GAME TIME: ' + self.time, True, (0, 0, 0))
+        self.dataRect = self.data.get_rect(center=(WindowSettings.width // 2 + 150,
+                                                   WindowSettings.height // 2 + 50))
+        self.image = None
+        self.imageRect = None
+
+    def render(self, time):
+        self.window.blit(self.bg, (0, 0))
+        self.window.blit(self.data, self.dataRect)
+        self.window.blit(self.image, self.imageRect)
+        self.blinkTimer += 1
+        if self.blinkTimer < time:
+            self.window.blit(self.text, self.textRect)
+        elif self.blinkTimer == time * 2:
+            self.blinkTimer = 0
+
+
+class VictoryMenu(EndMenu):
+    def __init__(self, window, time):
+        super().__init__(window, time)
+        self.bg = pygame.image.load(GamePath.victory_menu)
+        self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
+                                                   WindowSettings.height))
+        self.image = pygame.image.load(GamePath.player_win)
+        self.image = pygame.transform.scale(self.image, (DialogSettings.npcWidth, DialogSettings.npcHeight))
+        self.imageRect = self.image.get_rect(center=(WindowSettings.width // 2 - 200,
+                                                     WindowSettings.height // 2))
+
+
+class DefeatMenu(EndMenu):
+    def __init__(self, window, time):
+        super().__init__(window, time)
+        self.bg = pygame.image.load(GamePath.defeat_menu)
+        self.bg = pygame.transform.scale(self.bg, (WindowSettings.width,
+                                                   WindowSettings.height))
+        self.image = pygame.image.load(GamePath.player_died)
+        self.image = pygame.transform.scale(self.image, (DialogSettings.npcWidth, DialogSettings.npcHeight))
+        self.imageRect = self.image.get_rect(center=(WindowSettings.width // 2 - 300,
+                                                     WindowSettings.height // 2))

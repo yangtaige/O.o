@@ -25,7 +25,8 @@ class GameManager:
         self.bgm = BgmPlayer()
         self.bgm.update()
         self.level = 0  # 怪物强度
-        # pygame.mixer.music.load(GamePath.bgm[0])
+        self.time = pygame.time.Clock()
+        self.time.tick()  # 通关时间
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -39,6 +40,8 @@ class GameManager:
         self.bgm = BgmPlayer()
         self.bgm.update()
         self.level = 0  # 重置怪物等级
+        self.time = pygame.time.Clock()
+        self.time.tick()
         ##### Your Code Here ↑ #####
 
     # Necessary game components here ↓
@@ -49,7 +52,9 @@ class GameManager:
 
     def get_time(self):
         ##### Your Code Here ↓ #####
-        pass
+        self.time.tick()
+        time = self.time.get_rawtime() // 1000
+        return str(time // 60) + ' min ' + str(time % 60) + ' second'
         ##### Your Code Here ↑ #####
 
     # Scene-related update functions here ↓
@@ -64,7 +69,7 @@ class GameManager:
             self.scene = WildScene(self.window, self.level, self.player.Weak)
             self.state = GameState.GAME_PLAY_WILD
             self.player.reset_pos()
-            # 判断人物重置后是否与生成的障碍物和怪物重叠， 如果重叠侧将他们移除
+            # 判断人物重置后是否与生成的障碍物重叠， 如果重叠侧将他们移除
             self.update_collide()
             self.player.reset_scene()
             self.bgm.update(GOTO)
@@ -73,6 +78,14 @@ class GameManager:
             self.state = GameState.GAME_PLAY_BOSS
             self.player.reset_pos()
             self.bgm.update(GOTO)
+        if GOTO == SceneType.VICTORY:
+            self.scene = VictoryMenu(self.window, self.get_time())
+            self.state = GameState.GAME_OVER
+            self.bgm.update(GOTO)
+        if GOTO == SceneType.DEFEAT:
+            self.scene = DefeatMenu(self.window, self.get_time())
+            self.state = GameState.GAME_OVER
+            self.bgm.update(GOTO)
 
 
         ##### Your Code Here ↑ #####
@@ -80,7 +93,6 @@ class GameManager:
     def update(self):
         ##### Your Code Here ↓ #####
         self.tick(self.fps)
-
         if self.state == GameState.MAIN_MENU:
             self.update_main_menu(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_WILD:
@@ -89,7 +101,8 @@ class GameManager:
             self.update_city(pygame.event.get())
         elif self.state == GameState.GAME_PLAY_BOSS:
             self.update_boss(pygame.event.get())
-
+        elif self.state == GameState.GAME_OVER:
+            self.update_end_menu(pygame.event.get())
         ##### Your Code Here ↑ #####
 
     def update_main_menu(self, events):
@@ -103,6 +116,17 @@ class GameManager:
                 if event.key == pygame.K_RETURN:
                     self.flush_scene(SceneType.CITY)
         ##### Your Code Here ↑ #####
+
+    def update_end_menu(self, events):
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.game_reset()
+
 
     def update_city(self, events):
         # Deal with EventQueue First
@@ -233,8 +257,11 @@ class GameManager:
                         self.scene.end_battle(self.player.collidingObject['monster'])
                         self.player.talking = False
                     else:
-                        self.game_reset()
-                        return
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))
+
+            if event.type == GameEvent.EVENT_END:
+                self.flush_scene(SceneType.DEFEAT)
+                return
 
 
 
@@ -296,10 +323,17 @@ class GameManager:
                     if self.player.HP > 0:
                         self.player.attr_update(addCoins=self.player.collidingObject['boss'].money)
                         self.scene.end_battle(self.player.collidingObject['boss'])
-                        self.player.talking = False
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))
                     else:
-                        self.game_reset()
-                        return
+                        pygame.event.post(pygame.event.Event(GameEvent.EVENT_END))
+
+            if event.type == GameEvent.EVENT_END:
+                if self.player.HP > 0:
+                    self.flush_scene(SceneType.VICTORY)
+                    return
+                else:
+                    self.flush_scene(SceneType.DEFEAT)
+                    return
 
 
         ##### Your Code Here ↑ #####
@@ -318,7 +352,7 @@ class GameManager:
         # Player -> Obstacles
         ##### Your Code Here ↓ #####
         for obstacle in self.scene.obstacles:
-            if pygame.sprite.collide_rect(self.player, obstacle):
+            if pygame.sprite.collide_mask(self.player, obstacle):
                 self.player.collidingWith['obstacle'] = True
                 self.player.collidingObject['obstacle'].append(obstacle)
         ##### Your Code Here ↑ #####
@@ -327,7 +361,7 @@ class GameManager:
         ##### Your Code Here ↓ #####
         for npc in self.scene.npcs:
             if npc.talkCD == 0:
-                if pygame.sprite.collide_rect(self.player, npc):
+                if pygame.sprite.collide_mask(self.player, npc):
                     self.player.collidingWith['npc'] = True
                     self.player.collidingObject['npc'] = npc
                     if isinstance(npc, ShopNPC):
@@ -339,7 +373,7 @@ class GameManager:
         # Player -> Monsters
         ##### Your Code Here ↓ #####
         for monster in self.scene.monsters:
-            if pygame.sprite.collide_rect(self.player, monster) and monster.action == Action.SITTING:
+            if pygame.sprite.collide_mask(self.player, monster) and monster.action == Action.SITTING:
                 self.player.collidingWith['monster'] = True
                 self.player.collidingObject['monster'] = monster
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
@@ -361,7 +395,7 @@ class GameManager:
         # Player -> Boss
         ##### Your Code Here ↓ #####
         for boss in self.scene.bosses:
-            if pygame.sprite.collide_rect(self.player, boss) and not self.player.talking:
+            if pygame.sprite.collide_mask(self.player, boss) and not self.player.talking:
                 self.player.collidingWith['boss'] = True
                 self.player.collidingObject['boss'] = boss
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
@@ -385,6 +419,8 @@ class GameManager:
             self.render_city()
         elif self.state == GameState.GAME_PLAY_BOSS:
             self.render_boss()
+        elif self.state == GameState.GAME_OVER:
+            self.render_end_menu()
         ##### Your Code Here ↑ #####
 
     def render_main_menu(self):
@@ -392,6 +428,8 @@ class GameManager:
         self.scene.render(ManuSettings.blinkInterval)
         ##### Your Code Here ↑ #####
 
+    def render_end_menu(self):
+        self.scene.render(ManuSettings.blinkInterval)
     def render_city(self):
         ##### Your Code Here ↓ #####
         self.scene.render(self.player)

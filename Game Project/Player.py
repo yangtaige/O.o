@@ -60,17 +60,12 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↑ #####
 
     def reset_scene(self):
-        # 人物重置时将重叠的关务和障碍物移除
+        # 人物重置时将重叠的障碍物移除
         if self.collidingWith['obstacle']:
             for obstacle in self.collidingObject['obstacle']:
                 obstacle.kill()
             self.collidingWith['obstacle'] = False
             self.collidingObject['obstacle'] = []
-
-        if self.collidingWith['monster']:
-            self.collidingObject['monster'].kill()
-            self.collidingWith['monster'] = False
-            self.collidingObject['monster'] = None
 
     def try_move(self):
         ##### Your Code Here ↓ #####
@@ -113,7 +108,7 @@ class Player(pygame.sprite.Sprite, Collidable):
                     self.direction = PlayerDirection.Down.value
                 if self.dy < 0:
                     self.direction = PlayerDirection.Up.value
-                self.index = (self.index + 1 / 6) % len(self.images[self.direction])
+                self.index = (self.index + 1 / 2) % len(self.images[self.direction])
                 self.image = self.images[self.direction][int(self.index)]
             else:
                 self.image = self.images[self.direction][0]
