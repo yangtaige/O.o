@@ -163,9 +163,8 @@ class ShoppingBox:
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.font = pygame.font.Font(None, self.fontSize)
-        self.bg = pygame.Surface((ShopSettings.boxWidth,
-                                  ShopSettings.boxHeight), pygame.SRCALPHA)
-        self.bg.fill(bgColor)
+        self.bg = pygame.image.load(GamePath.shopBackground)
+        self.bg = pygame.transform.scale(self.bg, (ShopSettings.boxWidth, ShopSettings.boxHeight))
         self.items = npc.items
         self.npc = npc
         self.npc_image = pygame.transform.scale(self.npc.image, (DialogSettings.npcWidth,
@@ -211,7 +210,7 @@ class ShoppingBox:
         offset = 0
         for text in texts:
             self.window.blit(self.font.render(text, True, self.fontColor),
-                             (ShopSettings.textStartX + ShopSettings.boxWidth // 4 * 3,
+                             (ShopSettings.textStartX + ShopSettings.boxWidth // 4 * 3 - 60,
                               ShopSettings.textStartY + offset))
             offset += DialogSettings.textVerticalDist
         ##### Your Code Here ↑ #####

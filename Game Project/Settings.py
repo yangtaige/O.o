@@ -123,13 +123,13 @@ class ShopSettings:
     shopWidth = 180
     shopHeight = 180
     boxWidth = 800
-    boxHeight = 200
+    boxHeight = 250
     boxStartX = WindowSettings.width // 4  # Coordinate X of the box
     boxStartY = WindowSettings.height // 3  # Coordinate Y of the box
 
     textSize = 56  # Default font size
-    textStartX = boxStartX + 10  # Coordinate X of the first line of dialog
-    textStartY = boxStartY + 25  # Coordinate Y of the first line of dialog
+    textStartX = boxStartX + 40  # Coordinate X of the first line of dialog
+    textStartY = boxStartY + 55  # Coordinate Y of the first line of dialog
 
 
 class GamePath:
@@ -139,6 +139,7 @@ class GamePath:
     defeat_menu = r".\assets\background\DEFEAT.png"
     wild = r".\assets\background\wild.png"
     mapBlock = r".\assets\background\map.png"
+    shopBackground = r".\assets\background\shop.png"
 
     # player/npc related path
     npc = r".\assets\npc\npc.png"
