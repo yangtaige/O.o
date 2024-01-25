@@ -210,19 +210,21 @@ class GamePath:
     player_win = r".\assets\player\WIN.png"
 
     groundTiles = [
-        r".\assets\tiles\ground1.png",
-        r".\assets\tiles\ground2.png",
-        r".\assets\tiles\ground3.png",
-        r".\assets\tiles\ground4.png",
-        r".\assets\tiles\ground5.png",
-        r".\assets\tiles\ground6.png",
+        r".\assets\tiles\ground1.jpg",
+        r".\assets\tiles\ground2.jpg",
+        r".\assets\tiles\ground3.jpg",
+        r".\assets\tiles\ground4.jpg",
+        r".\assets\tiles\ground5.jpg",
+        r".\assets\tiles\ground6.jpg",
     ]
 
     cityTiles = [
-        
-        r".\assets\tiles\city2.png",
-        r".\assets\tiles\city3.png",
-        
+        r".\assets\tiles\city1.jpg",
+        r".\assets\tiles\city2.jpg",
+        r".\assets\tiles\city3.jpg",
+        r".\assets\tiles\city4.jpg",
+        r".\assets\tiles\city5.jpg",
+        r".\assets\tiles\city6.jpg",
     ]
 
     cityWall = r".\assets\tiles\cityWall.png"
