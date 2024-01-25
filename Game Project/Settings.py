@@ -216,23 +216,21 @@ class GamePath:
     ]
 
     cityTiles = [
-        r".\assets\tiles\city1.png",
+        
         r".\assets\tiles\city2.png",
         r".\assets\tiles\city3.png",
-        r".\assets\tiles\city4.png",
-        r".\assets\tiles\city5.png",
-        r".\assets\tiles\city6.png",
+        
     ]
 
     cityWall = r".\assets\tiles\cityWall.png"
 
     bossTiles = [
-        r".\assets\tiles\boss1.png",
-        r".\assets\tiles\boss2.png",
-        r".\assets\tiles\boss3.png",
-        r".\assets\tiles\boss4.png",
-        r".\assets\tiles\boss5.png",
-        r".\assets\tiles\boss6.png",
+        r".\assets\tiles\boss1.jpg",
+        r".\assets\tiles\boss2.jpg",
+        r".\assets\tiles\boss3.jpg",
+        r".\assets\tiles\boss4.jpg",
+        r".\assets\tiles\boss5.jpg",
+        r".\assets\tiles\boss6.jpg",
     ]
 
     bossWall = r".\assets\tiles\bossWall.png"
