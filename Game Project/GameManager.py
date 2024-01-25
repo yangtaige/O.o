@@ -27,6 +27,7 @@ class GameManager:
         self.level = 0  # 怪物强度
         self.time = pygame.time.Clock()
         self.time.tick()  # 通关时间
+        self.minusHP = 0  # 用于计算火焰伤害的临时变量
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -194,6 +195,12 @@ class GameManager:
                     else:
                         self.scene.shoppingBox.buy()
 
+            if event.type == GameEvent.EVENT_FIRE:
+                self.minusHP += 1/15
+            if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
+                self.player.HP -= 1
+                self.minusHP = 0
+
         ##### Your Code Here ↑ #####
 
         # Then deal with regular updates
@@ -265,8 +272,12 @@ class GameManager:
             if event.type == GameEvent.EVENT_END:
                 self.flush_scene(SceneType.DEFEAT)
                 return
-
-
+            
+            if event.type == GameEvent.EVENT_FIRE:
+                self.minusHP += 1/10
+            if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
+                self.player.HP -= 1
+                self.minusHP = 0
 
         ##### Your Code Here ↑ #####
 
@@ -340,6 +351,12 @@ class GameManager:
                 else:
                     self.flush_scene(SceneType.DEFEAT)
                     return
+                
+            if event.type == GameEvent.EVENT_FIRE:
+                self.minusHP += 1/10
+            if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
+                self.player.HP -= 1
+                self.minusHP = 0
 
 
         ##### Your Code Here ↑ #####
@@ -409,6 +426,11 @@ class GameManager:
                 self.player.collidingObject['boss'] = boss
                 pygame.event.post(pygame.event.Event(GameEvent.EVENT_BATTLE))
         ##### Your Code Here ↑ #####
+                
+        # Player -> Fire
+        for fire in self.scene.fires:
+            if pygame.sprite.collide_mask(self.player, fire):
+                pygame.event.post(pygame.event.Event(GameEvent.EVENT_FIRE))
 
     def update_NPCs(self):
         # This is not necessary. If you want to re-use your code you can realize this.

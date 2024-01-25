@@ -320,3 +320,4 @@ class GameEvent:
     EVENT_RESTART = pygame.USEREVENT + 4
     EVENT_SHOP = pygame.USEREVENT + 5
     EVENT_END = pygame.USEREVENT + 6
+    EVENT_FIRE = pygame.USEREVENT + 7
