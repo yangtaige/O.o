@@ -16,7 +16,7 @@ class Tile(pygame.sprite.Sprite):
         window.blit(self.image, self.rect)
 
 class Tree(pygame.sprite.Sprite):  # 树木tile用于制造动画树木
-    def __init__(self, images, x=0, y=0, width=SceneSettings.tileWidth, height=SceneSettings.tileHeight):
+    def __init__(self, images:list, x=0, y=0, width=SceneSettings.tileWidth, height=SceneSettings.tileHeight):
         super().__init__()
         self.images = [pygame.transform.scale(image, (width, height)) for image in images]
         self.index = 0

@@ -186,6 +186,7 @@ class GamePath:
          r".\assets\player\49.png",
          r".\assets\player\410.png"],
     ]
+
     monster = [[r".\assets\npc\monster\1\1.png",
                 r".\assets\npc\monster\1\2.png",
                 r".\assets\npc\monster\1\3.png",
@@ -204,7 +205,7 @@ class GamePath:
                 r".\assets\npc\monster\3\4.png",
                 r".\assets\npc\monster\3\5.png",
                 r".\assets\npc\monster\3\6.png"]
-               ]
+    ]
     boss = r".\assets\npc\boss.png"
 
     player_died = r".\assets\player\DIED.png"
@@ -250,8 +251,8 @@ class GamePath:
            r".\assets\bgm\boss.mp3",
            r".\assets\bgm\main menu.mp3",
            r".\assets\bgm\victory.mp3",
-           r".\assets\bgm\defeat.mp3"
-           ]
+           r".\assets\bgm\defeat.mp3",
+    ]
 
     animated_tree = [[r".\assets\tiles\animated_tree\leftbottom1.png",
                       r".\assets\tiles\animated_tree\leftbottom2.png",
@@ -284,7 +285,14 @@ class GamePath:
                       r".\assets\tiles\animated_tree\righttop5.png",
                       r".\assets\tiles\animated_tree\righttop6.png",
                       r".\assets\tiles\animated_tree\righttop7.png",
-                      r".\assets\tiles\animated_tree\righttop8.png"]]
+                      r".\assets\tiles\animated_tree\righttop8.png"],
+    ]
+    
+    fire = [r".\assets\tiles\fire1.png",
+            r".\assets\tiles\fire2.png",
+            r".\assets\tiles\fire3.png",
+            r".\assets\tiles\fire4.png",
+    ]
 
 
 class PortalSettings:

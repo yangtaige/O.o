@@ -29,9 +29,11 @@ class Scene:
         self.portals = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
         self.bosses = pygame.sprite.Group()
+        self.fires = pygame.sprite.Group()
         self.dialogBox = None
         self.shoppingBox = None
         self.battleBox = None
+        
         ##### Your Code Here ↑ #####
 
     def trigger_dialog(self, npc: DialogNPC):
@@ -102,6 +104,7 @@ class Scene:
             else:
                 self.cameraY = 0
                 self.dy = 0
+        
         ##### Your Code Here ↑ #####
 
     def render(self, player):
@@ -112,6 +115,9 @@ class Scene:
         for obstacle in self.obstacles:
             obstacle.draw(self.window, self.dx,
                           self.dy)
+        for fire in self.fires:
+            fire.draw(self.window, self.dx,
+                      self.dy)
         for portal in self.portals:
             portal.draw(self.window, self.dx,
                         self.dy)
@@ -134,6 +140,7 @@ class Scene:
             self.shoppingBox.draw()
         if self.battleBox:
             self.battleBox.draw()
+
         ##### Your Code Here ↑ #####
 
 
@@ -149,6 +156,7 @@ class StartMenu():
         self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
                                                    WindowSettings.height - 50))
         self.blinkTimer = 0
+
         ##### Your Code Here ↑ #####
 
     def render(self, time):
@@ -172,7 +180,6 @@ class CityScene(Scene):
         self.window = window
 
     def gen_city_map(self):
-
         ##### Your Code Here ↓ #####
         images = [pygame.image.load(tile) for tile in GamePath.cityTiles]
 
@@ -180,7 +187,9 @@ class CityScene(Scene):
             for j in range(SceneSettings.tileYnum):
                 self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
                                   j * SceneSettings.tileHeight))
-
+        self.fires.add(Tree([pygame.image.load(img) for img in GamePath.fire], 12 * SceneSettings.tileWidth, 
+                         17 * SceneSettings.tileHeight, 2*SceneSettings.tileWidth, 2*SceneSettings.tileHeight))
+        
         ##### Your Code Here ↑ #####
 
     def gen_city_obstacle(self):
@@ -198,6 +207,7 @@ class CityScene(Scene):
         self.obstacles.add(Tree(tree[1], 11 * SceneSettings.tileWidth, 5 * SceneSettings.tileHeight))
         self.obstacles.add(Tree(tree[2], 12 * SceneSettings.tileWidth, 6 * SceneSettings.tileHeight))
         self.obstacles.add(Tree(tree[3], 12 * SceneSettings.tileWidth, 5 * SceneSettings.tileHeight))
+
         ##### Your Code Here ↑ #####
 
     def gen_CITY(self):
