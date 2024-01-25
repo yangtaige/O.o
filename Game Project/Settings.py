@@ -120,6 +120,8 @@ class BattleSettings:
 
 
 class ShopSettings:
+    shopWidth = 180
+    shopHeight = 180
     boxWidth = 800
     boxHeight = 200
     boxStartX = WindowSettings.width // 4  # Coordinate X of the box
@@ -140,6 +142,7 @@ class GamePath:
 
     # player/npc related path
     npc = r".\assets\npc\npc.png"
+    shop = r".\assets\npc\shop.png"
     player = [
         [r".\assets\player\11.png",
          r".\assets\player\12.png",

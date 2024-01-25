@@ -64,6 +64,8 @@ class ShopNPC(NPC):
 
         ##### Your Code Here ↓ #####
         super().__init__(x=x, y=y, name=name)
+        self.image = pygame.transform.scale(pygame.image.load(GamePath.shop),
+                                            (ShopSettings.shopWidth, ShopSettings.shopHeight))
         self.speed = NPCSettings.npcSpeed
         self.items = items
         self.dialog = dialog
