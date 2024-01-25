@@ -198,10 +198,13 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.try_move()
+        self.player.try_move_width()
         self.update_collide()
+        self.player.update(-self.player.dx, 0)
+        self.player.try_move_height()
+        self.update_collide()
+        self.player.update(0, -self.player.dy)
         self.update_NPCs()
-        self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
@@ -269,10 +272,13 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.try_move()
+        self.player.try_move_width()
         self.update_collide()
+        self.player.update(-self.player.dx, 0)
+        self.player.try_move_height()
+        self.update_collide()
+        self.player.update(0, -self.player.dy)
         self.update_NPCs()
-        self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 
@@ -340,10 +346,13 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.try_move()
+        self.player.try_move_width()
         self.update_collide()
+        self.player.update(-self.player.dx, 0)
+        self.player.try_move_height()
+        self.update_collide()
+        self.player.update(0, -self.player.dy)
         self.update_NPCs()
-        self.player.update(-self.player.dx, -self.player.dy)
         self.scene.update_camera(self.player)
         ##### Your Code Here ↑ #####
 

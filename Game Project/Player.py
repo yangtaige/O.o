@@ -67,17 +67,11 @@ class Player(pygame.sprite.Sprite, Collidable):
             self.collidingWith['obstacle'] = False
             self.collidingObject['obstacle'] = []
 
-    def try_move(self):
+    def try_move_width(self):
         ##### Your Code Here ↓ #####
         '''尝试移动'''
         if not self.talking and not self.buying:
             self.dx = 0
-            self.dy = 0
-            if self.movingNorth and self.rect.top > 0:
-                self.dy -= self.speed
-
-            if self.movingSouth and self.rect.bottom < WindowSettings.height:
-                self.dy += self.speed
 
             if self.movingWest and self.rect.left > 0:
                 self.dx -= self.speed
@@ -85,8 +79,19 @@ class Player(pygame.sprite.Sprite, Collidable):
             if self.movingEast and self.rect.right < WindowSettings.width:
                 self.dx += self.speed
 
-            self.rect = self.rect.move(self.dx, self.dy)
+            self.rect = self.rect.move(self.dx, 0)
 
+    def try_move_height(self):
+        if not self.talking and not self.buying:
+            self.dy = 0
+
+            if self.movingNorth and self.rect.top > 0:
+                self.dy -= self.speed
+
+            if self.movingSouth and self.rect.bottom < WindowSettings.height:
+                self.dy += self.speed
+
+            self.rect = self.rect.move(0, self.dy)
         ##### Your Code Here ↑ #####
 
     def update(self, width, height):
