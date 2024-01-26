@@ -31,6 +31,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
                                                    (PlayerSettings.heartWidth,
                                                     PlayerSettings.heartHeight))
+        self.fire = pygame.transform.scale(pygame.image.load(GamePath.fireImage), (PlayerSettings.fireWidth,
+                                           PlayerSettings.fireHeight))
 
         self.fontSize = fontSize
         self.fontColor = fontColor
@@ -44,6 +46,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.speed = PlayerSettings.playerSpeed
         self.talking = False
         self.buying = False
+        self.burning = False
 
         self.movingWest = False
         self.movingEast = False
@@ -150,6 +153,8 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
+        if self.burning:
+            window.blit(self.fire, (self.rect.x + 23, self.rect.y + 32))
 
         ##### Your Code Here ↑ #####
 
@@ -166,3 +171,5 @@ class Player(pygame.sprite.Sprite, Collidable):
         window.blit(self.font.render(':' + str(self.Defence), True, self.fontColor), (100, 160))
         window.blit(self.moneyImage, (50, 200))
         window.blit(self.font.render(':' + str(self.Money), True, self.fontColor), (100, 210))
+
+

@@ -197,6 +197,9 @@ class GameManager:
 
             if event.type == GameEvent.EVENT_FIRE:
                 self.minusHP += 1/30
+                self.player.burning = True
+            else:
+                self.player.burning = False
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0
@@ -278,6 +281,9 @@ class GameManager:
             
             if event.type == GameEvent.EVENT_FIRE:
                 self.minusHP += 1/30
+                self.player.burning = True
+            else:
+                self.player.burning = False
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0

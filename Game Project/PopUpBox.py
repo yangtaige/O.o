@@ -165,7 +165,6 @@ class ShoppingBox:
         self.font = pygame.font.Font(None, self.fontSize)
         self.bg = pygame.image.load(GamePath.shopBackground)
         self.bg = pygame.transform.scale(self.bg, (ShopSettings.boxWidth, ShopSettings.boxHeight))
-        self.items = npc.items
         self.npc = npc
         self.npc_image = pygame.transform.scale(self.npc.image, (DialogSettings.npcWidth,
                                                                  DialogSettings.npcHeight))
@@ -192,25 +191,5 @@ class ShoppingBox:
         self.window.blit(self.bg, (ShopSettings.boxStartX, ShopSettings.boxStartY))
         self.window.blit(self.npc_image, (DialogSettings.npcCoordX, DialogSettings.npcCoordY))
 
-        offset = 0
-        texts = ["Coins: " + str(self.player.Money),
-                 "HP: " + str(self.player.HP),
-                 "Attack: " + str(self.player.Attack),
-                 "Defence: " + str(self.player.Defence)]
 
-        for id, item in enumerate(list(self.items.keys())):
-            if id == self.selectedID:
-                text = '-->' + item + ' ' + self.items[item]
-            else:
-                text = '    ' + item + ' ' + self.items[item]
-            self.window.blit(self.font.render(text, True, self.fontColor),
-                             (ShopSettings.textStartX, ShopSettings.textStartY + offset))
-            offset += DialogSettings.textVerticalDist
-
-        offset = 0
-        for text in texts:
-            self.window.blit(self.font.render(text, True, self.fontColor),
-                             (ShopSettings.textStartX + ShopSettings.boxWidth // 4 * 3 - 60,
-                              ShopSettings.textStartY + offset))
-            offset += DialogSettings.textVerticalDist
         ##### Your Code Here ↑ #####

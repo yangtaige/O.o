@@ -35,6 +35,7 @@ class PlayerSettings:
     playerMoney = 30
     heartWidth = heartHeight = 50
     heartGap = 50
+    fireWidth = fireHeight = 35
 
 
 class PlayerDirection(Enum):
@@ -216,6 +217,7 @@ class GamePath:
     player_Attack = r".\assets\player\attack.png"
     player_Defence = r".\assets\player\defence.png"
     player_Money = r".\assets\player\money.png"
+    fireImage = r".\assets\player\fire.png"
 
     groundTiles = [
         r".\assets\tiles\ground1.jpg",
