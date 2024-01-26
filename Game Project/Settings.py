@@ -103,9 +103,9 @@ class BattleSettings:
     boxStartY = WindowSettings.height // 8
     textSize = 48  # Default font size
     textStartX = WindowSettings.width // 4
-    textPlayerStartX = WindowSettings.width // 4  # Coordinate X of the first line of dialog
-    textMonsterStartX = WindowSettings.width // 2 + 100
-    textStartY = WindowSettings.height // 3  # Coordinate Y of the first line of dialog
+    textPlayerStartX = boxStartX + 80 # Coordinate X of the first line of dialog
+    textMonsterStartX = boxStartX + boxWidth - 130
+    textStartY = boxStartY + 30  # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3  # Vertical distance of two lines
 
     playerWidth = WindowSettings.width // 6
@@ -216,6 +216,8 @@ class GamePath:
                 r".\assets\npc\monster\3\6.png"]
     ]
     boss = r".\assets\npc\boss.png"
+
+    battleBox = r".\assets\background\battlebox.png"
 
     player_died = r".\assets\player\DIED.png"
     player_win = r".\assets\player\WIN.png"

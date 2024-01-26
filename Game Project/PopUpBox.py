@@ -53,9 +53,13 @@ class BattleBox:
         self.fontColor = fontColor
         self.font = pygame.font.Font(None, self.fontSize)
 
-        self.bg = pygame.Surface((BattleSettings.boxWidth, BattleSettings.boxHeight),
-                                 pygame.SRCALPHA)
-        self.bg.fill(bgColor)
+        self.bg = pygame.image.load(GamePath.battleBox)
+        self.bg = pygame.transform.scale(self.bg, (BattleSettings.boxWidth, BattleSettings.boxHeight))
+
+        self.HPImage = pygame.transform.scale(pygame.image.load(GamePath.player_HP), (PlayerSettings.heartWidth,
+                                                                                      PlayerSettings.heartHeight))
+        self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
+                                                 (PlayerSettings.heartWidth, PlayerSettings.heartHeight))
 
         # 初始化相关角色的参数，没有实际操作的权力
         self.player = player
@@ -109,11 +113,13 @@ class BattleBox:
         self.window.blit(self.bg, (BattleSettings.boxStartX, BattleSettings.boxStartY))
         self.window.blit(self.playerImg, (self.playerX, self.playerY))
         self.window.blit(self.monsterImg, (self.monsterX, self.monsterY))
-        text = 'player HP:' + str(self.player.HP)
+        text = '×' + str(self.player.HP)
+        self.window.blit(self.HPImage, (BattleSettings.boxStartX + 30, BattleSettings.boxStartY + 20))
         self.window.blit(self.font.render(text, True, self.fontColor),
                          (BattleSettings.textPlayerStartX, BattleSettings.textStartY))
 
-        text = 'monster HP:' + str(self.monster.HP)
+        text = str(self.monster.HP) + '×'
+        self.window.blit(self.HPImage, (BattleSettings.textMonsterStartX + 55, BattleSettings.boxStartY + 20))
         self.window.blit(self.font.render(text, True, self.fontColor),
                          (BattleSettings.textMonsterStartX, BattleSettings.textStartY))
         # 绘制战斗过程
@@ -140,12 +146,14 @@ class BattleBox:
 
         if self.player.HP == 0 or self.monster.HP == 0:
             if self.monster.HP == 0:
-                text = 'YOU GET ' + str(self.monster.money) + ' MONEY'
+                text = '+ ' + str(self.monster.money)
+                self.window.blit(self.moneyImage, (BattleSettings.boxStartX + BattleSettings.boxWidth // 2 - 50,
+                              BattleSettings.textStartY - 8))
             elif self.player.HP == 0:
                 text = 'YOU DIED'
             self.window.blit(self.font.render(text, True, self.fontColor),
-                             (BattleSettings.textStartX,
-                              BattleSettings.textStartY + BattleSettings.textVerticalDist))
+                             (BattleSettings.boxStartX + BattleSettings.boxWidth // 2,
+                              BattleSettings.textStartY))
 
             self.isFinished = True
             self.isPlayingAnimation = False

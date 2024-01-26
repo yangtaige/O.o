@@ -162,18 +162,19 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↑ #####
 
     def state_update(self, window):  # 人物状态栏
-        if self.HP <= 10:
-            for hp in range(self.HP):
-                window.blit(self.hpImage, (50 + hp * PlayerSettings.heartGap, 50))
-        else:
-            window.blit(self.hpImage, (50, 50))
-            window.blit(self.font.render('×' + str(self.HP), True, self.fontColor), (100, 60))
-        window.blit(self.attackImage, (50, 100))
-        window.blit(self.font.render(':' + str(self.Attack), True, self.fontColor), (100, 110))
-        window.blit(self.defenceImage, (50, 150))
-        window.blit(self.font.render(':' + str(self.Defence), True, self.fontColor), (100, 160))
-        window.blit(self.moneyImage, (50, 200))
-        window.blit(self.font.render(':' + str(self.Money), True, self.fontColor), (100, 210))
+         if not self.talking:
+            if self.HP <= 10:
+                for hp in range(self.HP):
+                    window.blit(self.hpImage, (50 + hp * PlayerSettings.heartGap, 50))
+            else:
+                window.blit(self.hpImage, (50, 50))
+                window.blit(self.font.render('×' + str(self.HP), True, self.fontColor), (100, 60))
+            window.blit(self.attackImage, (50, 100))
+            window.blit(self.font.render(':' + str(self.Attack), True, self.fontColor), (100, 110))
+            window.blit(self.defenceImage, (50, 150))
+            window.blit(self.font.render(':' + str(self.Defence), True, self.fontColor), (100, 160))
+            window.blit(self.moneyImage, (50, 200))
+            window.blit(self.font.render(':' + str(self.Money), True, self.fontColor), (100, 210))
 
     def fire_update(self):  # 人物着火动画
         self.fireIndex = (self.fireIndex + 1 / 3) % len(self.fires)
