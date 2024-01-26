@@ -4,10 +4,12 @@ import pygame
 
 from Settings import *
 from Attributes import *
+from typing import *
 
 
 class Player(pygame.sprite.Sprite, Collidable):
-    def __init__(self, x, y):
+    def __init__(self, x, y, fontSize: int = DialogSettings.textSize,
+                 fontColor: Tuple[int, int, int] = (255, 255, 255)):
         # Must initialize everything one by one here
         pygame.sprite.Sprite.__init__(self)
         Collidable.__init__(self)
@@ -16,6 +18,13 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.images = [[pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth,
                                                                         PlayerSettings.playerHeight))
                         for img in image_list] for image_list in GamePath.player]
+        self.hpImage = pygame.image.load(GamePath.player_HP)
+        self.hpImage = pygame.transform.scale(self.hpImage, (PlayerSettings.heartWidth,
+                                                             PlayerSettings.heartHeight))
+        self.fontSize = fontSize
+        self.fontColor = fontColor
+        self.font = pygame.font.Font(None, self.fontSize)
+
         self.direction = PlayerDirection.Right.value
         self.index = 0
         self.image = self.images[self.direction][self.index]
@@ -130,4 +139,11 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
+        if self.HP <= 10:
+            for hp in range(self.HP):
+                window.blit(self.hpImage, (50 + hp * PlayerSettings.heratgap, 50))
+        else:
+            window.blit(self.hpImage, (50, 50))
+            window.blit(self.font.render('×' + str(self.HP), True, self.fontColor), (100, 60))
+
         ##### Your Code Here ↑ #####

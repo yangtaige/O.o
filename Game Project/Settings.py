@@ -33,6 +33,8 @@ class PlayerSettings:
     playerAttack = 5
     playerDefence = 1
     playerMoney = 30
+    heartWidth = heartHeight = 50
+    heratgap = 50
 
 
 class PlayerDirection(Enum):
@@ -210,6 +212,7 @@ class GamePath:
 
     player_died = r".\assets\player\DIED.png"
     player_win = r".\assets\player\WIN.png"
+    player_HP = r".\assets\player\heart.png"
 
     groundTiles = [
         r".\assets\tiles\ground1.jpg",
