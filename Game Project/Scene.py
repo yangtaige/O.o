@@ -188,8 +188,8 @@ class CityScene(Scene):
             for j in range(SceneSettings.tileYnum):
                 self.map.add(Tile(images[randint(0, len(images) - 1)], i * SceneSettings.tileWidth,
                                   j * SceneSettings.tileHeight))
-        self.fires.add(Tree([pygame.image.load(img) for img in GamePath.fire], 12 * SceneSettings.tileWidth, 
-                         17 * SceneSettings.tileHeight, 2*SceneSettings.tileWidth, 2*SceneSettings.tileHeight))
+        self.fires.add(Tree([pygame.image.load(img) for img in GamePath.fire], 8 * SceneSettings.tileWidth, 
+                         12 * SceneSettings.tileHeight, 2*SceneSettings.tileWidth, 2*SceneSettings.tileHeight))
         
         ##### Your Code Here ↑ #####
 
@@ -256,9 +256,13 @@ class WildScene(Scene):
 
         for i in range(SceneSettings.tileXnum):
             for j in range(SceneSettings.tileYnum):
-                if random() < SceneSettings.obstacleDensity:
+                if random() < 0.9*SceneSettings.obstacleDensity:
                     self.obstacles.add(Tile(image, i * SceneSettings.tileWidth,
                                             j * SceneSettings.tileHeight))
+                elif random() < 0.1*SceneSettings.obstacleDensity:
+                    self.fires.add(Tree([pygame.image.load(img) for img in GamePath.fire],
+                                         i * SceneSettings.tileWidth, 
+                                         j * SceneSettings.tileHeight))
         ##### Your Code Here ↑ #####
 
     def gen_WILD(self, level: int, weak: int):
@@ -281,6 +285,7 @@ class WildScene(Scene):
             if not pygame.sprite.spritecollide(monster, self.obstacles, False) \
                     and not pygame.sprite.spritecollide(monster, self.monsters, False) \
                     and not pygame.sprite.spritecollide(monster, self.portals, False) \
+                    and not pygame.sprite.spritecollide(monster, self.fires, False) \
                     and abs(monster.rect.x - WindowSettings.width // 2) > 3 \
                     and abs(monster.rect.y - WindowSettings.height // 2) > 3:  # 确保不会在人物周围三格生成
                 self.monsters.add(monster)
@@ -299,6 +304,8 @@ class WildScene(Scene):
         for portal in self.portals:
             while pygame.sprite.spritecollideany(portal, self.obstacles):
                 pygame.sprite.spritecollideany(portal, self.obstacles).kill()
+            while pygame.sprite.spritecollideany(portal, self.fires):
+                pygame.sprite.spritecollideany(portal, self.fires).kill()
 
 
 class BossScene(Scene):
