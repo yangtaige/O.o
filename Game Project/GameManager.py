@@ -196,7 +196,7 @@ class GameManager:
                         self.scene.shoppingBox.buy()
 
             if event.type == GameEvent.EVENT_FIRE:
-                self.minusHP += 1/15
+                self.minusHP += 1/30
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0
@@ -213,6 +213,9 @@ class GameManager:
         self.player.update(0, -self.player.dy)
         self.update_NPCs()
         self.scene.update_camera(self.player)
+        if self.player.HP <= 0:
+            self.flush_scene(SceneType.DEFEAT)
+            return                             # 生命值扣完直接失败
         ##### Your Code Here ↑ #####
 
     def update_wild(self, events):
@@ -274,7 +277,7 @@ class GameManager:
                 return
             
             if event.type == GameEvent.EVENT_FIRE:
-                self.minusHP += 1/10
+                self.minusHP += 1/30
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0
@@ -291,6 +294,9 @@ class GameManager:
         self.player.update(0, -self.player.dy)
         self.update_NPCs()
         self.scene.update_camera(self.player)
+        if self.player.HP <= 0:
+            self.flush_scene(SceneType.DEFEAT)
+            return
         ##### Your Code Here ↑ #####
 
     def update_boss(self, events):
@@ -353,7 +359,7 @@ class GameManager:
                     return
                 
             if event.type == GameEvent.EVENT_FIRE:
-                self.minusHP += 1/10
+                self.minusHP += 1/30
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0
@@ -371,6 +377,9 @@ class GameManager:
         self.player.update(0, -self.player.dy)
         self.update_NPCs()
         self.scene.update_camera(self.player)
+        if self.player.HP <= 0:
+            self.flush_scene(SceneType.DEFEAT)
+            return
         ##### Your Code Here ↑ #####
 
     # Collision-relate update funtions here ↓
