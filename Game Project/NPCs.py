@@ -14,7 +14,8 @@ class NPC(pygame.sprite.Sprite, Collidable):
 
         ##### Your Code Here ↓ #####
         self.image = pygame.image.load(GamePath.npc)
-        self.image = pygame.transform.scale(self.image, (NPCSettings.npcWidth, NPCSettings.npcHeight))
+        self.image = pygame.transform.scale(self.image, ((5/3)*NPCSettings.npcWidth, 
+                                                         NPCSettings.npcHeight))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 

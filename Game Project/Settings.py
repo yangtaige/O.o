@@ -47,7 +47,7 @@ class PlayerDirection(Enum):
 
 class NPCSettings:
     npcSpeed = 1
-    npcWidth = 80
+    npcWidth = 60
     npcHeight = 60
     talkCD = 2 * WindowSettings.fps  # 2秒
 
