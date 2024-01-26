@@ -18,9 +18,20 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.images = [[pygame.transform.scale(pygame.image.load(img), (PlayerSettings.playerWidth,
                                                                         PlayerSettings.playerHeight))
                         for img in image_list] for image_list in GamePath.player]
-        self.hpImage = pygame.image.load(GamePath.player_HP)
-        self.hpImage = pygame.transform.scale(self.hpImage, (PlayerSettings.heartWidth,
-                                                             PlayerSettings.heartHeight))
+
+        self.hpImage = pygame.transform.scale(pygame.image.load(GamePath.player_HP),
+                                              (PlayerSettings.heartWidth,
+                                               PlayerSettings.heartHeight))
+        self.attackImage = pygame.transform.scale(pygame.image.load(GamePath.player_Attack),
+                                                  (PlayerSettings.heartWidth,
+                                                   PlayerSettings.heartHeight))
+        self.defenceImage = pygame.transform.scale(pygame.image.load(GamePath.player_Defence),
+                                                   (PlayerSettings.heartWidth,
+                                                    PlayerSettings.heartHeight))
+        self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
+                                                   (PlayerSettings.heartWidth,
+                                                    PlayerSettings.heartHeight))
+
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.font = pygame.font.Font(None, self.fontSize)
@@ -53,7 +64,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         if self.Money + addCoins < 0:
             return
-        if self.HP + addHP < 0:
+        if self.HP + addHP <= 0:
             return
         self.Money += addCoins
         self.HP += addHP
@@ -139,11 +150,19 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
+
+        ##### Your Code Here ↑ #####
+
+    def state_update(self, window):
         if self.HP <= 10:
             for hp in range(self.HP):
-                window.blit(self.hpImage, (50 + hp * PlayerSettings.heratgap, 50))
+                window.blit(self.hpImage, (50 + hp * PlayerSettings.heartGap, 50))
         else:
             window.blit(self.hpImage, (50, 50))
             window.blit(self.font.render('×' + str(self.HP), True, self.fontColor), (100, 60))
-
-        ##### Your Code Here ↑ #####
+        window.blit(self.attackImage, (50, 100))
+        window.blit(self.font.render(':' + str(self.Attack), True, self.fontColor), (100, 110))
+        window.blit(self.defenceImage, (50, 150))
+        window.blit(self.font.render(':' + str(self.Defence), True, self.fontColor), (100, 160))
+        window.blit(self.moneyImage, (50, 200))
+        window.blit(self.font.render(':' + str(self.Money), True, self.fontColor), (100, 210))

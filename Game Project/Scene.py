@@ -134,6 +134,7 @@ class Scene:
                       self.dy)
         player.draw(self.window, self.dx,
                     self.dy)
+        player.state_update(self.window)
         if self.dialogBox:
             self.dialogBox.draw()
         if self.shoppingBox:
