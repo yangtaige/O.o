@@ -178,22 +178,18 @@ class GameManager:
                 self.scene.trigger_shop(self.player.collidingObject['npc'], self.player)
                 self.player.buying = True
 
-            if self.player.buying and event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    self.scene.shoppingBox.selectedID = max(0,
-                                                            self.scene.shoppingBox.selectedID - 1)
-                if event.key == pygame.K_s:
-                    self.scene.shoppingBox.selectedID = min(4,
-                                                            self.scene.shoppingBox.selectedID + 1)
-                if event.key == pygame.K_RETURN:  # 使用RETURN退出购物
-                    if self.scene.shoppingBox.selectedID == 4:
+            if self.player.buying and event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.scene.shoppingBox.selectedID == 5:
                         self.scene.end_shop()
                         self.player.buying = False
                         self.player.collidingObject['npc'].reset_talkCD()
                         self.player.collidingWith['npc'] = False
                         self.player.collidingObject['npc'] = []
-                    else:
+                    elif 1 <= self.scene.shoppingBox.selectedID <= 4:
                         self.scene.shoppingBox.buy()
+                    else:
+                        print(self.scene.shoppingBox.selectedID)
 
             if event.type == GameEvent.EVENT_FIRE:
                 self.minusHP += 1/30
@@ -203,6 +199,7 @@ class GameManager:
             if self.minusHP >= 1:   # 临时变量记满1则将生命值减一
                 self.player.HP -= 1
                 self.minusHP = 0
+
 
         ##### Your Code Here ↑ #####
 

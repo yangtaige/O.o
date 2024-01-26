@@ -31,8 +31,10 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
                                                    (PlayerSettings.heartWidth,
                                                     PlayerSettings.heartHeight))
-        self.fire = pygame.transform.scale(pygame.image.load(GamePath.fireImage), (PlayerSettings.fireWidth,
-                                           PlayerSettings.fireHeight))
+        self.fires = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.fireWidth,
+                                            PlayerSettings.fireHeight)) for img in GamePath.fireImage]
+        self.fireIndex = 0
+        self.fire = self.fires[self.fireIndex]
 
         self.fontSize = fontSize
         self.fontColor = fontColor
@@ -153,12 +155,13 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↓ #####
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
-        if self.burning:
-            window.blit(self.fire, (self.rect.x + 23, self.rect.y + 32))
+        if self.burning:  # 人物着火
+            self.fire_update()
+            window.blit(self.fire, (self.rect.x + 17, self.rect.y + 25))
 
         ##### Your Code Here ↑ #####
 
-    def state_update(self, window):
+    def state_update(self, window):  # 人物状态栏
         if self.HP <= 10:
             for hp in range(self.HP):
                 window.blit(self.hpImage, (50 + hp * PlayerSettings.heartGap, 50))
@@ -171,5 +174,9 @@ class Player(pygame.sprite.Sprite, Collidable):
         window.blit(self.font.render(':' + str(self.Defence), True, self.fontColor), (100, 160))
         window.blit(self.moneyImage, (50, 200))
         window.blit(self.font.render(':' + str(self.Money), True, self.fontColor), (100, 210))
+
+    def fire_update(self):  # 人物着火动画
+        self.fireIndex = (self.fireIndex + 1 / 3) % len(self.fires)
+        self.fire = self.fires[int(self.fireIndex)]
 
 

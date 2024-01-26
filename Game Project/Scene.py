@@ -71,6 +71,7 @@ class Scene:
     def end_shop(self):
         ##### Your Code Here ↓ #####
         self.shoppingBox = None
+        pygame.mouse.set_visible(1)
         ##### Your Code Here ↑ #####
 
     def update_camera(self, player):

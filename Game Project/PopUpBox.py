@@ -4,6 +4,7 @@ import pygame
 
 from typing import *
 from Settings import *
+from Tile import *
 
 
 class DialogBox:
@@ -172,24 +173,58 @@ class ShoppingBox:
         self.player = player
 
         self.selectedID = 0
+        self.items = pygame.sprite.Group()
+        self.items.add(ShopAttack())
+        self.items.add(ShopDefence())
+        self.items.add(ShopHP())
+        self.items.add(ShopLevel())
+        self.exit = ShopExit()
+        self.mouse = Mouse()
         ##### Your Code Here ↑ #####
 
     def buy(self):
         ##### Your Code Here ↓ #####
-        if self.selectedID == 0:
+        if self.selectedID == 1:
             self.player.attr_update(addCoins=-15, addAttack=1)
-        elif self.selectedID == 1:
-            self.player.attr_update(addCoins=-15, addDefence=1)
         elif self.selectedID == 2:
-            self.player.attr_update(addCoins=-15, addHP=3)
+            self.player.attr_update(addCoins=-15, addDefence=1)
         elif self.selectedID == 3:
-            self.player.attr_update(addHP=-5, addWeak=1)
+            self.player.attr_update(addCoins=-15, addHP=3)
+        elif self.selectedID == 4:
+            self.player.attr_update(addHP=-3, addWeak=1)
         ##### Your Code Here ↑ #####
 
     def draw(self):
         ##### Your Code Here ↓ #####
+        self.update()
         self.window.blit(self.bg, (ShopSettings.boxStartX, ShopSettings.boxStartY))
         self.window.blit(self.npc_image, (DialogSettings.npcCoordX, DialogSettings.npcCoordY))
 
-
+        for item in self.items:
+            self.window.blit(item.image, item.rect)
+        self.window.blit(self.exit.image, self.exit.rect)
+        self.mouse.update(self.window)
         ##### Your Code Here ↑ #####
+
+    def update(self):
+        self.blank = True
+        for item in self.items:
+            if pygame.sprite.collide_mask(item, self.mouse):
+                self.selectedID = item.ID
+                item.image = pygame.transform.scale(item.image, (100, 130))
+                self.blank = False
+            else:
+                item.image = pygame.transform.scale(item.image, (ShopSettings.itemWidth, ShopSettings.itemHeight))
+        if pygame.sprite.collide_mask(self.exit, self.mouse):
+            self.selectedID = self.exit.ID
+            self.exit.image = pygame.transform.scale(self.exit.image, (90, 50))
+            self.blank = False
+        else:
+            self.exit.image = pygame.transform.scale(self.exit.image, (80, 40))
+        if self.blank:
+            self.selectedID = 0
+
+
+
+
+

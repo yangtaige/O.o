@@ -35,7 +35,7 @@ class PlayerSettings:
     playerMoney = 30
     heartWidth = heartHeight = 50
     heartGap = 50
-    fireWidth = fireHeight = 35
+    fireWidth = fireHeight = 50
 
 
 class PlayerDirection(Enum):
@@ -129,6 +129,11 @@ class ShopSettings:
     boxHeight = 250
     boxStartX = WindowSettings.width // 4  # Coordinate X of the box
     boxStartY = WindowSettings.height // 3  # Coordinate Y of the box
+    itemWidth = 90
+    itemHeight = 120
+    itemStartX = boxStartX + 100
+    itemStartY = boxStartY + 70
+    itemGap = 175
 
     textSize = 56  # Default font size
     textStartX = boxStartX + 40  # Coordinate X of the first line of dialog
@@ -217,7 +222,11 @@ class GamePath:
     player_Attack = r".\assets\player\attack.png"
     player_Defence = r".\assets\player\defence.png"
     player_Money = r".\assets\player\money.png"
-    fireImage = r".\assets\player\fire.png"
+    fireImage = [r".\assets\player\fire 1.png",
+                 r".\assets\player\fire 2.png",
+                 r".\assets\player\fire 3.png",
+                 r".\assets\player\fire 4.png",
+                 r".\assets\player\fire 5.png"]
 
     groundTiles = [
         r".\assets\tiles\ground1.jpg",
@@ -301,6 +310,14 @@ class GamePath:
             r".\assets\tiles\fire3.png",
             r".\assets\tiles\fire4.png",
     ]
+
+    shopItem = [r".\assets\shop\shop HP.png",
+                r".\assets\shop\shop attack.png",
+                r".\assets\shop\shop defence.png",
+                r".\assets\shop\shop level.png",
+    ]
+    shopExit = r".\assets\shop\shop exit.png"
+    mouse = r".\assets\shop\mouse.png"
 
 
 class PortalSettings:
