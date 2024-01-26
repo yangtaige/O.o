@@ -167,7 +167,7 @@ class ShoppingBox:
         self.bg = pygame.image.load(GamePath.shopBackground)
         self.bg = pygame.transform.scale(self.bg, (ShopSettings.boxWidth, ShopSettings.boxHeight))
         self.npc = npc
-        self.npc_image = pygame.transform.scale(self.npc.image, (DialogSettings.npcWidth,
+        self.npc_image = pygame.transform.scale(pygame.image.load(GamePath.shopNpc), (DialogSettings.npcWidth,
                                                                  DialogSettings.npcHeight))
 
         self.player = player
@@ -207,13 +207,13 @@ class ShoppingBox:
         ##### Your Code Here ↑ #####
 
     def update(self):
-        self.blank = True
+        self.blank = True  # 判断鼠标是否在空白处
         for item in self.items:
-            if pygame.sprite.collide_mask(item, self.mouse):
+            if pygame.sprite.collide_mask(item, self.mouse):  # 鼠标碰到的物品图标变化
                 self.selectedID = item.ID
                 item.image = pygame.transform.scale(item.image, (100, 130))
                 self.blank = False
-            else:
+            else:  # 恢复正常大小
                 item.image = pygame.transform.scale(item.image, (ShopSettings.itemWidth, ShopSettings.itemHeight))
         if pygame.sprite.collide_mask(self.exit, self.mouse):
             self.selectedID = self.exit.ID
@@ -221,7 +221,7 @@ class ShoppingBox:
             self.blank = False
         else:
             self.exit.image = pygame.transform.scale(self.exit.image, (80, 40))
-        if self.blank:
+        if self.blank:  # 鼠标在空白处则物品ID为0
             self.selectedID = 0
 
 

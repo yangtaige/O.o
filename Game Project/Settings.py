@@ -47,7 +47,7 @@ class PlayerDirection(Enum):
 
 class NPCSettings:
     npcSpeed = 1
-    npcWidth = 60
+    npcWidth = 80
     npcHeight = 60
     talkCD = 2 * WindowSettings.fps  # 2秒
 
@@ -152,6 +152,7 @@ class GamePath:
     # player/npc related path
     npc = r".\assets\npc\npc.png"
     shop = r".\assets\npc\shop.png"
+    shopNpc = r".\assets\npc\shopnpc.png"
     player = [
         [r".\assets\player\11.png",
          r".\assets\player\12.png",
