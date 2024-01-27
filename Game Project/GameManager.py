@@ -41,7 +41,6 @@ class GameManager:
         self.bgm.update()
         self.level = 0  # 重置怪物等级
         self.time = pygame.time.Clock()
-        self.time.tick()
         ##### Your Code Here ↑ #####
 
     # Necessary game components here ↓
@@ -115,6 +114,7 @@ class GameManager:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.flush_scene(SceneType.CITY)
+                    self.time.tick()
         ##### Your Code Here ↑ #####
 
     def update_end_menu(self, events):
