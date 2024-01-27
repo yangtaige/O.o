@@ -123,6 +123,9 @@ class BattleSettings:
     stepSize = 20
     animationFrameCount = 15
 
+    flashWidth = 75
+    flashHeight = 200
+
 
 class ShopSettings:
     shopWidth = 180
@@ -377,6 +380,12 @@ class GamePath:
                    r".\assets\cards\51.png",
                    r".\assets\cards\52.png",
                    ]
+    flash = [r".\assets\flash\1.png",
+             r".\assets\flash\2.png",
+             r".\assets\flash\3.png",
+             r".\assets\flash\4.png",]
+
+
 
 
 class PortalSettings:

@@ -60,6 +60,11 @@ class BattleBox:
                                                                                       PlayerSettings.heartHeight))
         self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
                                                  (PlayerSettings.heartWidth, PlayerSettings.heartHeight))
+        self.flashs = [pygame.transform.scale(pygame.image.load(img),
+                                              (BattleSettings.flashWidth, BattleSettings.flashHeight))
+                       for img in GamePath.flash]
+        self.flashIndex = 0
+        self.flash = self.flashs[self.flashIndex]
 
         # 初始化相关角色的参数，没有实际操作的权力
         self.player = player
@@ -130,7 +135,9 @@ class BattleBox:
                 currentDir = self.dir * -1
 
             if self.attacker == 0:
-                self.playerX += currentDir * BattleSettings.stepSize
+                self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
+                self.flash = self.flashs[self.flashIndex]
+                self.window.blit(self.flash, (self.monsterX + 70, self.monsterY + 40))
             else:
                 self.monsterX += currentDir * BattleSettings.stepSize
 
