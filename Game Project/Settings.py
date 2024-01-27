@@ -36,6 +36,8 @@ class PlayerSettings:
     heartWidth = heartHeight = 50
     heartGap = 50
     fireWidth = fireHeight = 50
+    cardswidth = 90
+    cardsheight = 126
 
 
 class PlayerDirection(Enum):
@@ -321,6 +323,60 @@ class GamePath:
     ]
     shopExit = r".\assets\shop\shop exit.png"
     mouse = r".\assets\shop\mouse.png"
+
+    card_images = [r".\assets\cards\1.png",
+                   r".\assets\cards\2.png",
+                   r".\assets\cards\3.png",
+                   r".\assets\cards\4.png",
+                   r".\assets\cards\5.png",
+                   r".\assets\cards\6.png",
+                   r".\assets\cards\7.png",
+                   r".\assets\cards\8.png",
+                   r".\assets\cards\9.png",
+                   r".\assets\cards\10.png",
+                   r".\assets\cards\11.png",
+                   r".\assets\cards\12.png",
+                   r".\assets\cards\13.png",
+                   r".\assets\cards\14.png",
+                   r".\assets\cards\15.png",
+                   r".\assets\cards\16.png",
+                   r".\assets\cards\17.png",
+                   r".\assets\cards\18.png",
+                   r".\assets\cards\19.png",
+                   r".\assets\cards\20.png",
+                   r".\assets\cards\21.png",
+                   r".\assets\cards\22.png",
+                   r".\assets\cards\23.png",
+                   r".\assets\cards\24.png",
+                   r".\assets\cards\25.png",
+                   r".\assets\cards\26.png",
+                   r".\assets\cards\27.png",
+                   r".\assets\cards\28.png",
+                   r".\assets\cards\29.png",
+                   r".\assets\cards\30.png",
+                   r".\assets\cards\31.png",
+                   r".\assets\cards\32.png",
+                   r".\assets\cards\33.png",
+                   r".\assets\cards\34.png",
+                   r".\assets\cards\35.png",
+                   r".\assets\cards\36.png",
+                   r".\assets\cards\37.png",
+                   r".\assets\cards\38.png",
+                   r".\assets\cards\39.png",
+                   r".\assets\cards\40.png",
+                   r".\assets\cards\41.png",
+                   r".\assets\cards\42.png",
+                   r".\assets\cards\43.png",
+                   r".\assets\cards\44.png",
+                   r".\assets\cards\45.png",
+                   r".\assets\cards\46.png",
+                   r".\assets\cards\47.png",
+                   r".\assets\cards\48.png",
+                   r".\assets\cards\49.png",
+                   r".\assets\cards\50.png",
+                   r".\assets\cards\51.png",
+                   r".\assets\cards\52.png",
+                   ]
 
 
 class PortalSettings:
