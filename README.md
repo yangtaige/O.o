@@ -48,7 +48,9 @@
 
 # 游戏文件
     仓库中Game Project为游戏文件。
-    用编辑器打开Game Project后运行Main.py即可进入游戏。
+    用编辑器打开Game Project后运行Main.py，
+    或直接通过在游戏目录打开终端并输入 python Mainpy 运行，
+    即可进入游戏。
     
     1、Attribute.py
       该文件定义了Collidable类，便于进行实体碰撞后相应事件的触发。
