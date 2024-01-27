@@ -218,9 +218,9 @@ class CityScene(Scene):
         self.gen_city_obstacle()
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
-        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero',
-                                                                           'I\'m used to be an adventurer like you',
-                                                                           'Then I took an arrow in the knee']))
+        self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero.',
+                                                                           'I\'m used to be an adventurer like you.',
+                                                                           'Then I took an arrow in the knee.']))
         self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY',
                               {'Attack +1': 'Coin -15', 'Defence +1': 'Coin -15',
                                'HP +3': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))

@@ -51,7 +51,7 @@ class NPCSettings:
     npcSpeed = 1
     npcWidth = 60
     npcHeight = 60
-    talkCD = 2 * WindowSettings.fps  # 2秒
+    talkCD = 4 * WindowSettings.fps  # 4秒
 
 
 class NPCType(Enum):

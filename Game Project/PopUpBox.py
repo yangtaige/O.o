@@ -20,7 +20,10 @@ class DialogBox:
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.font = pygame.font.Font(None, self.fontSize)
-
+        self.hint = pygame.font.Font(None, ManuSettings.textSize)  # 退出提示
+        self.text = self.hint.render('Press ESC to exit', True, (255, 255, 255))
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
+                                                   WindowSettings.height - 20))
         self.bg = pygame.Surface((DialogSettings.boxWidth, DialogSettings.boxHeight),
                                  pygame.SRCALPHA)
         self.bg.fill(bgColor)
@@ -34,7 +37,7 @@ class DialogBox:
         ##### Your Code Here ↓ #####
         self.window.blit(self.bg, (DialogSettings.boxStartX, DialogSettings.boxStartY))
         self.window.blit(self.npc, (DialogSettings.npcCoordX, DialogSettings.npcCoordY))
-
+        self.window.blit(self.text, self.textRect)  # 绘制退出提示
         offset = 0
         for text in self.dialog:
             self.window.blit(self.font.render(text, True, self.fontColor),
@@ -92,7 +95,10 @@ class BattleBox:
         self.dir = 1
         # 是否结束
         self.isFinished = False
-
+        self.hint = pygame.font.Font(None, ManuSettings.textSize)  # 退出提示
+        self.text = self.hint.render('Press ENTER to exit', True, (255, 255, 255))
+        self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
+                                                   WindowSettings.height // 2 + 50))
         ##### Your Code Here ↑ #####
 
     def get_result(self):
@@ -147,6 +153,7 @@ class BattleBox:
                 text = '+ ' + str(self.monster.money)
                 self.window.blit(self.moneyImage, (BattleSettings.boxStartX + BattleSettings.boxWidth // 2 - 50,
                                                    BattleSettings.textStartY - 8))
+                self.window.blit(self.text, self.textRect)  # 绘制退出提示
             elif self.player.HP == 0:
                 text = 'YOU DIED'
             self.window.blit(self.font.render(text, True, self.fontColor),

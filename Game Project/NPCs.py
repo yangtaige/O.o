@@ -99,11 +99,11 @@ class Monster(pygame.sprite.Sprite):
         self.direction = 1
         self.action = Action.SITTING
         self.delay = 20
-        self.coefficient = (4 / 3) ** level  # 根据等级决定属性系数
+        self.coefficient = (4 / 3) ** (level-1)  # 根据等级决定属性系数
         self.HP = int(HP * self.coefficient * (3 / 4) ** weak)  # 根据玩家削弱等级削弱怪物
         self.attack = int(Attack * self.coefficient * (3 / 4) ** weak)
         self.defence = int(Defence * self.coefficient * (3 / 4) ** weak)
-        self.money = int(Money * self.coefficient)  # 获得金币不受削弱等级影响
+        self.money = int(Money * (16/15)**(level-1))  # 获得金币不受削弱等级影响
         # 根据怪物类型更改属性
         if self.type == 0:
             self.HP = int(self.HP * 3 / 2)
@@ -130,7 +130,7 @@ class Monster(pygame.sprite.Sprite):
             self.HP = int(self.HP * 3 / 2)
             self.attack = int(self.attack * 3 / 2)
             self.defence = int(self.defence)
-            self.money *= 2
+            self.money *= 4/3
             self.specialEffects = [pygame.transform.scale(pygame.image.load(img),
                                                           (BattleSettings.specialWidth, BattleSettings.specialHeight))
                                    for img in GamePath.specialEffect[2]]
@@ -191,9 +191,9 @@ class Boss(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
-        self.HP = 50
-        self.attack = 7
-        self.defence = 10
+        self.HP = 666
+        self.attack = 50
+        self.defence = 20
         self.money = 888
         self.nail = pygame.transform.scale(pygame.image.load(GamePath.nail), (117, 40))
         ##### Your Code Here ↑ #####
