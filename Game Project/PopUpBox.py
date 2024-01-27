@@ -231,8 +231,3 @@ class ShoppingBox:
             self.exit.image = pygame.transform.scale(self.exit.image, (80, 40))
         if self.blank:  # 鼠标在空白处则物品ID为0
             self.selectedID = 0
-
-
-
-
-
