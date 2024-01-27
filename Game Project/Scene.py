@@ -3,7 +3,6 @@
 import pygame
 from random import randint, random
 
-from enum import Enum
 from Settings import *
 from NPCs import *
 from PopUpBox import *

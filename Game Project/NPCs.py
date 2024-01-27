@@ -4,7 +4,7 @@ import pygame
 
 from Settings import *
 from Attributes import *
-from random import randint, random
+from random import randint
 
 class NPC(pygame.sprite.Sprite, Collidable):
     def __init__(self, x, y, name):

@@ -3,7 +3,6 @@
 import sys
 import pygame
 
-import NPCs
 from Player import Player
 from Scene import *
 from Settings import *
@@ -205,8 +204,8 @@ class GameManager:
 
         # Then deal with regular updates
         ##### Your Code Here ↓ #####
-        self.player.try_move_width()
-        self.update_collide()
+        self.player.try_move_width()   # 分别检测横向移动碰撞与纵向移动碰撞
+        self.update_collide()          # 以解决障碍物边缘的卡顿问题
         self.player.update(-self.player.dx, 0)
         self.player.try_move_height()
         self.update_collide()

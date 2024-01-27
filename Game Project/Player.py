@@ -179,5 +179,3 @@ class Player(pygame.sprite.Sprite, Collidable):
     def fire_update(self):  # 人物着火动画
         self.fireIndex = (self.fireIndex + 1 / 3) % len(self.fires)
         self.fire = self.fires[int(self.fireIndex)]
-
-
