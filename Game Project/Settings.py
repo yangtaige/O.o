@@ -105,7 +105,7 @@ class BattleSettings:
     boxStartY = WindowSettings.height // 8
     textSize = 48  # Default font size
     textStartX = WindowSettings.width // 4
-    textPlayerStartX = boxStartX + 80 # Coordinate X of the first line of dialog
+    textPlayerStartX = boxStartX + 80  # Coordinate X of the first line of dialog
     textMonsterStartX = boxStartX + boxWidth - 130
     textStartY = boxStartY + 30  # Coordinate Y of the first line of dialog
     textVerticalDist = textSize // 4 * 3  # Vertical distance of two lines
@@ -120,11 +120,14 @@ class BattleSettings:
     monsterCoordX = WindowSettings.width * 5 // 8
     monsterCoordY = WindowSettings.height // 2
 
-    stepSize = 20
+    stepSize = 14
     animationFrameCount = 15
 
     flashWidth = 75
     flashHeight = 200
+
+    specialWidth = 144
+    specialHeight = 75
 
 
 class ShopSettings:
@@ -219,7 +222,7 @@ class GamePath:
                 r".\assets\npc\monster\3\4.png",
                 r".\assets\npc\monster\3\5.png",
                 r".\assets\npc\monster\3\6.png"]
-    ]
+               ]
     boss = r".\assets\npc\boss.png"
 
     battleBox = r".\assets\background\battlebox.png"
@@ -277,7 +280,7 @@ class GamePath:
            r".\assets\bgm\main menu.mp3",
            r".\assets\bgm\victory.mp3",
            r".\assets\bgm\defeat.mp3",
-    ]
+           ]
 
     animated_tree = [[r".\assets\tiles\animated_tree\leftbottom1.png",
                       r".\assets\tiles\animated_tree\leftbottom2.png",
@@ -311,19 +314,19 @@ class GamePath:
                       r".\assets\tiles\animated_tree\righttop6.png",
                       r".\assets\tiles\animated_tree\righttop7.png",
                       r".\assets\tiles\animated_tree\righttop8.png"],
-    ]
-    
+                     ]
+
     fire = [r".\assets\tiles\fire1.png",
             r".\assets\tiles\fire2.png",
             r".\assets\tiles\fire3.png",
             r".\assets\tiles\fire4.png",
-    ]
+            ]
 
     shopItem = [r".\assets\shop\shop HP.png",
                 r".\assets\shop\shop attack.png",
                 r".\assets\shop\shop defence.png",
                 r".\assets\shop\shop level.png",
-    ]
+                ]
     shopExit = r".\assets\shop\shop exit.png"
     mouse = r".\assets\shop\mouse.png"
 
@@ -381,9 +384,9 @@ class GamePath:
                    r".\assets\cards\52.png",
                    ]
     flash = [[r".\assets\flash\1.png",
-             r".\assets\flash\2.png",
-             r".\assets\flash\3.png",
-             r".\assets\flash\4.png"],
+              r".\assets\flash\2.png",
+              r".\assets\flash\3.png",
+              r".\assets\flash\4.png"],
              [r".\assets\thunder\1.png",
               r".\assets\thunder\2.png",
               r".\assets\thunder\3.png",
@@ -393,10 +396,39 @@ class GamePath:
               r".\assets\thunder\7.png",
               r".\assets\thunder\8.png",
               r".\assets\thunder\9.png",
-              r".\assets\thunder\10.png"]
+              r".\assets\thunder\10.png"],
+             [r".\assets\crash\1.png",
+              r".\assets\crash\2.png",
+              r".\assets\crash\3.png",
+              r".\assets\crash\4.png",
+              r".\assets\crash\5.png",
+              r".\assets\crash\6.png",
+              r".\assets\crash\7.png",
+              r".\assets\crash\8.png",
+              r".\assets\crash\9.png",
+              r".\assets\crash\10.png"]
              ]
-
-
+    specialEffect = [[r".\assets\arrow\1.png",
+                      r".\assets\arrow\2.png",
+                      r".\assets\arrow\3.png",
+                      r".\assets\arrow\4.png",
+                      r".\assets\arrow\5.png", ],
+                     [r".\assets\tornado\1.png",
+                      r".\assets\tornado\2.png",
+                      r".\assets\tornado\3.png",
+                      r".\assets\tornado\4.png", ],
+                     [r".\assets\splash\1.png",
+                      r".\assets\splash\2.png",
+                      r".\assets\splash\3.png",
+                      r".\assets\splash\4.png",
+                      r".\assets\splash\5.png",
+                      r".\assets\splash\6.png",
+                      r".\assets\splash\7.png",
+                      r".\assets\splash\8.png",
+                      r".\assets\splash\9.png",
+                      r".\assets\splash\10.png"]
+                     ]
+    nail = r".\assets\npc\nail.png"
 
 
 class PortalSettings:

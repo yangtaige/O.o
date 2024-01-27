@@ -5,6 +5,7 @@ import pygame
 from Settings import *
 from Attributes import *
 from typing import *
+from random import randint
 
 
 class Player(pygame.sprite.Sprite, Collidable):
@@ -29,12 +30,18 @@ class Player(pygame.sprite.Sprite, Collidable):
                                                    (PlayerSettings.heartWidth,
                                                     PlayerSettings.heartHeight))
         self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
-                                                   (PlayerSettings.heartWidth,
-                                                    PlayerSettings.heartHeight))
+                                                 (PlayerSettings.heartWidth,
+                                                  PlayerSettings.heartHeight))
         self.fires = [pygame.transform.scale(pygame.image.load(img), (PlayerSettings.fireWidth,
-                                            PlayerSettings.fireHeight)) for img in GamePath.fireImage]
+                                                                      PlayerSettings.fireHeight)) for img in
+                      GamePath.fireImage]
         self.fireIndex = 0
         self.fire = self.fires[self.fireIndex]
+        self.flashs = [pygame.transform.scale(pygame.image.load(img),  # 人物攻击特效加载
+                                              (BattleSettings.flashWidth, BattleSettings.flashHeight))
+                       for img in GamePath.flash[randint(0, 2)]]
+        self.flashIndex = 0
+        self.flash = self.flashs[self.flashIndex]
 
         self.fontSize = fontSize
         self.fontColor = fontColor
@@ -162,7 +169,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         ##### Your Code Here ↑ #####
 
     def state_update(self, window):  # 人物状态栏
-         if not self.talking:
+        if not self.talking:
             if self.HP <= 10:
                 for hp in range(self.HP):
                     window.blit(self.hpImage, (50 + hp * PlayerSettings.heartGap, 50))
@@ -179,3 +186,12 @@ class Player(pygame.sprite.Sprite, Collidable):
     def fire_update(self):  # 人物着火动画
         self.fireIndex = (self.fireIndex + 1 / 3) % len(self.fires)
         self.fire = self.fires[int(self.fireIndex)]
+
+    def attacking(self, count, window):  # r人物攻击动画
+        if count == 10:  # 每次随机使用技能
+            self.flashs = [pygame.transform.scale(pygame.image.load(img),
+                                                  (BattleSettings.flashWidth, BattleSettings.flashHeight))
+                           for img in GamePath.flash[randint(0, 2)]]
+        self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
+        self.flash = self.flashs[self.flashIndex]
+        window.blit(self.flash, (BattleSettings.monsterCoordX + 70, BattleSettings.monsterCoordY + 40))

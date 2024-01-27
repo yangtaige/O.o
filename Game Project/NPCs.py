@@ -6,6 +6,7 @@ from Settings import *
 from Attributes import *
 from random import randint
 
+
 class NPC(pygame.sprite.Sprite, Collidable):
     def __init__(self, x, y, name):
         # Initialize father classes
@@ -14,7 +15,7 @@ class NPC(pygame.sprite.Sprite, Collidable):
 
         ##### Your Code Here ↓ #####
         self.image = pygame.image.load(GamePath.npc)
-        self.image = pygame.transform.scale(self.image, ((5/3)*NPCSettings.npcWidth, 
+        self.image = pygame.transform.scale(self.image, ((5 / 3) * NPCSettings.npcWidth,
                                                          NPCSettings.npcHeight))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
@@ -50,7 +51,7 @@ class DialogNPC(NPC):
         self.facing_East = 1
         self.dialog = dialog
         ##### Your Code Here ↑ #####
-    
+
     def update(self):
         ##### Your Code Here ↓ #####
         '''传入self.tick(self, fps)方法'''
@@ -58,6 +59,7 @@ class DialogNPC(NPC):
             if self.talkCD > 0:
                 self.talkCD -= 1
         ##### Your Code Here ↑ #####
+
 
 class ShopNPC(NPC):
     def __init__(self, x, y, name, items, dialog):
@@ -71,22 +73,23 @@ class ShopNPC(NPC):
         self.items = items
         self.dialog = dialog
         ##### Your Code Here ↑ #####
-    
+
     def update(self):
         ##### Your Code Here ↓ #####
         if not self.talking and self.talkCD > 0:
             self.talkCD -= 1
         ##### Your Code Here ↑ #####
-    
+
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, x, y, level:int, weak:int, HP = 10, Attack = 3, Defence = 1, Money = 15):
+    def __init__(self, x, y, level: int, weak: int, HP=10, Attack=3, Defence=1, Money=15):
         super().__init__()
-        
+
         ##### Your Code Here ↓ #####
         self.images = [[pygame.transform.scale(pygame.image.load(img),
-                            (NPCSettings.npcWidth,
-                             NPCSettings.npcHeight)) for img in img_list] for img_list in GamePath.monster]
+                                               (NPCSettings.npcWidth,
+                                                NPCSettings.npcHeight)) for img in img_list] for img_list in
+                       GamePath.monster]
         self.type = randint(0, len(self.images) - 1)
         self.index = 3
         self.image = self.images[self.type][self.index]
@@ -96,31 +99,45 @@ class Monster(pygame.sprite.Sprite):
         self.direction = 1
         self.action = Action.SITTING
         self.delay = 20
-        self.coefficient = (4/3)**level  # 根据等级决定属性系数
-        self.HP = int(HP * self.coefficient * (3/4)**weak)  # 根据玩家削弱等级削弱怪物
-        self.attack = int(Attack * self.coefficient * (3/4)**weak)
-        self.defence = int(Defence * self.coefficient * (3/4)**weak)
-        self.money = int(Money * self.coefficient) # 获得金币不受削弱等级影响
+        self.coefficient = (4 / 3) ** level  # 根据等级决定属性系数
+        self.HP = int(HP * self.coefficient * (3 / 4) ** weak)  # 根据玩家削弱等级削弱怪物
+        self.attack = int(Attack * self.coefficient * (3 / 4) ** weak)
+        self.defence = int(Defence * self.coefficient * (3 / 4) ** weak)
+        self.money = int(Money * self.coefficient)  # 获得金币不受削弱等级影响
         # 根据怪物类型更改属性
         if self.type == 0:
-            self.HP = int(self.HP * 3/2)
-            self.attack = int(self.attack * 2/3)
-            self.defence = int(self.defence * 3/2)
-        
+            self.HP = int(self.HP * 3 / 2)
+            self.attack = int(self.attack * 2 / 3)
+            self.defence = int(self.defence * 3 / 2)
+            self.specialEffects = [pygame.transform.scale(pygame.image.load(img),  # 怪物攻击特效加载
+                                                          (BattleSettings.specialWidth,
+                                                           BattleSettings.specialHeight * 2))
+                                   for img in GamePath.specialEffect[1]]
+            self.specialEffectIndex = 0
+            self.specialEffect = self.specialEffects[self.specialEffectIndex]
+
         elif self.type == 1:
-            self.HP = int(self.HP * 2/3)
-            self.attack = int(self.attack * 3/2)
-            self.defence = int(self.defence * 1/2)
-        
+            self.HP = int(self.HP * 2 / 3)
+            self.attack = int(self.attack * 3 / 2)
+            self.defence = int(self.defence * 1 / 2)
+            self.specialEffects = [pygame.transform.scale(pygame.image.load(img),
+                                                          (BattleSettings.specialWidth, BattleSettings.specialHeight))
+                                   for img in GamePath.specialEffect[0]]
+            self.specialEffectIndex = 0
+            self.specialEffect = self.specialEffects[self.specialEffectIndex]
+
         elif self.type == 2:
-            self.HP = int(self.HP * 3/2)
-            self.attack = int(self.attack * 3/2)
+            self.HP = int(self.HP * 3 / 2)
+            self.attack = int(self.attack * 3 / 2)
             self.defence = int(self.defence)
             self.money *= 2
-
+            self.specialEffects = [pygame.transform.scale(pygame.image.load(img),
+                                                          (BattleSettings.specialWidth, BattleSettings.specialHeight))
+                                   for img in GamePath.specialEffect[2]]
+            self.specialEffectIndex = 0
+            self.specialEffect = self.specialEffects[self.specialEffectIndex]
 
         ##### Your Code Here ↑ #####
-
 
     def update(self):
         if self.action == Action.STANDING:  # monster处于起立状态时，播放起立动画
@@ -142,15 +159,35 @@ class Monster(pygame.sprite.Sprite):
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
 
+    def attacking(self, currentPlayingCount, window):  # 不同怪物不同攻击特效
+        if self.type == 0:
+            self.specialEffectIndex = (self.specialEffectIndex + 1) % len(self.specialEffects)
+            self.specialEffect = self.specialEffects[self.specialEffectIndex]
+            window.blit(self.specialEffect,
+                        (BattleSettings.monsterCoordX - currentPlayingCount * BattleSettings.stepSize,
+                         BattleSettings.monsterCoordY + 50))
+        if self.type == 1:
+            self.specialEffectIndex = (self.specialEffectIndex + 1) % len(self.specialEffects)
+            self.specialEffect = self.specialEffects[self.specialEffectIndex]
+            window.blit(self.specialEffect,
+                        (BattleSettings.monsterCoordX - currentPlayingCount * BattleSettings.stepSize,
+                         BattleSettings.monsterCoordY + 100))
+        if self.type == 2:
+            self.specialEffectIndex = (self.specialEffectIndex + 0.33) % len(self.specialEffects)
+            self.specialEffect = self.specialEffects[int(self.specialEffectIndex)]
+            window.blit(self.specialEffect,
+                        (BattleSettings.monsterCoordX - currentPlayingCount * BattleSettings.stepSize * 1.2,
+                         BattleSettings.monsterCoordY + 100))
+
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, x = (WindowSettings.width/2) + 200, y = WindowSettings.height/2):
+    def __init__(self, x=(WindowSettings.width / 2) + 200, y=WindowSettings.height / 2):
         super().__init__()
-        
+
         ##### Your Code Here ↓ #####
         self.image = pygame.transform.scale(pygame.image.load(GamePath.boss),
-                            (BossSettings.width,
-                             BossSettings.height))
+                                            (BossSettings.width,
+                                             BossSettings.height))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
@@ -158,6 +195,7 @@ class Boss(pygame.sprite.Sprite):
         self.attack = 7
         self.defence = 10
         self.money = 888
+        self.nail = pygame.transform.scale(pygame.image.load(GamePath.nail), (117, 40))
         ##### Your Code Here ↑ #####
 
     def draw(self, window, dx=0, dy=0):
@@ -165,3 +203,8 @@ class Boss(pygame.sprite.Sprite):
         self.rect = self.rect.move(dx, dy)
         window.blit(self.image, self.rect)
         ##### Your Code Here ↑ #####
+
+    def attacking(self, currentPlayingCount, window):
+        window.blit(self.nail,
+                    (BattleSettings.monsterCoordX - currentPlayingCount * BattleSettings.stepSize * 1,
+                     BattleSettings.monsterCoordY + 100))

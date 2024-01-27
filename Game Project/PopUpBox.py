@@ -62,11 +62,6 @@ class BattleBox:
                                                                                       PlayerSettings.heartHeight))
         self.moneyImage = pygame.transform.scale(pygame.image.load(GamePath.player_Money),
                                                  (PlayerSettings.heartWidth, PlayerSettings.heartHeight))
-        self.flashs = [pygame.transform.scale(pygame.image.load(img),
-                                              (BattleSettings.flashWidth, BattleSettings.flashHeight))
-                       for img in GamePath.flash[randint(0, 1)]]
-        self.flashIndex = 0
-        self.flash = self.flashs[self.flashIndex]
 
         # 初始化相关角色的参数，没有实际操作的权力
         self.player = player
@@ -101,7 +96,7 @@ class BattleBox:
         ##### Your Code Here ↑ #####
 
     def get_result(self):
-        if self.attacker == 0:
+        if self.attacker == 0:  # 人物或者怪物使用攻击特效
             self.monster.HP = max(0, self.monster.HP -
                                   max(0, (self.player.Attack - self.monster.defence)))
             self.attacker = 1
@@ -119,7 +114,7 @@ class BattleBox:
         # 绘制背景和文字
         self.window.blit(self.bg, (BattleSettings.boxStartX, BattleSettings.boxStartY))
         self.window.blit(self.playerImg, (self.playerX, self.playerY))
-        self.window.blit(self.monsterImg, (self.monsterX, self.monsterY))
+        self.window.blit(self.monsterImg, (BattleSettings.monsterCoordX, self.monsterY))
         text = '×' + str(self.player.HP)
         self.window.blit(self.HPImage, (BattleSettings.boxStartX + 30, BattleSettings.boxStartY + 20))
         self.window.blit(self.font.render(text, True, self.fontColor),
@@ -131,18 +126,11 @@ class BattleBox:
                          (BattleSettings.textMonsterStartX, BattleSettings.textStartY))
         # 绘制战斗过程
         if self.isPlayingAnimation:
-            if self.currentPlayingCount < BattleSettings.animationFrameCount:
-                currentDir = self.dir
-            else:
-                currentDir = self.dir * -1
-
             if self.attacker == 0:
                 if 10 <= self.currentPlayingCount <= 20:
-                    self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
-                    self.flash = self.flashs[self.flashIndex]
-                    self.window.blit(self.flash, (self.monsterX + 70, self.monsterY + 40))
+                    self.player.attacking(self.currentPlayingCount, self.window)
             else:
-                self.monsterX += currentDir * BattleSettings.stepSize
+                self.monster.attacking(self.currentPlayingCount, self.window)
 
             self.currentPlayingCount += 1
 
@@ -158,7 +146,7 @@ class BattleBox:
             if self.monster.HP == 0:
                 text = '+ ' + str(self.monster.money)
                 self.window.blit(self.moneyImage, (BattleSettings.boxStartX + BattleSettings.boxWidth // 2 - 50,
-                              BattleSettings.textStartY - 8))
+                                                   BattleSettings.textStartY - 8))
             elif self.player.HP == 0:
                 text = 'YOU DIED'
             self.window.blit(self.font.render(text, True, self.fontColor),
@@ -186,7 +174,7 @@ class ShoppingBox:
         self.bg = pygame.transform.scale(self.bg, (ShopSettings.boxWidth, ShopSettings.boxHeight))
         self.npc = npc
         self.npc_image = pygame.transform.scale(pygame.image.load(GamePath.shopNpc), (DialogSettings.npcWidth,
-                                                                 DialogSettings.npcHeight))
+                                                                                      DialogSettings.npcHeight))
 
         self.player = player
 
