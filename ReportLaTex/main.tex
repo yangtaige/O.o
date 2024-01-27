@@ -52,11 +52,13 @@
 \includegraphics[width=0.7\linewidth]{场景1.png}
 \caption{\label{fig:场景1}城市场景}
 \end{figure}
+
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{场景2.png}
 \caption{\label{fig:场景2}野外场景}
 \end{figure}
+
 \begin{figure}
 \centering
 \includegraphics[width=0.7\linewidth]{场景3.png}
@@ -66,8 +68,10 @@
 \subsubsection{大型场景}
 我们游戏中的每个场景都是大型场景，都有着可以跟随玩家移动而进行视角移动的摄像头。
 
+镜头移动的原理：每当满足镜头移动的条件时， 所有物体（含地砖、NPC、玩家）都会获得一个偏移量，该偏移量等于在这一帧玩家试图移动的距离，在渲染时所有物体的位置都会加上这个偏移量的相反数。因此，玩家移动了$\left ( \mathrm{d}x,\mathrm{d}y \right ) +  \left ( -\mathrm{d}x,-\mathrm{d}y \right )= \left ( 0,0 \right )$,即在原地不动，其它物体全部移动偏移量的相反数，达到了镜头移动的效果。 
+
 \subsubsection{互动物品}
-我们的游戏中有四种互动物品，分别为树、动画树、墙壁与火堆。
+我们的游戏中有四种互动物品，分别为树、动画树、墙壁与火堆，如图\ref{fig:互动物品}。
 \begin{figure}[h]
 \centering
 \subfigure[树]{\includegraphics[width=0.2\linewidth]{树.png}}
@@ -88,7 +92,7 @@
 主要角色行走时会播放行走动画，当玩家按下相应按键后，程序会记录下行走朝向，并以此为依据更改主要角色的图片，使图片与行走方向相匹配，并循环播放一组图片以达到动画的效果。
 
 \subsubsection{友好NPC}
-在城市场景中存在着两种友好NPC，一种是对话NPC，还有一种是商店NPC。
+在城市场景中存在着两种友好NPC，一种是对话NPC，还有一种是商店NPC，见图\ref{fig:友好NPC}。
 \begin{figure}[h]
 \centering
 \subfigure[对话NPC]{\includegraphics[width=0.3\linewidth]{对话npc.png}}
@@ -100,7 +104,7 @@
 
 \subsubsection{简单敌人}
 野外场景中存在着三种简单敌人：脆皮神射手骷髅头、血牛刮痧飞天猴与高攻高防精英绿皮人。
-三种敌人的属性都不一样：骷髅头血量与防御较少，但攻击较高；飞天猴血量防御高，攻击低；绿皮人血量防御与攻击都比较高。三种敌人被击败时都会有倒地动画。
+三种敌人的属性都不一样：骷髅头血量与防御较少，但攻击较高；飞天猴血量防御高，攻击低；绿皮人血量防御与攻击都比较高，见图\ref{fig:简单敌人}。三种敌人被击败时都会有倒地动画。
 \begin{figure}[h]
 \centering
 \subfigure[骷髅头]{\includegraphics[width=0.3\linewidth]{骷髅头.png}}
@@ -110,7 +114,7 @@
 \end{figure}
 
 \subsubsection{特殊敌人}
-Boss房中存在着一种特殊敌人：大扑棱蛾子。击败它就会触发游戏结束事件。
+Boss房中存在着一种特殊敌人：大扑棱蛾子，见图\ref{fig:大扑棱蛾子}。击败它就会触发游戏结束事件。
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\linewidth]{大扑棱蛾子.png}
@@ -213,7 +217,7 @@ Boss房中存在着一种特殊敌人：大扑棱蛾子。击败它就会触发�
 等级系统通过每次触发传送到野外事件时使等级加一，并根据等级调整野外场景生成的怪物属性的方法来实现。
 
 \subsection{商店界面}
-游戏的商店界面采用鼠标操作的形式，使操作更为人性化，用多样的图标显示商品，并且让需要献祭生命购买的削弱怪物商品图标显示为“？？？”，以此引发玩家好奇心与探索欲。
+游戏的商店界面采用鼠标操作的形式，使操作更为人性化，用多样的图标显示商品，并且让需要献祭生命购买的削弱怪物商品图标显示为“？？？”，以此引发玩家好奇心与探索欲，见图\ref{fig:商店}。
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.75\linewidth]{商店.png}
@@ -224,7 +228,7 @@ Boss房中存在着一种特殊敌人：大扑棱蛾子。击败它就会触发�
 游戏的城市场景有一个大火堆，诱导玩家探索游戏机制，使玩家发现踩上火堆会持续掉血。野外场景会随机生成小火堆作为障碍物的一种，旨在让玩家每次穿越火堆前往自己想去的地方时付出减少血量资源的代价，这更加强调了控制血量在我们游戏中的作用。
 
 \subsection{属性显示}
-玩家的所有属性与资源都会人性化地显示在窗口左上角，以方便玩家进行资源管理。其中，玩家的血量在低于10会显示为一个一个小心心，增加玩家在低血量时的紧迫感。
+玩家的所有属性与资源都会人性化地显示在窗口左上角，以方便玩家进行资源管理。其中，玩家的血量在低于10会显示为一个一个小心心，增加玩家在低血量时的紧迫感,如图\ref{fig:属性显示}。
 \begin{figure}[h]
 \centering
 \subfigure[高血量情况]{\includegraphics[width=0.2\linewidth]{属性1.png}}
