@@ -380,10 +380,21 @@ class GamePath:
                    r".\assets\cards\51.png",
                    r".\assets\cards\52.png",
                    ]
-    flash = [r".\assets\flash\1.png",
+    flash = [[r".\assets\flash\1.png",
              r".\assets\flash\2.png",
              r".\assets\flash\3.png",
-             r".\assets\flash\4.png",]
+             r".\assets\flash\4.png"],
+             [r".\assets\thunder\1.png",
+              r".\assets\thunder\2.png",
+              r".\assets\thunder\3.png",
+              r".\assets\thunder\4.png",
+              r".\assets\thunder\5.png",
+              r".\assets\thunder\6.png",
+              r".\assets\thunder\7.png",
+              r".\assets\thunder\8.png",
+              r".\assets\thunder\9.png",
+              r".\assets\thunder\10.png"]
+             ]
 
 
 

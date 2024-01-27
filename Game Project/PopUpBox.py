@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
+import random
 
 import pygame
 
 from typing import *
 from Settings import *
 from Tile import *
+from random import randint, random
 
 
 class DialogBox:
@@ -62,7 +64,7 @@ class BattleBox:
                                                  (PlayerSettings.heartWidth, PlayerSettings.heartHeight))
         self.flashs = [pygame.transform.scale(pygame.image.load(img),
                                               (BattleSettings.flashWidth, BattleSettings.flashHeight))
-                       for img in GamePath.flash]
+                       for img in GamePath.flash[randint(0, 1)]]
         self.flashIndex = 0
         self.flash = self.flashs[self.flashIndex]
 
@@ -135,9 +137,10 @@ class BattleBox:
                 currentDir = self.dir * -1
 
             if self.attacker == 0:
-                self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
-                self.flash = self.flashs[self.flashIndex]
-                self.window.blit(self.flash, (self.monsterX + 70, self.monsterY + 40))
+                if 10 <= self.currentPlayingCount <= 20:
+                    self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
+                    self.flash = self.flashs[self.flashIndex]
+                    self.window.blit(self.flash, (self.monsterX + 70, self.monsterY + 40))
             else:
                 self.monsterX += currentDir * BattleSettings.stepSize
 
