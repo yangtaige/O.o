@@ -134,6 +134,11 @@ class Blackjack:
             self.show_card(player_cards[1], 350, 500)
             # 处理玩家操作
             # ...
+            if not self.isFinished:
+                self.window.blit(self.font.render('Press T to draw a card', True, (0, 0, 0)),
+                                 (800, 300))
+                self.window.blit(self.font.render('Press f to flop all cards', True, (0, 0, 0)),
+                                 (800, 350))
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:  # 检测按键按下事件
                     if event.key == pygame.K_t and not self.isFinished:
