@@ -105,12 +105,12 @@ class BattleBox:
     def get_result(self):
         if self.attacker == 0:  # 人物或者怪物使用攻击特效
             self.monster.HP = max(0, self.monster.HP -
-                                  max(0, (self.player.Attack - self.monster.defence)))
+                                  max(1, (self.player.Attack - self.monster.defence)))
             self.attacker = 1
             self.dir = -1
         else:
             self.player.HP = max(0, self.player.HP -
-                                 max(0, (self.monster.attack - self.player.Defence)))
+                                 max(1, (self.monster.attack - self.player.Defence)))
             self.attacker = 0
             self.dir = 1
 
