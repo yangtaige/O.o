@@ -38,6 +38,8 @@ class PlayerSettings:
     fireWidth = fireHeight = 50
     cardswidth = 90
     cardsheight = 126
+    backwidth = 90
+    backheight = 126
 
 
 class PlayerDirection(Enum):
