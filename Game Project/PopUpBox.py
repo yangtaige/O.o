@@ -21,7 +21,8 @@ class DialogBox:
         self.fontColor = fontColor
         self.font = pygame.font.Font(None, self.fontSize)
         self.hint = pygame.font.Font(None, ManuSettings.textSize)  # 退出提示
-        self.text = self.hint.render('Press ESC to exit', True, (255, 255, 255))
+        self.text = self.hint.render('Press ESC to exit                   Press ENTER to play', True,
+                                     (255, 255, 255))
         self.textRect = self.text.get_rect(center=(WindowSettings.width // 2,
                                                    WindowSettings.height - 20))
         self.bg = pygame.Surface((DialogSettings.boxWidth, DialogSettings.boxHeight),

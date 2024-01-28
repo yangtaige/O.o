@@ -28,7 +28,7 @@ class GameManager:
         self.time = pygame.time.Clock()
         self.time.tick()  # 通关时间
         self.minusHP = 0  # 用于计算火焰伤害的临时变量
-        self.blackjack = Blackjack(self.window)
+        self.blackjack = Blackjack(self.player, self.window)
         ##### Your Code Here ↑ #####
 
     def game_reset(self):
@@ -169,6 +169,13 @@ class GameManager:
             if self.player.talking and event.type == pygame.KEYDOWN:  # 使用ESC退出对话
                 if event.key == pygame.K_ESCAPE:
                     self.scene.end_dialog()
+                    self.player.talking = False
+                    self.player.collidingObject['npc'].reset_talkCD()
+                    self.player.collidingWith['npc'] = False
+                    self.player.collidingObject['npc'] = []
+                if event.key == pygame.K_RETURN:
+                    self.scene.end_dialog()
+                    self.blackjack = Blackjack(self.player, self.window)
                     self.blackjack.run_game()
                     self.player.talking = False
                     self.player.collidingObject['npc'].reset_talkCD()
