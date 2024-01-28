@@ -173,7 +173,7 @@ class GameManager:
                     self.player.collidingObject['npc'].reset_talkCD()
                     self.player.collidingWith['npc'] = False
                     self.player.collidingObject['npc'] = []
-                elif event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN and self.player.Money >= 15:
                     self.scene.end_dialog()
                     self.blackjack = Blackjack(self.player, self.window)
                     self.blackjack.run_game()

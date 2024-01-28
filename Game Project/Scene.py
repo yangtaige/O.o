@@ -219,7 +219,8 @@ class CityScene(Scene):
         self.portals.add(Portal(PortalSettings.coordX,
                                 PortalSettings.coordY, self.sceneType))
         self.npcs.add(DialogNPC(self.width // 5, self.height // 5, 'YTG', ['Welcome Back, My Hero.',
-                                                                           'Would you like to play Blackjack ?']))
+                                                                           'Would you like to play Blackjack ?',
+                                                                           'You need to have at least 15 coins to play!']))
         self.npcs.add(ShopNPC(self.width // 3 * 2, self.height // 3 * 2, 'ZZY',
                               {'Attack +1': 'Coin -15', 'Defence +1': 'Coin -15',
                                'HP +3': 'Coin -15', '???': 'HP -5', 'Exit': ''}, {}))

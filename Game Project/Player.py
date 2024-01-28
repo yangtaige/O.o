@@ -187,7 +187,7 @@ class Player(pygame.sprite.Sprite, Collidable):
         self.fireIndex = (self.fireIndex + 1 / 3) % len(self.fires)
         self.fire = self.fires[int(self.fireIndex)]
 
-    def attacking(self, count, window):  # r人物攻击动画
+    def attacking(self, count, window):  # 人物攻击动画
         if count == 10:  # 每次随机使用技能
             self.flashs = [pygame.transform.scale(pygame.image.load(img),
                                                   (BattleSettings.flashWidth, BattleSettings.flashHeight))

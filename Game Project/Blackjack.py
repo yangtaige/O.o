@@ -183,13 +183,3 @@ class Blackjack:
                                  (WindowSettings.width // 2 - 200, WindowSettings.height - 65))
 
             pygame.display.flip()
-
-
-
-
-
-
-
-
-        
-
