@@ -431,7 +431,13 @@ class GamePath:
                       r".\assets\splash\10.png"]
                      ]
     nail = r".\assets\npc\nail.png"
-
+    waterSound = r".\assets\sound\water.mp3"
+    tornadoSound = r".\assets\sound\tornado.mp3"
+    windSound = r".\assets\sound\wind.mp3"
+    playerSound = [r".\assets\sound\electric.mp3",
+                   r".\assets\sound\thunder.mp3",
+                   r".\assets\sound\fire.mp3"
+                   ]
 
 class PortalSettings:
     width = 320

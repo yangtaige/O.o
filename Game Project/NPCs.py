@@ -115,6 +115,7 @@ class Monster(pygame.sprite.Sprite):
                                    for img in GamePath.specialEffect[1]]
             self.specialEffectIndex = 0
             self.specialEffect = self.specialEffects[self.specialEffectIndex]
+            self.sound = pygame.mixer.Sound(GamePath.tornadoSound)
 
         elif self.type == 1:
             self.HP = int(self.HP * 2 / 3)
@@ -125,6 +126,7 @@ class Monster(pygame.sprite.Sprite):
                                    for img in GamePath.specialEffect[0]]
             self.specialEffectIndex = 0
             self.specialEffect = self.specialEffects[self.specialEffectIndex]
+            self.sound = pygame.mixer.Sound(GamePath.waterSound)
 
         elif self.type == 2:
             self.HP = int(self.HP * 3 / 2)
@@ -136,6 +138,7 @@ class Monster(pygame.sprite.Sprite):
                                    for img in GamePath.specialEffect[2]]
             self.specialEffectIndex = 0
             self.specialEffect = self.specialEffects[self.specialEffectIndex]
+            self.sound = pygame.mixer.Sound(GamePath.windSound)
 
         ##### Your Code Here ↑ #####
 
@@ -160,6 +163,8 @@ class Monster(pygame.sprite.Sprite):
         ##### Your Code Here ↑ #####
 
     def attacking(self, currentPlayingCount, window):  # 不同怪物不同攻击特效
+        if currentPlayingCount == 0:
+            pygame.mixer.Sound.play(self.sound)
         if self.type == 0:
             self.specialEffectIndex = (self.specialEffectIndex + 1) % len(self.specialEffects)
             self.specialEffect = self.specialEffects[self.specialEffectIndex]
@@ -196,6 +201,7 @@ class Boss(pygame.sprite.Sprite):
         self.defence = 20
         self.money = 888
         self.nail = pygame.transform.scale(pygame.image.load(GamePath.nail), (117, 40))
+        self.sound = pygame.mixer.Sound(GamePath.windSound)
         ##### Your Code Here ↑ #####
 
     def draw(self, window, dx=0, dy=0):
@@ -205,6 +211,8 @@ class Boss(pygame.sprite.Sprite):
         ##### Your Code Here ↑ #####
 
     def attacking(self, currentPlayingCount, window):
+        if currentPlayingCount == 0:
+            pygame.mixer.Sound.play(self.sound)
         window.blit(self.nail,
                     (BattleSettings.monsterCoordX - currentPlayingCount * BattleSettings.stepSize * 1,
                      BattleSettings.monsterCoordY + 100))

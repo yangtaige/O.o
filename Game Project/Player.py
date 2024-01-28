@@ -42,6 +42,7 @@ class Player(pygame.sprite.Sprite, Collidable):
                        for img in GamePath.flash[randint(0, 2)]]
         self.flashIndex = 0
         self.flash = self.flashs[self.flashIndex]
+        self.sounds = [pygame.mixer.Sound(sound) for sound in GamePath.playerSound]
 
         self.fontSize = fontSize
         self.fontColor = fontColor
@@ -189,9 +190,12 @@ class Player(pygame.sprite.Sprite, Collidable):
 
     def attacking(self, count, window):  # 人物攻击动画
         if count == 10:  # 每次随机使用技能
+            index = randint(0, 2)
             self.flashs = [pygame.transform.scale(pygame.image.load(img),
                                                   (BattleSettings.flashWidth, BattleSettings.flashHeight))
-                           for img in GamePath.flash[randint(0, 2)]]
+                           for img in GamePath.flash[index]]
+            sound = self.sounds[index]
+            pygame.mixer.Sound.play(sound)
         self.flashIndex = (self.flashIndex + 1) % len(self.flashs)
         self.flash = self.flashs[self.flashIndex]
         window.blit(self.flash, (BattleSettings.monsterCoordX + 70, BattleSettings.monsterCoordY + 40))
