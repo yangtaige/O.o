@@ -1,3 +1,4 @@
+import sys
 import pygame
 import random
 from Settings import *
@@ -140,6 +141,9 @@ class Blackjack:
                 self.window.blit(self.font.render('Press f to flop all cards', True, (0, 0, 0)),
                                  (800, 350))
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
                 if event.type == pygame.KEYDOWN:  # 检测按键按下事件
                     if event.key == pygame.K_t and not self.isFinished:
                         player_cards.append(self.deal_card(self.handcard[0]))

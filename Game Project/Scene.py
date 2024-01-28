@@ -18,8 +18,8 @@ class Scene:
         self.map = pygame.sprite.Group()
         self.sceneType = None
 
-        self.width, self.height = (WindowSettings.width * WindowSettings.outdoorScale,
-                                   WindowSettings.height * WindowSettings.outdoorScale)
+        self.width, self.height = (int(WindowSettings.width * WindowSettings.outdoorScale),
+                                   int(WindowSettings.height * WindowSettings.outdoorScale))
         self.dx, self.dy = 0, 0
         self.cameraX, self.cameraY = 0, 0
 

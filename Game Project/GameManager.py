@@ -7,7 +7,7 @@ from Player import Player
 from Scene import *
 from Settings import *
 from PopUpBox import *
-from Blackjack import *
+from Blackjack import Blackjack
 
 
 class GameManager:
@@ -173,7 +173,7 @@ class GameManager:
                     self.player.collidingObject['npc'].reset_talkCD()
                     self.player.collidingWith['npc'] = False
                     self.player.collidingObject['npc'] = []
-                if event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN:
                     self.scene.end_dialog()
                     self.blackjack = Blackjack(self.player, self.window)
                     self.blackjack.run_game()
